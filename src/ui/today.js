@@ -1,7 +1,7 @@
 import { setScreen } from "../state.js";
 
 export function rendertoday(container, data, rerender) {
-  container.innerHTML = `<h2>dnes</h2>`;
+  container.innerHTML = "<h2>dnes</h2>";
 
   const today = new Date().toISOString().slice(0, 10);
   let found = false;
