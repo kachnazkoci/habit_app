@@ -1,0 +1,5 @@
+body{margin:0;font-family:sans-serif}
+.navbar{background:#2ecc71;padding:10px;display:flex;gap:10px}
+.navbar button{background:white;border:none;padding:8px 12px;cursor:pointer}
+#app{padding:20px}
+.item{border:1px solid #ddd;padding:8px;margin-bottom:6px}
