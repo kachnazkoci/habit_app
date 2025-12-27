@@ -1,3 +1,22 @@
-let state={screen:"today",habitid:null};
-export function getState(){return state}
-export function setScreen(screen,habitid=null){state.screen=screen;state.habitid=habitid}
+let state = {
+  screen: "habits",
+  habitid: null,
+  date: null
+};
+
+export function setScreen(screen, value = null) {
+  state.screen = screen;
+
+  if (screen === "habitdetail") {
+    state.habitid = value;
+  }
+
+  if (screen === "day") {
+    state.date = value;
+  }
+}
+
+export function getState() {
+  return state;
+}
+

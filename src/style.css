@@ -1,12 +1,99 @@
-body{margin:0;font-family:sans-serif}
-.navbar{background:#2ecc71;padding:10px;display:flex;gap:10px}
-.navbar button{background:white;border:none;padding:8px 12px;cursor:pointer}
-#app{padding:20px}
-.item{border:1px solid #ddd;padding:8px;margin-bottom:6px}
-.clickable {
+/* ===== common ===== */
+
+.item {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.plan-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan-check {
+  color: green;
+  font-weight: bold;
+  width: 16px;
+}
+
+/* ===== calendar ===== */
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendar-header button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-head {
+  font-weight: bold;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.calendar-cell {
+  min-height: 70px;
+  border: 1px solid #ddd;
+  padding: 4px;
+  background: #fafafa;
+  font-size: 12px;
+}
+
+.calendar-cell.clickable {
   cursor: pointer;
 }
 
-.clickable:hover {
-  background: #eaf5ea;
+.calendar-cell.clickable:hover {
+  background: #e8f5e9;
+}
+
+.calendar-cell.empty {
+  background: transparent;
+  border: none;
+}
+
+.calendar-day {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.calendar-plan {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== day status ===== */
+
+.calendar-cell.day-done {
+  border: 2px solid #2e7d32;
+}
+
+.calendar-cell.day-missed {
+  border: 2px solid #c62828;
+}
+.calendar-cell.day-done {
+  border: 2px solid #2e7d32;
+  background: #e8f5e9;
+}
+
+.calendar-cell.day-pending {
+  border: 2px solid #c62828;
+  background: #fdecea;
 }

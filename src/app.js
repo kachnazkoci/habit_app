@@ -14,6 +14,11 @@ function rerender() {
   app.innerHTML = "";
   const state = getState();
 
+  if (state.screen === "day") {
+    rendertoday(app, data, rerender, state.date);
+    return;
+  }
+
   if (state.screen === "today") {
     rendertoday(app, data, rerender);
     return;
@@ -39,6 +44,8 @@ function rerender() {
     return;
   }
 }
+
+
 
 document.querySelectorAll(".navbar button").forEach(button => {
   button.onclick = () => {
