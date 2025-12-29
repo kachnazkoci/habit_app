@@ -1,68 +1,39 @@
-import { setScreen } from "../state.js";
+import { planOccursOn } from "./repeat.js";
+import { saveData } from "../data.js";
+import { todayISO } from "../utils/date.js";
 
-export function rendertoday(container, data, rerender, dateOverride = null) {
-  const date = dateOverride || new Date().toISOString().slice(0, 10);
+export function rendertoday(container, data, rerender) {
+  const today = todayISO();
 
-  container.innerHTML = `<h2>${dateOverride ? "den" : "dnes"} – ${date}</h2>`;
-  let found = false;
+  container.innerHTML = `<h2>Dnes</h2>`;
 
   Object.values(data.habits).forEach(habit => {
     habit.plans.forEach(plan => {
-      if (planOccursOn(plan, date)) {
-        found = true;
+      if (!planOccursOn(plan, today)) return;
 
-        const done =
-          plan.doneDates && plan.doneDates[date] === true;
+      const done = plan.doneDates?.[today] === true;
 
-        const d = document.createElement("div");
-d.className = "item";
+      const row = document.createElement("label");
+      row.className = "item plan-row";
 
-d.innerHTML = `
-  <label class="plan-row">
-    <input type="checkbox" ${done ? "checked" : ""}>
-    <span class="plan-check">${done ? "✔" : ""}</span>
-    <span>${habit.name} • ${plan.time || ""}</span>
-  </label>
-`;
+      row.innerHTML = `
+        <input type="checkbox" ${done ? "checked" : ""}>
+        <span class="plan-text">${habit.name} ${plan.time || ""}</span>
+      `;
 
-const checkbox = d.querySelector("input");
-checkbox.onchange = () => {
-  if (!plan.doneDates) plan.doneDates = {};
-  plan.doneDates[date] = checkbox.checked;
-  rerender();
-};
+      const cb = row.querySelector("input");
+      cb.onchange = () => {
+        plan.doneDates ??= {};
+        if (cb.checked) {
+          plan.doneDates[today] = true;
+        } else {
+          delete plan.doneDates[today];
+        }
+        saveData(data);
+        rerender(); // 🔥 přepočítá i kalendář
+      };
 
-d.ondblclick = () => {
-  setScreen("habitdetail", habit.id);
-  rerender();
-};
-
-container.appendChild(d);
-
-      }
+      container.appendChild(row);
     });
   });
-
-  if (!found) {
-    container.innerHTML += "<p>na tento den nejsou žádné plány</p>";
-  }
-}
-
-/* ===== helper ===== */
-
-function planOccursOn(plan, date) {
-  // jednorázový plán
-  if (plan.date === date) return true;
-
-  // opakování
-  if (!plan.repeat) return false;
-
-  if (plan.repeat === "daily") return true;
-
-  if (plan.repeat === "weekly") {
-    const day = new Date(date).getDay();
-    return plan.weekdays?.includes(day);
-  }
-
-  return false;
 }

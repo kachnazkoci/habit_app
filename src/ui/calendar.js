@@ -1,135 +1,105 @@
-import { setScreen } from "../state.js";
+import { getDayStatus } from "./repeat.js";
 
-let currentYear = new Date().getFullYear();
-let currentMonth = new Date().getMonth(); // 0–11
+let currentYear;
+let currentMonth;
 
-export function rendercalendar(container, data, rerender) {
-  const firstDay = new Date(currentYear, currentMonth, 1);
-  const lastDay = new Date(currentYear, currentMonth + 1, 0);
-  const daysInMonth = lastDay.getDate();
+export function rendercalendar(container, data) {
+  if (currentYear == null) {
+    const now = new Date();
+    currentYear = now.getFullYear();
+    currentMonth = now.getMonth();
+  }
 
-  let startOffset = firstDay.getDay() - 1;
-  if (startOffset < 0) startOffset = 6;
+  container.innerHTML = "";
 
-  container.innerHTML = `
-    <div class="calendar-header">
-      <button id="prevMonth">←</button>
-      <h2>${monthName(currentMonth)} ${currentYear}</h2>
-      <button id="nextMonth">→</button>
-    </div>
+  const monthNames = [
+    "Leden","Únor","Březen","Duben","Květen","Červen",
+    "Červenec","Srpen","Září","Říjen","Listopad","Prosinec"
+  ];
 
-    <div class="calendar-grid">
-      ${weekHeader()}
-      ${calendarCells(startOffset, daysInMonth, currentYear, currentMonth, data)}
-    </div>
-  `;
+  /* ===== HEADER ===== */
 
-  document.getElementById("prevMonth").onclick = () => {
+  const header = document.createElement("div");
+  header.className = "calendar-header";
+
+  const prev = document.createElement("button");
+  prev.textContent = "◀";
+  prev.onclick = () => {
     currentMonth--;
     if (currentMonth < 0) {
       currentMonth = 11;
       currentYear--;
     }
-    rerender();
+    rendercalendar(container, data);
   };
 
-  document.getElementById("nextMonth").onclick = () => {
+  const title = document.createElement("strong");
+  title.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+  const next = document.createElement("button");
+  next.textContent = "▶";
+  next.onclick = () => {
     currentMonth++;
     if (currentMonth > 11) {
       currentMonth = 0;
       currentYear++;
     }
-    rerender();
+    rendercalendar(container, data);
   };
 
-  container.querySelectorAll(".calendar-cell.clickable").forEach(cell => {
-    cell.onclick = () => {
-      setScreen("day", cell.dataset.date);
-      rerender();
-    };
+  header.append(prev, title, next);
+  container.appendChild(header);
+
+  /* ===== WEEKDAYS ===== */
+
+  const weekdays = document.createElement("div");
+  weekdays.className = "calendar-weekdays";
+
+  ["Po","Út","St","Čt","Pá","So","Ne"].forEach(d => {
+    const el = document.createElement("div");
+    el.textContent = d;
+    weekdays.appendChild(el);
   });
-}
 
-/* ===== helpers ===== */
+  container.appendChild(weekdays);
 
-function weekHeader() {
-  return ["Po", "Út", "St", "Čt", "Pá", "So", "Ne"]
-    .map(d => `<div class="calendar-head">${d}</div>`)
-    .join("");
-}
+  /* ===== GRID ===== */
 
-function calendarCells(offset, daysInMonth, year, month, data) {
-  let html = "";
+  const grid = document.createElement("div");
+  grid.className = "calendar-grid";
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const offset = (firstDay + 6) % 7; // Po = 0
 
   for (let i = 0; i < offset; i++) {
-    html += `<div class="calendar-cell empty"></div>`;
+    grid.appendChild(document.createElement("div"));
   }
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   for (let day = 1; day <= daysInMonth; day++) {
-    const dateStr = toDateString(year, month, day);
-    const dayPlans = plansForDate(data, dateStr);
+    const d = new Date(currentYear, currentMonth, day);
+    const date =
+      `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 
-    let statusClass = "";
+    let status = null;
 
-   if (dayPlans.length > 0) {
-  const allDone = dayPlans.every(p => p.done === true);
-  statusClass = allDone ? "day-done" : "day-pending";
-}
+    Object.values(data.habits).forEach(habit =>
+      habit.plans.forEach(plan => {
+        const s = getDayStatus(plan, date);
+        if (s === "done") status = "done";
+        else if (s === "missed" && status !== "done") status = "missed";
+        else if (s === "pending" && !status) status = "pending";
+      })
+    );
 
+    const cell = document.createElement("div");
+    cell.className = "calendar-cell";
+    if (status) cell.classList.add(`day-${status}`);
 
-    html += `
-      <div class="calendar-cell clickable ${statusClass}" data-date="${dateStr}">
-        <div class="calendar-day">${day}</div>
-    `;
-
-    dayPlans.forEach(p => {
-      html += `<div class="calendar-plan">• ${p.name}</div>`;
-    });
-
-    html += `</div>`;
+    cell.textContent = day;
+    grid.appendChild(cell);
   }
 
-  return html;
-}
-
-function plansForDate(data, dateStr) {
-  const result = [];
-
-  Object.values(data.habits).forEach(habit => {
-    habit.plans.forEach(plan => {
-      if (planOccursOn(plan, dateStr)) {
-        const done = plan.doneDates?.[dateStr] === true;
-        result.push({ name: habit.name, done });
-      }
-    });
-  });
-
-  return result;
-}
-
-
-function toDateString(y, m, d) {
-  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-}
-
-function monthName(m) {
-  return [
-    "leden", "únor", "březen", "duben", "květen", "červen",
-    "červenec", "srpen", "září", "říjen", "listopad", "prosinec"
-  ][m];
-}
-
-function planOccursOn(plan, date) {
-  if (plan.date === date) return true;
-
-  if (!plan.repeat) return false;
-
-  if (plan.repeat === "daily") return true;
-
-  if (plan.repeat === "weekly") {
-    const day = new Date(date).getDay();
-    return plan.weekdays?.includes(day);
-  }
-
-  return false;
+  container.appendChild(grid);
 }
