@@ -1,10 +1,11 @@
-import { getDayStatus } from "./repeat.js";
+import { getDayStatus } from "../utils/dayStatus.js";
+import { planOccursOn } from "../ui/repeat.js";
 
-let currentYear;
-let currentMonth;
+let currentYear = null;
+let currentMonth = null;
 
 export function rendercalendar(container, data) {
-  if (currentYear == null) {
+  if (currentYear === null) {
     const now = new Date();
     currentYear = now.getFullYear();
     currentMonth = now.getMonth();
@@ -54,13 +55,11 @@ export function rendercalendar(container, data) {
 
   const weekdays = document.createElement("div");
   weekdays.className = "calendar-weekdays";
-
   ["Po","Út","St","Čt","Pá","So","Ne"].forEach(d => {
     const el = document.createElement("div");
     el.textContent = d;
     weekdays.appendChild(el);
   });
-
   container.appendChild(weekdays);
 
   /* ===== GRID ===== */
@@ -69,7 +68,7 @@ export function rendercalendar(container, data) {
   grid.className = "calendar-grid";
 
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-  const offset = (firstDay + 6) % 7; // Po = 0
+  const offset = (firstDay + 6) % 7;
 
   for (let i = 0; i < offset; i++) {
     grid.appendChild(document.createElement("div"));
@@ -79,25 +78,49 @@ export function rendercalendar(container, data) {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(currentYear, currentMonth, day);
-    const date =
-      `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-
-    let status = null;
-
-    Object.values(data.habits).forEach(habit =>
-      habit.plans.forEach(plan => {
-        const s = getDayStatus(plan, date);
-        if (s === "done") status = "done";
-        else if (s === "missed" && status !== "done") status = "missed";
-        else if (s === "pending" && !status) status = "pending";
-      })
-    );
+    const dateISO = d.toISOString().slice(0, 10);
 
     const cell = document.createElement("div");
-    cell.className = "calendar-cell";
-    if (status) cell.classList.add(`day-${status}`);
+    cell.className = "calendar-cell clickable";
 
-    cell.textContent = day;
+    const number = document.createElement("div");
+    number.className = "calendar-day";
+    number.textContent = day;
+    cell.appendChild(number);
+
+    const info = getDayStatus(data, dateISO);
+    if (info) {
+      cell.classList.add(`day-${info.status}`);
+
+      const progress = document.createElement("div");
+      progress.className = `day-progress ${info.status}`;
+      progress.textContent = `${info.done}/${info.total}`;
+      cell.appendChild(progress);
+    }
+
+    Object.values(data.habits).forEach(habit => {
+      habit.plans.forEach(plan => {
+        if (!planOccursOn(plan, dateISO)) return;
+
+        const p = document.createElement("div");
+        p.className = "calendar-plan";
+
+        const done = plan.doneDates?.[dateISO];
+        p.textContent = `${done ? "✔" : "◦"} ${habit.name}`;
+        if (done) p.classList.add("plan-done");
+
+        cell.appendChild(p);
+      });
+    });
+
+    cell.onclick = () => {
+      import("./day.js").then(m =>
+        m.renderday(container, data, dateISO, () =>
+          rendercalendar(container, data)
+        )
+      );
+    };
+
     grid.appendChild(cell);
   }
 

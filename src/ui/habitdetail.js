@@ -5,6 +5,8 @@ export function renderhabitdetail(container, data, habitid, rerender) {
   const habit = data.habits[habitid];
   if (!habit) return;
 
+  if (!habit.plans) habit.plans = [];
+
   container.innerHTML = `
     <h2>Editace návyku</h2>
 
@@ -17,7 +19,6 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     <h3>Nový plán</h3>
 
     <label>Datum <input type="date" id="start-date"></label>
-    <label>Čas <input type="time" id="start-time"></label>
 
     <div class="repeat-box">
       <div class="repeat-header">
@@ -60,7 +61,12 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     rerender();
   };
 
-  /* ================= OPAKOVÁNÍ UI ================= */
+  document.getElementById("back").onclick = () => {
+    setScreen("habits");
+    rerender();
+  };
+
+  /* ================= OPAKOVÁNÍ ================= */
 
   const options = document.getElementById("repeat-options");
   const summary = document.getElementById("repeat-summary");
@@ -73,7 +79,10 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     options.innerHTML = "";
     summary.textContent = "";
 
-    if (type === "none") return;
+    if (type === "none") {
+      summary.textContent = "Jednorázově";
+      return;
+    }
 
     options.innerHTML = `
       <div class="switch-row">
@@ -101,7 +110,9 @@ export function renderhabitdetail(container, data, habitid, rerender) {
         r.onchange = () => renderMonthly(r.value);
       });
     }
-    updateSummary();
+
+    options.querySelector("#interval").onchange = updateSummary;
+    options.querySelector("#until").onchange = updateSummary;
   }
 
   function renderMonthly(mode) {
@@ -127,59 +138,62 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     }
 
     if (mode === "week") {
-  box.innerHTML = `
-    <div class="switch-row">
-      <select id="month-week">
-        <option value="1">1.</option>
-        <option value="2">2.</option>
-        <option value="3">3.</option>
-        <option value="4">4.</option>
-        <option value="last">Poslední</option>
-      </select>
+      box.innerHTML = `
+        <div class="switch-row">
+          <select id="month-week">
+            <option value="1">1.</option>
+            <option value="2">2.</option>
+            <option value="3">3.</option>
+            <option value="4">4.</option>
+            <option value="last">Poslední</option>
+          </select>
 
-      <select id="month-weekday">
-        ${["Ne","Po","Út","St","Čt","Pá","So"]
-          .map((d,i)=>`<option value="${i}">${d}</option>`).join("")}
-      </select>
-    </div>
-  `;
+          <select id="month-weekday">
+            ${["Ne","Po","Út","St","Čt","Pá","So"]
+              .map((d,i)=>`<option value="${i}">${d}</option>`).join("")}
+          </select>
+        </div>
+      `;
 
-  box.querySelector("#month-week").onchange = updateSummary;
-  box.querySelector("#month-weekday").onchange = updateSummary;
-}
-
-
+      box.querySelector("#month-week").onchange = updateSummary;
+      box.querySelector("#month-weekday").onchange = updateSummary;
+    }
   }
 
   function updateSummary() {
-    const type = container.querySelector("input[name=repeat-type]:checked").value;
-    if (type === "none") {
+    const type = container.querySelector("input[name=repeat-type]:checked")?.value;
+    if (!type || type === "none") {
       summary.textContent = "Jednorázově";
       return;
     }
 
-    const interval = document.getElementById("interval")?.value || 1;
+    const interval = Number(document.getElementById("interval")?.value || 1);
     const until = document.getElementById("until")?.value;
 
     if (type === "daily") {
-      summary.textContent = `Každý ${interval}. den do ${until || "∞"}`;
+      summary.textContent = `Každý ${interval} den${until ? " do " + until : ""}`;
     }
 
     if (type === "weekly") {
-      summary.textContent = `Každý ${interval}. týden do ${until || "∞"}`;
+      summary.textContent = `Každý ${interval} týden${until ? " do " + until : ""}`;
     }
 
     if (type === "monthly") {
       const mode = container.querySelector("input[name=monthly-mode]:checked")?.value;
+
       if (mode === "day") {
         const btn = container.querySelector(".day-btn.active");
-        if (btn)
-          summary.textContent = `Každý měsíc ${btn.dataset.day}. den do ${until || "∞"}`;
+        if (!btn) return;
+        summary.textContent =
+          `Každý měsíc ${btn.dataset.day}. den${until ? " do " + until : ""}`;
       }
+
       if (mode === "week") {
         const w = document.getElementById("month-week")?.value;
-        const d = document.getElementById("month-weekday")?.selectedOptions[0].text;
-        summary.textContent = `Každý ${w}. ${d} v měsíci do ${until || "∞"}`;
+        const d = document.getElementById("month-weekday")?.selectedOptions[0]?.text;
+        if (!w || !d) return;
+        summary.textContent =
+          `Každý ${w}. ${d} v měsíci${until ? " do " + until : ""}`;
       }
     }
   }
@@ -192,14 +206,13 @@ export function renderhabitdetail(container, data, habitid, rerender) {
 
     const plan = {
       date,
-      time: document.getElementById("start-time").value,
       repeat: container.querySelector("input[name=repeat-type]:checked").value,
       doneDates: {}
     };
 
     if (plan.repeat !== "none") {
-      plan.interval = Number(document.getElementById("interval").value);
-      plan.until = document.getElementById("until").value || null;
+      plan.interval = Number(document.getElementById("interval")?.value || 1);
+      plan.until = document.getElementById("until")?.value || null;
     }
 
     if (plan.repeat === "weekly") {
@@ -208,11 +221,13 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     }
 
     if (plan.repeat === "monthly") {
-      const mode = container.querySelector("input[name=monthly-mode]:checked").value;
+      const mode = container.querySelector("input[name=monthly-mode]:checked")?.value;
       plan.monthlyType = mode;
 
       if (mode === "day") {
-        plan.monthDay = Number(container.querySelector(".day-btn.active").dataset.day);
+        const btn = container.querySelector(".day-btn.active");
+        if (!btn) return alert("Vyber den v měsíci");
+        plan.monthDay = Number(btn.dataset.day);
       }
 
       if (mode === "week") {
@@ -229,17 +244,14 @@ export function renderhabitdetail(container, data, habitid, rerender) {
   /* ================= EXISTUJÍCÍ PLÁNY ================= */
 
   const plansDiv = document.getElementById("plans");
+  plansDiv.innerHTML = "";
+
   habit.plans.forEach(p => {
     const d = document.createElement("div");
     d.className = "item";
-    d.textContent = `${p.date} ${p.time || ""}`;
+    d.textContent = p.date + (p.repeat !== "none" ? " (opakování)" : "");
     plansDiv.appendChild(d);
   });
-
-  document.getElementById("back").onclick = () => {
-    setScreen("habits");
-    rerender();
-  };
 }
 
 /* helpers */

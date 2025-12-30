@@ -2,16 +2,18 @@ import { setScreen } from "../state.js";
 
 export function renderhabits(container, data, rerender) {
   container.innerHTML = `
-    <h2>návyky</h2>
+    <div class="page-header">
+    <h2>  Návyky &nbsp;<button class="add-habit-btn" id="add">+</button> </h2
+    </div>
+
     <div id="list"></div>
-    <button id="add">+ nový návyk</button>
   `;
 
   const list = document.getElementById("list");
 
   Object.values(data.habits).forEach(habit => {
     const item = document.createElement("div");
-    item.className = "item";
+    item.className = "item clickable habit-text";
     item.textContent = habit.name;
 
     item.onclick = () => {

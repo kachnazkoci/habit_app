@@ -18,7 +18,7 @@ export function rendertoday(container, data, rerender) {
 
       row.innerHTML = `
         <input type="checkbox" ${done ? "checked" : ""}>
-        <span class="plan-text">${habit.name} ${plan.time || ""}</span>
+        <span class="plan-text">${habit.name}</span>
       `;
 
       const cb = row.querySelector("input");
