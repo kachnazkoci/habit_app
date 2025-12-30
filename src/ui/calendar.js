@@ -20,6 +20,9 @@ export function rendercalendar(container, data) {
 
   /* ===== HEADER ===== */
 
+  const headerWrap = document.createElement("div");
+  headerWrap.className = "calendar-header-wrap";
+
   const header = document.createElement("div");
   header.className = "calendar-header";
 
@@ -49,17 +52,20 @@ export function rendercalendar(container, data) {
   };
 
   header.append(prev, title, next);
-  container.appendChild(header);
+  headerWrap.appendChild(header);
+  container.appendChild(headerWrap);
 
   /* ===== WEEKDAYS ===== */
 
   const weekdays = document.createElement("div");
   weekdays.className = "calendar-weekdays";
+
   ["Po","Út","St","Čt","Pá","So","Ne"].forEach(d => {
     const el = document.createElement("div");
     el.textContent = d;
     weekdays.appendChild(el);
   });
+
   container.appendChild(weekdays);
 
   /* ===== GRID ===== */
@@ -78,7 +84,9 @@ export function rendercalendar(container, data) {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(currentYear, currentMonth, day);
-    const dateISO = d.toISOString().slice(0, 10);
+    const dateISO =
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
 
     const cell = document.createElement("div");
     cell.className = "calendar-cell clickable";

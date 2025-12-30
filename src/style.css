@@ -20,9 +20,7 @@ body {
    COMMON / SHARED
 ===================================================== */
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 .item {
   padding: 8px;
@@ -52,7 +50,6 @@ label input {
   color: white;
 }
 
-
 /* =====================================================
    PAGE HEADERS
 ===================================================== */
@@ -61,10 +58,38 @@ label input {
 .page-header h2 {
   font-family: var(--ui-font);
   font-weight: 400;
-  text-transform: none;
   margin: 0 0 12px 0;
 }
 
+/* =====================================================
+   SYSTEM BUTTONS
+===================================================== */
+
+button {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #bdbdbd;
+  background: linear-gradient(#f2f2f2, #dcdcdc);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  background: linear-gradient(#eaeaea, #cfcfcf);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.danger {
+  background: linear-gradient(#e0e0e0, #c8c8c8);
+  border-color: #999;
+  color: #7a1c1c;
+}
 
 /* =====================================================
    NAVBAR
@@ -75,7 +100,6 @@ label input {
   gap: 6px;
   padding: 6px;
   background: #2e7d32;
-
   font-family: var(--ui-font);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -84,20 +108,12 @@ label input {
 .navbar button {
   flex: 1;
   padding: 12px 0;
-
-  font-family: inherit;
   font-size: 15px;
   font-weight: 700;
-
   background: white;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
-
-  text-transform: uppercase;
 }
-
-
 
 /* =====================================================
    HABITS PAGE
@@ -121,9 +137,9 @@ label input {
   font-size: 26px;
   font-weight: bold;
   border: none;
-  cursor: pointer;
-  line-height: 1;
-  margin-top: 6px;
+  cursor: pointer; 
+  line-height: 1; 
+  margin-top: 6px; 
   margin-left: 6px;
 }
 
@@ -135,24 +151,16 @@ label input {
   font-family: var(--ui-font);
   font-weight: 400;
   color: #000;
-  cursor: pointer;
 }
-
-.habit-text:hover {
-  color: #2e7d32;
-}
-
-
 
 /* =====================================================
-   PLANS / CHECKBOXES
+   CHECKBOXES
 ===================================================== */
 
 .plan-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
 }
 
 .plan-row input[type="checkbox"] {
@@ -162,8 +170,6 @@ label input {
   border: 2px solid #aaa;
   border-radius: 4px;
   cursor: pointer;
-  position: relative;
-  flex-shrink: 0;
 }
 
 .plan-row input[type="checkbox"]:checked {
@@ -175,101 +181,60 @@ label input {
   content: "✔";
   color: white;
   font-size: 12px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
-}
-
-.plan-text {
-  flex: 1;
+  position: relative;
+  left: 3px;
 }
 
 .plan-text.done {
   color: #999;
 }
 
-
 /* =====================================================
    DAY DETAIL
 ===================================================== */
 
 .day-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: start;
-}
-
-.day-sup {
-  font-size: 0.8em;
-  margin-top: 6px;
-}
-
-.day-sup.done {
-  color: #2e7d32;
-}
-
-.day-sup.pending {
-  color: #ef6c00;
-}
-
-.day-sup.missed {
-  color: #c62828;
-}
-
-
-/* =====================================================
-   HABIT DETAIL / REPEAT
-===================================================== */
-
-.plan-form {
-  padding: 8px;
-  border: 1px dashed #ccc;
-  border-radius: 6px;
   margin-bottom: 12px;
 }
 
-.repeat-box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
+.day-sup {
+  font-size: 15px;
+  vertical-align: super;
+  margin-left: 6px;
 }
 
-.repeat-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  color: #555;
-}
-
-.switch-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 8px 0;
-}
-
-.weekdays {
-  display: flex;
-  gap: 10px;
-}
-
-.weekday {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
+.day-sup.done    { color: #2e7d32; }
+.day-sup.pending { color: #ef6c00; }
+.day-sup.missed  { color: #c62828; }
 
 /* =====================================================
    CALENDAR
 ===================================================== */
 
+/* ===== MONTH FRAME ===== */
+
+.calendar-header-wrap {
+  border-top: 4px solid #2e7d32;
+  border-bottom: 4px solid #2e7d32;
+  padding: 8px 0;              /* STEJNÁ MEZERA NAHOŘE I DOLE */
+  margin-bottom: 8px;
+}
+
+/* ===== HEADER ===== */
+
 .calendar-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  margin-bottom: 12px;
+  padding: 0 12px;
+}
+
+.calendar-header strong {
+  font-family: var(--ui-font);
+  font-size: 1.5rem;           /* VÝRAZNĚJŠÍ PROSINEC */
+  font-weight: bold;
+  text-align: center;
+  color: #222;
 }
 
 .calendar-header button {
@@ -277,9 +242,10 @@ label input {
   color: white;
   border: none;
   padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
 }
+
+/* ===== WEEKDAYS ===== */
 
 .calendar-weekdays {
   display: grid;
@@ -288,6 +254,8 @@ label input {
   font-weight: bold;
   margin-bottom: 6px;
 }
+
+/* ===== GRID ===== */
 
 .calendar-grid {
   display: grid;
@@ -324,10 +292,7 @@ label input {
   font-weight: bold;
 }
 
-
-/* =====================================================
-   CALENDAR DAY STATUS
-===================================================== */
+/* ===== DAY STATUS ===== */
 
 .calendar-cell.day-done {
   border: 2px solid #2e7d32;
@@ -349,4 +314,14 @@ label input {
   right: 4px;
   font-size: 10px;
   color: #555;
+}
+
+.day-empty-info {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
 }

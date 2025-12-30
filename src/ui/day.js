@@ -15,8 +15,11 @@ export function renderday(container, data, dateISO, back) {
     <button id="back">← Zpět</button>
 
     <div class="day-header">
-      <h2>${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${dateText}</h2>
-      <span id="day-summary" class="day-sup"></span>
+      <h2 class="day-title">
+        ${dayName.charAt(0).toUpperCase() + dayName.slice(1)}
+        ${dateText}
+        <span id="day-summary" class="day-sup"></span>
+      </h2>
     </div>
 
     <div id="day-habits"></div>
@@ -30,18 +33,22 @@ export function renderday(container, data, dateISO, back) {
   const info = getDayStatus(data, dateISO);
   if (!info) {
     summaryEl.textContent = "0/0";
-    return;
+    summaryEl.className = "day-sup missed";
+  } else {
+    summaryEl.textContent = `${info.done}/${info.total}`;
+    summaryEl.className =
+      "day-sup " +
+      (info.done === 0 ? "missed" :
+       info.done < info.total ? "pending" : "done");
   }
 
-  summaryEl.textContent = `${info.done}/${info.total}`;
-  summaryEl.className =
-    "day-sup " +
-    (info.done === 0 ? "missed" :
-     info.done < info.total ? "pending" : "done");
+  let hasAnyPlan = false;
 
   Object.values(data.habits).forEach(habit => {
     habit.plans.forEach(plan => {
       if (!planOccursOn(plan, dateISO)) return;
+
+      hasAnyPlan = true;
 
       const row = document.createElement("div");
       row.className = "plan-row habit-text";
@@ -68,4 +75,14 @@ export function renderday(container, data, dateISO, back) {
       listEl.appendChild(row);
     });
   });
+
+  if (!hasAnyPlan) {
+    const info = document.createElement("div");
+    info.className = "day-empty-info";
+    info.innerHTML = `
+      Pro tento den zatím není stanoven žádný plán návyků.<br>
+      Pro přidání plánu návyků přejděte do sekce <strong>Návyky</strong>.
+    `;
+    listEl.appendChild(info);
+  }
 }
