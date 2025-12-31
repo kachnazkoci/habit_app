@@ -4,44 +4,68 @@ import { saveData } from "../data.js";
 export function renderhabitdetail(container, data, habitid, rerender) {
   const habit = data.habits[habitid];
   if (!habit) return;
-
   if (!habit.plans) habit.plans = [];
 
   container.innerHTML = `
-    <h2>Editace návyku</h2>
+    <!-- EDITACE NÁVYKU -->
+    <section class="card">
+      <h2 class="section-title">Editace návyku</h2>
 
-    <label>Název <input id="habit-name" value="${habit.name}"></label>
-    <label>Místo <input id="habit-place" value="${habit.place || ""}"></label>
-
-    <button id="save-habit">Uložit</button>
-    <button id="delete-habit" class="danger">Smazat</button>
-
-    <h3>Nový plán</h3>
-
-    <label>Datum <input type="date" id="start-date"></label>
-
-    <div class="repeat-box">
-      <div class="repeat-header">
-        <strong>Opakování</strong>
-        <span id="repeat-summary"></span>
+      <div class="form-block">
+        <label>Název</label>
+        <input id="habit-name" value="${habit.name}">
       </div>
 
-      <div class="switch-row">
-        ${radio("repeat-type", "none", "Žádné", true)}
-        ${radio("repeat-type", "daily", "Denně")}
-        ${radio("repeat-type", "weekly", "Týdně")}
-        ${radio("repeat-type", "monthly", "Měsíčně")}
+      <div class="form-block">
+        <label>Místo</label>
+        <input id="habit-place" value="${habit.place || ""}">
       </div>
 
-      <div id="repeat-options"></div>
+      <div class="actions-row">
+        <button id="save-habit">Uložit</button>
+        <button id="delete-habit" class="danger">Smazat</button>
+      </div>
+    </section>
+
+    <!-- NOVÝ PLÁN -->
+    <section class="card">
+      <h3 class="section-subtitle">Nový plán</h3>
+
+      <div class="form-block">
+        <label>Datum</label>
+        <input type="date" id="start-date">
+      </div>
+
+      <div class="repeat-box">
+        <div class="repeat-header">
+          <strong>Opakování</strong>
+          <span id="repeat-summary"></span>
+        </div>
+
+        <div class="switch-row">
+          ${radio("repeat-type", "none", "Žádné", true)}
+          ${radio("repeat-type", "daily", "Denně")}
+          ${radio("repeat-type", "weekly", "Týdně")}
+          ${radio("repeat-type", "monthly", "Měsíčně")}
+        </div>
+
+        <div id="repeat-options"></div>
+      </div>
+
+      <div class="actions-row">
+        <button id="add-plan">Přidat plán</button>
+      </div>
+    </section>
+
+    <!-- EXISTUJÍCÍ PLÁNY -->
+    <section class="card">
+      <h3 class="section-subtitle">Plány</h3>
+      <div id="plans"></div>
+    </section>
+
+    <div class="actions-row">
+      <button id="back">Zpět</button>
     </div>
-
-    <button id="add-plan">Přidat plán</button>
-
-    <h3>Plány</h3>
-    <div id="plans"></div>
-
-    <button id="back">Zpět</button>
   `;
 
   /* ================= EDIT NÁVYKU ================= */
@@ -100,8 +124,8 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     if (type === "monthly") {
       options.innerHTML += `
         <div class="switch-row">
-          ${radio("monthly-mode", "day", "Stejný den každý měsíc")}
-          ${radio("monthly-mode", "week", "Stejný týden každý měsíc")}
+          ${radio("monthly-mode", "day", "Stejný den")}
+          ${radio("monthly-mode", "week", "Stejný týden")}
         </div>
         <div id="monthly-options"></div>
       `;
@@ -198,50 +222,7 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     }
   }
 
-  /* ================= PŘIDÁNÍ PLÁNU ================= */
-
-  document.getElementById("add-plan").onclick = () => {
-    const date = document.getElementById("start-date").value;
-    if (!date) return alert("Vyber datum");
-
-    const plan = {
-      date,
-      repeat: container.querySelector("input[name=repeat-type]:checked").value,
-      doneDates: {}
-    };
-
-    if (plan.repeat !== "none") {
-      plan.interval = Number(document.getElementById("interval")?.value || 1);
-      plan.until = document.getElementById("until")?.value || null;
-    }
-
-    if (plan.repeat === "weekly") {
-      plan.weekdays = [...container.querySelectorAll(".weekdays input:checked")]
-        .map(cb => Number(cb.value));
-    }
-
-    if (plan.repeat === "monthly") {
-      const mode = container.querySelector("input[name=monthly-mode]:checked")?.value;
-      plan.monthlyType = mode;
-
-      if (mode === "day") {
-        const btn = container.querySelector(".day-btn.active");
-        if (!btn) return alert("Vyber den v měsíci");
-        plan.monthDay = Number(btn.dataset.day);
-      }
-
-      if (mode === "week") {
-        plan.weekIndex = document.getElementById("month-week").value;
-        plan.weekday = Number(document.getElementById("month-weekday").value);
-      }
-    }
-
-    habit.plans.push(plan);
-    saveData(data);
-    rerender();
-  };
-
-  /* ================= EXISTUJÍCÍ PLÁNY ================= */
+  /* ================= PLÁNY ================= */
 
   const plansDiv = document.getElementById("plans");
   plansDiv.innerHTML = "";

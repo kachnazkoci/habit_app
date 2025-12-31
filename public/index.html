@@ -12,16 +12,27 @@
 </head>
 <body>
 
+  <!-- DESKTOP NAVBAR -->
   <nav class="navbar">
     <button data-screen="today">dnes</button>
     <button data-screen="calendar">kalendář</button>
     <button data-screen="habits">návyky</button>
   </nav>
 
-  <!-- 🔽 LAYOUT WRAPPER -->
-  <div class="app-content">
-    <main id="app"></main>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button id="hamburger" type="button" aria-label="menu">☰</button>
+    <span class="mobile-title">Habit app</span>
+  </header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <button data-screen="today">Dnes</button>
+    <button data-screen="calendar">Kalendář</button>
+    <button data-screen="habits">Návyky</button>
   </div>
+
+  <main id="app"></main>
 
   <script type="module" src="../src/app.js"></script>
 </body>

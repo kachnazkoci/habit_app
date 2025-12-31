@@ -47,13 +47,45 @@ function rerender() {
   }
 }
 
-
+/* ===== DESKTOP NAVBAR ===== */
 document.querySelectorAll(".navbar button").forEach(button => {
   button.onclick = () => {
     setScreen(button.dataset.screen);
     rerender();
   };
 });
+
+/* ===== MOBILE MENU ===== */
+/* ===== MOBILE MENU ===== */
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobile-menu");
+
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    mobileMenu.classList.toggle("hidden");
+  });
+
+  // klik na položku menu
+  mobileMenu.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      setScreen(btn.dataset.screen);
+      mobileMenu.classList.add("hidden");
+      rerender();
+    });
+  });
+
+  // klik mimo menu = zavřít
+  document.addEventListener("click", (e) => {
+    if (!mobileMenu.classList.contains("hidden")) {
+      mobileMenu.classList.add("hidden");
+    }
+  });
+
+  // zabrání zavření při kliknutí dovnitř menu
+  mobileMenu.addEventListener("click", e => e.stopPropagation());
+}
+
 
 setScreen("habits");
 rerender();
