@@ -11,40 +11,41 @@ const app = document.getElementById("app");
 const data = loadData();
 
 function rerender() {
-  app.innerHTML = "";
+  app.innerHTML = `<div class="app-content"></div>`;
+  const container = app.firstChild;
+
   const state = getState();
 
   if (state.screen === "day") {
-    rendertoday(app, data, rerender, state.date);
+    rendertoday(container, data, rerender, state.date);
     return;
   }
 
   if (state.screen === "today") {
-    rendertoday(app, data, rerender);
+    rendertoday(container, data, rerender);
     return;
   }
 
   if (state.screen === "calendar") {
-    rendercalendar(app, data, rerender);
+    rendercalendar(container, data, rerender);
     return;
   }
 
   if (state.screen === "habits") {
-    renderhabits(app, data, rerender);
+    renderhabits(container, data, rerender);
     return;
   }
 
   if (state.screen === "newhabit") {
-    rendernewhabit(app, data, rerender);
+    rendernewhabit(container, data, rerender);
     return;
   }
 
   if (state.screen === "habitdetail") {
-    renderhabitdetail(app, data, state.habitid, rerender);
+    renderhabitdetail(container, data, state.habitid, rerender);
     return;
   }
 }
-
 
 
 document.querySelectorAll(".navbar button").forEach(button => {
