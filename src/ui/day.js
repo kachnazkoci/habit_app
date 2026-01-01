@@ -12,14 +12,14 @@ export function renderday(container, data, dateISO, back) {
   });
 
   container.innerHTML = `
-    <button id="back">← Zpět</button>
-
     <div class="day-header">
       <h2 class="day-title">
         ${dayName.charAt(0).toUpperCase() + dayName.slice(1)}
         ${dateText}
         <span id="day-summary" class="day-sup"></span>
       </h2>
+
+      <button id="back" class="icon-btn back-btn" aria-label="Zpět">↩</button>
     </div>
 
     <div id="day-habits"></div>
@@ -38,8 +38,11 @@ export function renderday(container, data, dateISO, back) {
     summaryEl.textContent = `${info.done}/${info.total}`;
     summaryEl.className =
       "day-sup " +
-      (info.done === 0 ? "missed" :
-       info.done < info.total ? "pending" : "done");
+      (info.done === 0
+        ? "missed"
+        : info.done < info.total
+        ? "pending"
+        : "done");
   }
 
   let hasAnyPlan = false;
