@@ -377,83 +377,13 @@ button.danger {
   font-size: 10px;
   color: #555;
 }
-
 /* =====================================================
-   MOBILE
+   MOBILE HAMBURGER MENU – BASE (DESKTOP)
 ===================================================== */
 
-@media (max-width: 768px) {
-
-  body {
-    font-size: 16px;
-  }
-
-  .navbar {
-    display: none;
-  }
-
-  .calendar-cell {
-    min-height: 90px;
-    font-size: 13px;
-  }
-
-  .page-header h2 {
-    font-size: 22px;
-  }
-
-  button {
-    font-size: 16px;
-    padding: 10px 16px;
-  }
-}
-
-/* =====================================================
-   MOBILE HAMBURGER MENU
-===================================================== */
-
-.mobile-header {
-  display: none;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: #2e7d32;
-  color: white;
-}
-
-.mobile-header button {
-  font-size: 26px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.mobile-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* FULLSCREEN MENU */
+.mobile-header,
 .mobile-menu {
-  position: fixed;
-  inset: 0;
-  background: #2e7d32;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  z-index: 1000;
-}
-
-
-.mobile-menu button {
-  font-size: 22px;
-  padding: 16px;
-  border-radius: 12px;
-  border: none;
-  background: white;
-  font-weight: bold;
+  display: none;
 }
 
 /* =====================================================
@@ -462,12 +392,61 @@ button.danger {
 
 @media (max-width: 768px) {
 
+  /* schováme desktop navbar */
   .navbar {
     display: none;
   }
 
+  /* header s hamburgerem */
   .mobile-header {
     display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #2e7d32;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  #hamburger {
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  .mobile-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  /* fullscreen menu overlay */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(46, 125, 50, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px;
+    z-index: 200;
+  }
+
+  .mobile-menu button {
+    font-size: 22px;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background: white;
+    font-weight: bold;
+  }
+
+  .hidden {
+    display: none;
   }
 }
 
