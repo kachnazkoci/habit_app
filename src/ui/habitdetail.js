@@ -1,10 +1,14 @@
 import { setScreen } from "../state.js";
 import { saveData } from "../data.js";
 
+let editingPlanId = null;
+
 export function renderhabitdetail(container, data, habitid, rerender) {
   const habit = data.habits[habitid];
   if (!habit) return;
-  if (!habit.plans) habit.plans = [];
+  habit.plans ??= [];
+
+  const today = new Date().toISOString().slice(0, 10);
 
   container.innerHTML = `
     <!-- EDITACE NÁVYKU -->
@@ -27,13 +31,13 @@ export function renderhabitdetail(container, data, habitid, rerender) {
       </div>
     </section>
 
-    <!-- NOVÝ PLÁN -->
+    <!-- PLÁN -->
     <section class="card">
-      <h3 class="section-subtitle">Nový plán</h3>
+      <h3 class="section-subtitle" id="plan-title">Nový plán</h3>
 
       <div class="form-block">
-        <label>Datum</label>
-        <input type="date" id="start-date">
+        <label>Datum od</label>
+        <input type="date" id="start-date" value="${today}">
       </div>
 
       <div class="repeat-box">
@@ -53,7 +57,8 @@ export function renderhabitdetail(container, data, habitid, rerender) {
       </div>
 
       <div class="actions-row">
-        <button id="add-plan">Přidat plán</button>
+        <button id="save-plan">Přidat plán</button>
+        <button id="cancel-edit" class="secondary" style="display:none">Zrušit</button>
       </div>
     </section>
 
@@ -68,7 +73,7 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     </div>
   `;
 
-  /* ================= EDIT NÁVYKU ================= */
+  /* ================= NÁVYK ================= */
 
   document.getElementById("save-habit").onclick = () => {
     habit.name = document.getElementById("habit-name").value.trim();
@@ -113,7 +118,7 @@ export function renderhabitdetail(container, data, habitid, rerender) {
         Interval
         <input type="number" id="interval" value="1" min="1">
         <span>${type === "daily" ? "den" : type === "weekly" ? "týden" : "měsíc"}</span>
-        <label>Do: <input type="date" id="until"></label>
+        <label>Do: <input type="date" id="until" value="${today}"></label>
       </div>
     `;
 
@@ -121,67 +126,8 @@ export function renderhabitdetail(container, data, habitid, rerender) {
       options.innerHTML += `<div class="weekdays">${weekdays()}</div>`;
     }
 
-    if (type === "monthly") {
-      options.innerHTML += `
-        <div class="switch-row">
-          ${radio("monthly-mode", "day", "Stejný den")}
-          ${radio("monthly-mode", "week", "Stejný týden")}
-        </div>
-        <div id="monthly-options"></div>
-      `;
-
-      options.querySelectorAll("input[name=monthly-mode]").forEach(r => {
-        r.onchange = () => renderMonthly(r.value);
-      });
-    }
-
-    options.querySelector("#interval").onchange = updateSummary;
-    options.querySelector("#until").onchange = updateSummary;
-  }
-
-  function renderMonthly(mode) {
-    const box = document.getElementById("monthly-options");
-    box.innerHTML = "";
-
-    if (mode === "day") {
-      box.innerHTML = `
-        <div class="month-grid">
-          ${Array.from({ length: 31 }, (_, i) =>
-            `<button class="day-btn" data-day="${i + 1}">${i + 1}</button>`
-          ).join("")}
-        </div>
-      `;
-
-      box.querySelectorAll(".day-btn").forEach(btn => {
-        btn.onclick = () => {
-          box.querySelectorAll(".day-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          updateSummary();
-        };
-      });
-    }
-
-    if (mode === "week") {
-      box.innerHTML = `
-        <div class="switch-row">
-          <select id="month-week">
-            <option value="1">1.</option>
-            <option value="2">2.</option>
-            <option value="3">3.</option>
-            <option value="4">4.</option>
-            <option value="last">Poslední</option>
-          </select>
-
-          <select id="month-weekday">
-            ${["Ne","Po","Út","St","Čt","Pá","So"]
-              .map((d,i)=>`<option value="${i}">${d}</option>`).join("")}
-          </select>
-        </div>
-      `;
-
-      box.querySelector("#month-week").onchange = updateSummary;
-      box.querySelector("#month-weekday").onchange = updateSummary;
-    }
+    document.getElementById("interval").onchange = updateSummary;
+    document.getElementById("until").onchange = updateSummary;
   }
 
   function updateSummary() {
@@ -201,37 +147,93 @@ export function renderhabitdetail(container, data, habitid, rerender) {
     if (type === "weekly") {
       summary.textContent = `Každý ${interval} týden${until ? " do " + until : ""}`;
     }
-
-    if (type === "monthly") {
-      const mode = container.querySelector("input[name=monthly-mode]:checked")?.value;
-
-      if (mode === "day") {
-        const btn = container.querySelector(".day-btn.active");
-        if (!btn) return;
-        summary.textContent =
-          `Každý měsíc ${btn.dataset.day}. den${until ? " do " + until : ""}`;
-      }
-
-      if (mode === "week") {
-        const w = document.getElementById("month-week")?.value;
-        const d = document.getElementById("month-weekday")?.selectedOptions[0]?.text;
-        if (!w || !d) return;
-        summary.textContent =
-          `Každý ${w}. ${d} v měsíci${until ? " do " + until : ""}`;
-      }
-    }
   }
 
-  /* ================= PLÁNY ================= */
+  /* ================= ULOŽENÍ PLÁNU ================= */
+
+  document.getElementById("save-plan").onclick = () => {
+    const type = container.querySelector("input[name=repeat-type]:checked").value;
+    const startDate = document.getElementById("start-date").value;
+
+    if (!startDate) {
+      alert("Vyber datum");
+      return;
+    }
+
+    const plan = {
+      id: editingPlanId || crypto.randomUUID(),
+      date: startDate,
+      repeat: type,
+      interval: Number(document.getElementById("interval")?.value || 1),
+      until: document.getElementById("until")?.value || null,
+      doneDates: editingPlanId
+        ? habit.plans.find(p => p.id === editingPlanId)?.doneDates || {}
+        : {}
+    };
+
+    if (type === "weekly") {
+      plan.weekdays = [...options.querySelectorAll("input[type=checkbox]:checked")]
+        .map(cb => Number(cb.value));
+
+      if (plan.weekdays.length === 0) {
+        alert("Vyber alespoň jeden den v týdnu");
+        return;
+      }
+    }
+
+    if (editingPlanId) {
+      const idx = habit.plans.findIndex(p => p.id === editingPlanId);
+      habit.plans[idx] = plan;
+    } else {
+      habit.plans.push(plan);
+    }
+
+    saveData(data);
+    editingPlanId = null;
+    rerender();
+  };
+
+  document.getElementById("cancel-edit").onclick = () => {
+    editingPlanId = null;
+    rerender();
+  };
+
+  /* ================= VÝPIS PLÁNŮ ================= */
 
   const plansDiv = document.getElementById("plans");
   plansDiv.innerHTML = "";
 
-  habit.plans.forEach(p => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.textContent = p.date + (p.repeat !== "none" ? " (opakování)" : "");
-    plansDiv.appendChild(d);
+  habit.plans.forEach(plan => {
+    const row = document.createElement("div");
+    row.className = "plan-row item";
+
+    row.innerHTML = `
+      <span>${plan.date}${plan.repeat !== "none" ? " (opakování)" : ""}</span>
+      <span class="plan-icons">
+        <span class="icon edit" title="Upravit">✏️</span>
+        <span class="icon delete" title="Smazat">🗑</span>
+      </span>
+    `;
+
+    row.querySelector(".edit").onclick = () => {
+      editingPlanId = plan.id;
+      document.getElementById("plan-title").textContent = "Editace plánu";
+      document.getElementById("save-plan").textContent = "Uložit plán";
+      document.getElementById("cancel-edit").style.display = "inline-block";
+      document.getElementById("start-date").value = plan.date;
+
+      container.querySelector(`input[value="${plan.repeat}"]`).checked = true;
+      renderRepeatOptions(plan.repeat);
+    };
+
+    row.querySelector(".delete").onclick = () => {
+      if (!confirm("Opravdu smazat tento plán?")) return;
+      habit.plans = habit.plans.filter(p => p.id !== plan.id);
+      saveData(data);
+      rerender();
+    };
+
+    plansDiv.appendChild(row);
   });
 }
 

@@ -1,9 +1,11 @@
 import { getDayStatus } from "../utils/dayStatus.js";
 import { planOccursOn } from "./repeat.js";
 import { saveData } from "../data.js";
+import { setScreen } from "../state.js";
 
-export function renderday(container, data, dateISO, back) {
+export function renderday(container, data, dateISO, back, rerender) {
   const date = new Date(dateISO);
+
   const dayName = date.toLocaleDateString("cs-CZ", { weekday: "long" });
   const dateText = date.toLocaleDateString("cs-CZ", {
     day: "numeric",
@@ -31,6 +33,7 @@ export function renderday(container, data, dateISO, back) {
   const listEl = document.getElementById("day-habits");
 
   const info = getDayStatus(data, dateISO);
+
   if (!info) {
     summaryEl.textContent = "0/0";
     summaryEl.className = "day-sup missed";
@@ -53,10 +56,10 @@ export function renderday(container, data, dateISO, back) {
 
       hasAnyPlan = true;
 
-      const row = document.createElement("div");
-      row.className = "plan-row habit-text";
+      const done = plan.doneDates?.[dateISO] === true;
 
-      const done = !!plan.doneDates?.[dateISO];
+      const row = document.createElement("div");
+      row.className = "item plan-row habit-text clickable";
 
       row.innerHTML = `
         <input type="checkbox" ${done ? "checked" : ""}>
@@ -65,14 +68,23 @@ export function renderday(container, data, dateISO, back) {
         </span>
       `;
 
+      // 👉 STEJNÉ CHOVÁNÍ JAKO today
+      row.onclick = () => {
+        setScreen("habitdetail", habit.id);
+        rerender();
+      };
+
       const cb = row.querySelector("input");
+
+      cb.onclick = e => e.stopPropagation();
+
       cb.onchange = () => {
         plan.doneDates ??= {};
         if (cb.checked) plan.doneDates[dateISO] = true;
         else delete plan.doneDates[dateISO];
 
         saveData(data);
-        renderday(container, data, dateISO, back);
+        rerender();
       };
 
       listEl.appendChild(row);

@@ -1,6 +1,7 @@
 import { planOccursOn } from "./repeat.js";
 import { saveData } from "../data.js";
 import { todayISO } from "../utils/date.js";
+import { setScreen } from "../state.js";
 
 export function rendertoday(container, data, rerender) {
   const today = todayISO();
@@ -18,7 +19,7 @@ export function rendertoday(container, data, rerender) {
       const done = plan.doneDates?.[today] === true;
 
       const row = document.createElement("div");
-      row.className = "item plan-row habit-text";
+      row.className = "item plan-row habit-text clickable";
 
       row.innerHTML = `
         <input type="checkbox" ${done ? "checked" : ""}>
@@ -27,14 +28,23 @@ export function rendertoday(container, data, rerender) {
         </span>
       `;
 
+      // 👉 klik na řádek = detail návyku
+      row.onclick = () => {
+        setScreen("habitdetail", habit.id);
+        rerender();
+      };
+
       const cb = row.querySelector("input");
+
+      cb.onclick = e => e.stopPropagation();
+
       cb.onchange = () => {
         plan.doneDates ??= {};
         if (cb.checked) plan.doneDates[today] = true;
         else delete plan.doneDates[today];
 
         saveData(data);
-        rerender(); // přepočítá i kalendář
+        rerender();
       };
 
       container.appendChild(row);

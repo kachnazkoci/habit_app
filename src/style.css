@@ -3,7 +3,7 @@
 ===================================================== */
 
 :root {
-  --ui-font: "Comic Sans MS", "Ink Free", "Segoe UI", system-ui, sans-serif;
+  --font-main: "Ink Free", "Comic Neue", "Patrick Hand", cursive;
 
   --space-xs: 6px;
   --space-sm: 12px;
@@ -16,7 +16,7 @@
 ===================================================== */
 
 body {
-  font-family: var(--ui-font);
+  font-family: var(--font-main);
   margin: 0;
   color: #000;
 }
@@ -372,7 +372,11 @@ button.danger {
 
 .calendar-header strong {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .calendar-header button {
@@ -383,6 +387,12 @@ button.danger {
 }
 
 /* WEEKDAYS – FIXED */
+
+.calendar-weekdays div {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
 
 .calendar-weekdays {
   display: grid;
@@ -416,8 +426,9 @@ button.danger {
 }
 
 .calendar-day {
-  font-weight: bold;
   margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .day-content {
@@ -434,6 +445,7 @@ button.danger {
   right: 6px;
   font-size: 11px;
   color: #555;
+  opacity: 0.7;
 }
 
 /* STATUS */
@@ -477,6 +489,11 @@ button.danger {
   font-style: italic;
 }
 
+.calendar-plan {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
 /* =====================================================
    MICRO ANIMATIONS
 ===================================================== */
@@ -513,7 +530,6 @@ button.danger {
   .calendar-grid {
     grid-auto-rows: 90px;
     touch-action: pan-y;
-}
 
   }
 
@@ -523,5 +539,12 @@ button.danger {
 
   input, select, button {
     font-size: 16px;
+  }
+  .calendar-header strong {
+    font-size: 18px;
+  }
+
+  .calendar-day {
+    font-size: 13px;
   }
 }
