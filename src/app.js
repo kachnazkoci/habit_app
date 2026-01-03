@@ -6,18 +6,20 @@ import { rendercalendar } from "./ui/calendar.js";
 import { rendernewhabit } from "./ui/newhabit.js";
 import { renderhabitdetail } from "./ui/habitdetail.js";
 import { renderhabits } from "./ui/habits.js";
+import { renderday } from "./ui/day.js";
+
 
 const app = document.getElementById("app");
 const data = loadData();
 
-function rerender() {
+export function rerender() {
   app.innerHTML = `<div class="app-content"></div>`;
   const container = app.firstChild;
 
   const state = getState();
 
   if (state.screen === "day") {
-    rendertoday(container, data, rerender, state.date);
+    renderday(container, data, state.date, rerender);
     return;
   }
 

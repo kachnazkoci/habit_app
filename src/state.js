@@ -6,6 +6,8 @@ let state = {
 
 export function setScreen(screen, value = null) {
   state.screen = screen;
+  state.habitid = null;
+  state.date = null;
 
   if (screen === "habitdetail") {
     state.habitid = value;
@@ -19,4 +21,3 @@ export function setScreen(screen, value = null) {
 export function getState() {
   return state;
 }
-
