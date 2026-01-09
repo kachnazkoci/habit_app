@@ -1,10 +1,12 @@
 import { getDayStatus } from "../utils/dayStatus.js";
 import { planOccursOn } from "../ui/repeat.js";
-import { setScreen } from "../state.js";
-import { rerender } from "../app.js";
 
 let currentYear = null;
 let currentMonth = null;
+
+let touchStartX = null;
+let touchStartY = null;
+const SWIPE_THRESHOLD = 50;
 
 const MAX_VISIBLE_ITEMS = 3;
 
@@ -22,7 +24,10 @@ export function rendercalendar(container, data) {
     "Červenec","Srpen","Září","Říjen","Listopad","Prosinec"
   ];
 
-  /* ===== HEADER ===== */
+  /* ================= HEADER ================= */
+
+  const headerWrap = document.createElement("div");
+  headerWrap.className = "calendar-header-wrap";
 
   const header = document.createElement("div");
   header.className = "calendar-header";
@@ -53,12 +58,79 @@ export function rendercalendar(container, data) {
   };
 
   header.append(prev, title, next);
-  container.appendChild(header);
+  headerWrap.appendChild(header);
+  container.appendChild(headerWrap);
 
-  /* ===== GRID ===== */
+  /* ================= WEEKDAYS ================= */
+
+  const weekdays = document.createElement("div");
+  weekdays.className = "calendar-weekdays";
+
+  ["Po","Út","St","Čt","Pá","So","Ne"].forEach(d => {
+    const el = document.createElement("div");
+    el.textContent = d;
+    weekdays.appendChild(el);
+  });
+
+  container.appendChild(weekdays);
+
+  /* ================= GRID ================= */
 
   const grid = document.createElement("div");
   grid.className = "calendar-grid";
+
+  /* ================= SWIPE ================= */
+
+  grid.addEventListener("touchstart", e => {
+    const t = e.touches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+  }, { passive: true });
+
+  grid.addEventListener("touchend", e => {
+    if (touchStartX === null || touchStartY === null) return;
+
+    const t = e.changedTouches[0];
+    const diffX = t.clientX - touchStartX;
+    const diffY = t.clientY - touchStartY;
+
+    if (Math.abs(diffY) > Math.abs(diffX)) {
+      touchStartX = null;
+      touchStartY = null;
+      return;
+    }
+
+    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
+      if (diffX < 0) {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+      } else {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+      }
+      rendercalendar(container, data);
+    }
+
+    touchStartX = null;
+    touchStartY = null;
+  }, { passive: true });
+
+  /* ================= OFFSET ================= */
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const offset = (firstDay + 6) % 7; // Po = 0
+
+  for (let i = 0; i < offset; i++) {
+    grid.appendChild(document.createElement("div"));
+  }
+
+  /* ================= DAYS ================= */
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -70,73 +142,69 @@ export function rendercalendar(container, data) {
     const cell = document.createElement("div");
     cell.className = "calendar-cell clickable";
 
-    /* --- header dne (číslo + tečka + x/y) --- */
-
-    const dayHeader = document.createElement("div");
-    dayHeader.className = "calendar-day-header";
-
-    const dayNumber = document.createElement("span");
-    dayNumber.className = "calendar-day";
-    dayNumber.textContent = day;
-
-    const indicator = document.createElement("span");
-    indicator.className = "calendar-indicator";
-
-    const progress = document.createElement("span");
-    progress.className = "day-progress";
-
-    dayHeader.append(dayNumber, indicator, progress);
-
-    /* --- obsah dne --- */
+    const number = document.createElement("div");
+    number.className = "calendar-day";
+    number.textContent = day;
+    cell.appendChild(number);
 
     const content = document.createElement("div");
     content.className = "day-content";
+    cell.appendChild(content);
 
-    let shown = 0;
-    let hidden = 0;
+    /* ===== DAY STATUS ===== */
+
+    const info = getDayStatus(data, dateISO);
+    if (info) {
+      cell.classList.add(`day-${info.status}`);
+
+      const progress = document.createElement("div");
+      progress.className = "day-progress";
+      progress.textContent = `${info.done}/${info.total}`;
+      cell.appendChild(progress);
+    }
+
+    /* ===== HABITS ===== */
+
+    let visibleCount = 0;
+    let hiddenCount = 0;
 
     Object.values(data.habits).forEach(habit => {
-      habit.plans?.forEach(plan => {
+      habit.plans.forEach(plan => {
         if (!planOccursOn(plan, dateISO)) return;
 
-        if (shown < MAX_VISIBLE_ITEMS) {
+        const done = plan.doneDates?.[dateISO] === true;
+
+        if (visibleCount < MAX_VISIBLE_ITEMS) {
           const item = document.createElement("div");
           item.className = "day-item";
-
-          if (plan.doneDates?.[dateISO]) {
-            item.classList.add("done");
-            item.textContent = `✔ ${habit.name}`;
-          } else {
-            item.textContent = habit.name;
-          }
+          item.textContent = done
+            ? `✔ ${habit.name}`
+            : `• ${habit.name}`;
+          if (done) item.classList.add("done");
 
           content.appendChild(item);
-          shown++;
+          visibleCount++;
         } else {
-          hidden++;
+          hiddenCount++;
         }
       });
     });
 
-    if (hidden > 0) {
+    if (hiddenCount > 0) {
       const more = document.createElement("div");
       more.className = "day-more";
-      more.textContent = `+${hidden} další`;
+      more.textContent = `+${hiddenCount} další`;
       content.appendChild(more);
     }
 
-    const dayInfo = getDayStatus(data, dateISO);
-
-    if (dayInfo !== "empty") {
-      cell.dataset.status = dayInfo.status;
-      progress.textContent = `${dayInfo.done}/${dayInfo.total}`;
-    }
-
-    cell.append(dayHeader, content);
+    /* ===== CLICK ===== */
 
     cell.onclick = () => {
-      setScreen("day", dateISO);
-      rerender();
+      import("./day.js").then(m =>
+        m.renderday(container, data, dateISO, () =>
+          rendercalendar(container, data)
+        )
+      );
     };
 
     grid.appendChild(cell);
