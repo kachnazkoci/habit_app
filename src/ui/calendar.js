@@ -1,12 +1,10 @@
 import { getDayStatus } from "../utils/dayStatus.js";
 import { planOccursOn } from "../ui/repeat.js";
+import { setScreen } from "../state.js";
+import { rerender } from "../app.js";
 
 let currentYear = null;
 let currentMonth = null;
-
-let touchStartX = null;
-let touchStartY = null;
-const SWIPE_THRESHOLD = 50;
 
 const MAX_VISIBLE_ITEMS = 3;
 
@@ -24,11 +22,7 @@ export function rendercalendar(container, data) {
     "Červenec","Srpen","Září","Říjen","Listopad","Prosinec"
   ];
 
-  /* ================= HEADER ================= */
-
-  const headerWrap = document.createElement("div");
-  headerWrap.className = "calendar-header-wrap";
-
+  /* ===== HEADER ===== */
   const header = document.createElement("div");
   header.className = "calendar-header";
 
@@ -58,86 +52,34 @@ export function rendercalendar(container, data) {
   };
 
   header.append(prev, title, next);
-  headerWrap.appendChild(header);
-  container.appendChild(headerWrap);
+  container.appendChild(header);
 
-  /* ================= WEEKDAYS ================= */
-
+  /* ===== WEEKDAYS ===== */
   const weekdays = document.createElement("div");
   weekdays.className = "calendar-weekdays";
-
   ["Po","Út","St","Čt","Pá","So","Ne"].forEach(d => {
     const el = document.createElement("div");
     el.textContent = d;
     weekdays.appendChild(el);
   });
-
   container.appendChild(weekdays);
 
-  /* ================= GRID ================= */
-
+  /* ===== GRID ===== */
   const grid = document.createElement("div");
   grid.className = "calendar-grid";
 
-  /* ================= SWIPE ================= */
-
-  grid.addEventListener("touchstart", e => {
-    const t = e.touches[0];
-    touchStartX = t.clientX;
-    touchStartY = t.clientY;
-  }, { passive: true });
-
-  grid.addEventListener("touchend", e => {
-    if (touchStartX === null || touchStartY === null) return;
-
-    const t = e.changedTouches[0];
-    const diffX = t.clientX - touchStartX;
-    const diffY = t.clientY - touchStartY;
-
-    if (Math.abs(diffY) > Math.abs(diffX)) {
-      touchStartX = null;
-      touchStartY = null;
-      return;
-    }
-
-    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
-      if (diffX < 0) {
-        currentMonth++;
-        if (currentMonth > 11) {
-          currentMonth = 0;
-          currentYear++;
-        }
-      } else {
-        currentMonth--;
-        if (currentMonth < 0) {
-          currentMonth = 11;
-          currentYear--;
-        }
-      }
-      rendercalendar(container, data);
-    }
-
-    touchStartX = null;
-    touchStartY = null;
-  }, { passive: true });
-
-  /* ================= OFFSET ================= */
-
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-  const offset = (firstDay + 6) % 7; // Po = 0
-
+  const offset = (firstDay + 6) % 7;
   for (let i = 0; i < offset; i++) {
     grid.appendChild(document.createElement("div"));
   }
-
-  /* ================= DAYS ================= */
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(currentYear, currentMonth, day);
     const dateISO =
-      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+      `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 
     const cell = document.createElement("div");
     cell.className = "calendar-cell clickable";
@@ -151,12 +93,10 @@ export function rendercalendar(container, data) {
     content.className = "day-content";
     cell.appendChild(content);
 
-    /* ===== DAY STATUS ===== */
-
+    /* ===== STATUS ===== */
     const info = getDayStatus(data, dateISO);
     if (info) {
       cell.classList.add(`day-${info.status}`);
-
       const progress = document.createElement("div");
       progress.className = "day-progress";
       progress.textContent = `${info.done}/${info.total}`;
@@ -164,47 +104,46 @@ export function rendercalendar(container, data) {
     }
 
     /* ===== HABITS ===== */
-
-    let visibleCount = 0;
-    let hiddenCount = 0;
+    let visible = 0;
+    let hidden = 0;
 
     Object.values(data.habits).forEach(habit => {
       habit.plans.forEach(plan => {
         if (!planOccursOn(plan, dateISO)) return;
 
-        const done = plan.doneDates?.[dateISO] === true;
+        if (visible < MAX_VISIBLE_ITEMS) {
+          const done = plan.doneDates?.[dateISO] === true;
 
-        if (visibleCount < MAX_VISIBLE_ITEMS) {
           const item = document.createElement("div");
           item.className = "day-item";
-          item.textContent = done
-            ? `✔ ${habit.name}`
-            : `• ${habit.name}`;
+          item.textContent = done ? `✔ ${habit.name}` : `• ${habit.name}`;
           if (done) item.classList.add("done");
 
+          item.onclick = e => {
+            e.stopPropagation();
+            setScreen("habitdetail", habit.id);
+            rerender();
+          };
+
           content.appendChild(item);
-          visibleCount++;
+          visible++;
         } else {
-          hiddenCount++;
+          hidden++;
         }
       });
     });
 
-    if (hiddenCount > 0) {
+    if (hidden > 0) {
       const more = document.createElement("div");
       more.className = "day-more";
-      more.textContent = `+${hiddenCount} další`;
+      more.textContent = `+${hidden} další`;
       content.appendChild(more);
     }
 
-    /* ===== CLICK ===== */
-
+    /* ===== CLICK DAY ===== */
     cell.onclick = () => {
-      import("./day.js").then(m =>
-        m.renderday(container, data, dateISO, () =>
-          rendercalendar(container, data)
-        )
-      );
+      setScreen("day", dateISO);
+      rerender();
     };
 
     grid.appendChild(cell);

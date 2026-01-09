@@ -306,12 +306,12 @@ button.danger {
   margin-left: 6px;
 }
 
-.day-header {
+/* .day-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
-}
+} */
 
 .habits-header {
   display: flex;
@@ -324,6 +324,42 @@ button.danger {
 .day-sup.done { color: #2e7d32; }
 .day-sup.pending { color: #ef6c00; }
 .day-sup.missed { color: #c62828; }
+
+/* =====================================================
+   DAY – BACK BUTTON
+===================================================== */
+/* =====================================================
+   DAY PAGE HEADER
+===================================================== */
+
+.day-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* tlačítko zpět – pod navbar, vpravo */
+.day-back {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* vlastní hlavička dne */
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* na mobilu trochu větší odsazení */
+@media (max-width: 768px) {
+  .day-back {
+    top: 16px;
+    right: 16px;
+  }
+}
 
 /* =====================================================
    FORMS (HABIT EDIT / NEW)
