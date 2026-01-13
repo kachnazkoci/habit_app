@@ -1,91 +1,106 @@
+import { formatDateHuman } from "../utils/date.js";
 import { planOccursOn } from "./repeat.js";
-import { saveData } from "../data.js";
-import { setScreen } from "../state.js";
-import { rerender } from "../app.js";
 
-function addDays(dateISO, diff) {
-  const d = new Date(dateISO);
-  d.setDate(d.getDate() + diff);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-}
+export function renderDay(
+  container,
+  data,
+  dateISO,
+  onBack = null,
+  showBack = true
+) {
+  container.innerHTML = "";
 
-export function renderday(container, data, dateISO) {
   const date = new Date(dateISO);
 
-  const dayName = date.toLocaleDateString("cs-CZ", { weekday: "long" });
-  const dateText = date.toLocaleDateString("cs-CZ", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
+  /* ================= HEADER ================= */
 
-  container.innerHTML = `
-    <div class="day-page-header">
-      <div class="day-back">
-        <button id="back" class="icon-btn">↩</button>
-      </div>
+  const header = document.createElement("div");
+  header.className = `day-header ${
+    showBack ? "day-header--with-back" : "day-header--no-back"
+  }`;
 
-      <div class="day-header">
-        <button id="prev-day" class="icon-btn">◀</button>
-        <h2>${dayName} ${dateText}</h2>
-        <button id="next-day" class="icon-btn">▶</button>
-      </div>
-    </div>
+  if (showBack && onBack) {
+    const backBtn = document.createElement("button");
+    backBtn.className = "day-back";
+    backBtn.textContent = "↩";
+    backBtn.onclick = onBack;
+    header.appendChild(backBtn);
+  }
 
-    <div id="day-habits"></div>
-  `;
-
-  /* ===== NAVIGATION ===== */
-
-  document.getElementById("back").onclick = () => {
-    setScreen("calendar");
-    rerender();
+  const prevBtn = document.createElement("button");
+  prevBtn.textContent = "◀";
+  prevBtn.onclick = () => {
+    const d = new Date(date);
+    d.setDate(d.getDate() - 1);
+    renderDay(container, data, d.toISOString().slice(0, 10), onBack, showBack);
   };
 
-  document.getElementById("prev-day").onclick = () => {
-    setScreen("day", addDays(dateISO, -1));
-    rerender();
+  const title = document.createElement("h2");
+  title.textContent = formatDateHuman(date);
+
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = "▶";
+  nextBtn.onclick = () => {
+    const d = new Date(date);
+    d.setDate(d.getDate() + 1);
+    renderDay(container, data, d.toISOString().slice(0, 10), onBack, showBack);
   };
 
-  document.getElementById("next-day").onclick = () => {
-    setScreen("day", addDays(dateISO, +1));
-    rerender();
-  };
+  header.append(prevBtn, title, nextBtn);
+  container.appendChild(header);
 
-  /* ===== HABITS ===== */
+  /* ================= HABITS ================= */
 
-  const listEl = document.getElementById("day-habits");
+  const list = document.createElement("div");
+  list.className = "day-habits";
 
   Object.values(data.habits).forEach(habit => {
     habit.plans.forEach(plan => {
       if (!planOccursOn(plan, dateISO)) return;
+      if (!plan.doneDates) plan.doneDates = {};
 
-      const done = plan.doneDates?.[dateISO] === true;
+      const isDone = plan.doneDates[dateISO] === true;
 
       const row = document.createElement("div");
-      row.className = "item plan-row clickable";
-      row.innerHTML = `
-        <input type="checkbox" ${done ? "checked" : ""}>
-        <span class="${done ? "done" : ""}">${habit.name}</span>
-      `;
+      row.className = "habit-row plan-row";
 
-      row.onclick = () => {
-        setScreen("habitdetail", habit.id);
-        rerender();
+      const main = document.createElement("label");
+      main.className = "habit-main";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = isDone;
+      checkbox.onchange = () => {
+        plan.doneDates[dateISO] = checkbox.checked;
       };
 
-      const cb = row.querySelector("input");
-      cb.onclick = e => e.stopPropagation();
-      cb.onchange = () => {
-        plan.doneDates ??= {};
-        cb.checked
-          ? plan.doneDates[dateISO] = true
-          : delete plan.doneDates[dateISO];
-        saveData(data);
-        rerender();
+      const name = document.createElement("span");
+      name.className = "habit-name";
+      name.textContent = habit.name;
+
+      main.append(checkbox, name);
+      row.appendChild(main);
+
+      if (habit.action?.minimum) {
+        const min = document.createElement("div");
+        min.className = "habit-minimum";
+        min.textContent = `min: ${habit.action.minimum.label}`;
+        row.appendChild(min);
+      }
+
+      row.onclick = e => {
+        if (e.target.tagName !== "INPUT") {
+          import("./habitEdit.js").then(m =>
+            m.renderHabitEdit(container, data, habit.id, () =>
+              renderDay(container, data, dateISO, onBack, showBack)
+            )
+          );
+        }
       };
 
-      listEl.appendChild(row);
+      list.appendChild(row);
     });
   });
+
+  container.appendChild(list);
 }

@@ -6,7 +6,7 @@ import { rendercalendar } from "./ui/calendar.js";
 import { rendernewhabit } from "./ui/newhabit.js";
 import { renderhabitdetail } from "./ui/habitdetail.js";
 import { renderhabits } from "./ui/habits.js";
-import { renderday } from "./ui/day.js";
+import { renderDay } from "./ui/day.js";
 
 
 const app = document.getElementById("app");
@@ -19,7 +19,7 @@ export function rerender() {
   const state = getState();
 
   if (state.screen === "day") {
-    renderday(container, data, state.date, rerender);
+    renderDay(container, data, state.date, rerender);
     return;
   }
 
