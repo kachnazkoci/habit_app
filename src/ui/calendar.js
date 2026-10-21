@@ -1,14 +1,13 @@
 import { getDayStatus } from "../utils/dayStatus.js";
 import { planOccursOn } from "../ui/repeat.js";
 import { setScreen } from "../state.js";
-import { rerender } from "../app.js";
 
 let currentYear = null;
 let currentMonth = null;
 
 const MAX_VISIBLE_ITEMS = 3;
 
-export function rendercalendar(container, data) {
+export function rendercalendar(container, data, rerender) {
   if (currentYear === null) {
     const now = new Date();
     currentYear = now.getFullYear();
@@ -34,7 +33,7 @@ export function rendercalendar(container, data) {
       currentMonth = 11;
       currentYear--;
     }
-    rendercalendar(container, data);
+    rendercalendar(container, data, rerender);
   };
 
   const title = document.createElement("strong");
@@ -48,7 +47,7 @@ export function rendercalendar(container, data) {
       currentMonth = 0;
       currentYear++;
     }
-    rendercalendar(container, data);
+    rendercalendar(container, data, rerender);
   };
 
   header.append(prev, title, next);

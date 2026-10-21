@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+<rect width="800" height="500" rx="28" fill="#f2eee4"/>
+<circle cx="160" cy="110" r="90" fill="#e3eadc"/><circle cx="650" cy="390" r="130" fill="#e8ded4"/>
+<g transform="translate(160 220) rotate(-12)"><rect x="0" y="-12" width="480" height="24" rx="12" fill="#334b3b"/><rect x="35" y="-55" width="34" height="110" rx="12" fill="#71866c"/><rect x="410" y="-55" width="34" height="110" rx="12" fill="#71866c"/><rect x="-5" y="-72" width="20" height="144" rx="9" fill="#26362d"/><rect x="455" y="-72" width="20" height="144" rx="9" fill="#26362d"/></g>
+<text x="400" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#31543b">Síla • stabilita • odolnost</text>
+</svg>

@@ -47,7 +47,7 @@ export function renderhabitdetail(container, data, habitid, rerender) {
         </div>
 
         <div class="switch-row">
-          ${radio("repeat-type", "none", "Žádné", true)}
+          ${radio("repeat-type", "none", "Jednorázově", true)}
           ${radio("repeat-type", "daily", "Denně")}
           ${radio("repeat-type", "weekly", "Týdně")}
           ${radio("repeat-type", "monthly", "Měsíčně")}

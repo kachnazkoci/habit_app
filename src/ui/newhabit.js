@@ -1,7 +1,7 @@
 import { saveData } from "../data.js";
-import { setScreen } from "../state.js";
+import { setScreen, getState } from "../state.js";
 
-export function rendernewhabit(container, data, rerender) {
+export function rendernewhabit(container, data, rerender, presetDate = null) {
   container.innerHTML = `
     <section class="card">
       <h2 class="section-title">Nový návyk</h2>
@@ -16,8 +16,15 @@ export function rendernewhabit(container, data, rerender) {
         <input id="place" placeholder="např. Doma">
       </div>
 
+      ${presetDate ? `
+      <div class="form-block">
+        <label>Jednorázový plán na datum</label>
+        <input id="plan-date" type="date" value="${presetDate}">
+        <small class="form-hint">Tento plán se zobrazí pouze v tomto konkrétním dni a nebude se opakovat.</small>
+      </div>` : ""}
+
       <div class="actions-row">
-        <button id="create">Vytvořit</button>
+        <button id="create">${presetDate ? "Vytvořit plán" : "Vytvořit"}</button>
       </div>
     </section>
   `;
@@ -33,11 +40,20 @@ export function rendernewhabit(container, data, rerender) {
 
     const id = crypto.randomUUID();
 
+    const oneOffDate = presetDate || document.getElementById("plan-date")?.value || null;
+
     data.habits[id] = {
       id,
       name,
       place,
-      plans: []
+      plans: oneOffDate ? [{
+        id: crypto.randomUUID(),
+        date: oneOffDate,
+        repeat: "none",
+        interval: 1,
+        until: null,
+        doneDates: {}
+      }] : []
     };
 
     saveData(data);

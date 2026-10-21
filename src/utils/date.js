@@ -10,6 +10,11 @@ export function todayISO() {
  * Vrati datum ve formatu:
  * Pátek 9. ledna 2026
  */
+export function parseLocalDate(dateISO) {
+  const [year, month, day] = String(dateISO).split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 export function formatDateHuman(date) {
   return date.toLocaleDateString("cs-CZ", {
     weekday: "long",

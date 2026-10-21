@@ -3,7 +3,7 @@
 ===================================================== */
 
 :root {
-  --font-main: "Ink Free", "Comic Neue", "Patrick Hand", cursive;
+  --font-main: "Segoe UI", Arial, sans-serif;
 
   --space-xs: 6px;
   --space-sm: 12px;
@@ -402,6 +402,30 @@ button.danger {
 
 
 
+/* =====================================================
+   DAY FEEDBACK
+===================================================== */
+
+.day-feedback {
+  margin: 0 auto 18px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.day-feedback--complete {
+  background: #e8f5e9;
+  border: 1px solid #2e7d32;
+}
+
+.day-feedback--incomplete {
+  background: #fff3e0;
+  border: 1px solid #ef6c00;
+}
+
+
 .day-habits {
   display: flex;
   flex-direction: column;
@@ -617,6 +641,97 @@ button.danger {
 }
 
 /* =====================================================
+   HABITS / POMOCNÍK – IMPLEMENTAČNÍ ZÁMĚR
+===================================================== */
+
+/* Jemná komiksová bublina připomínající princip „kdy + kde“. */
+.habit-principle-bubble {
+  position: relative;
+  margin: 0 auto 20px;
+  max-width: 620px;
+  padding: 14px 18px;
+  border: 2px solid #000;
+  border-radius: 18px;
+  background: #fff;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.habit-principle-bubble::after {
+  content: "";
+  position: absolute;
+  left: 42px;
+  bottom: -11px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: rotate(45deg);
+}
+
+.wizard-implementation {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #ddd;
+}
+
+.wizard-implementation-row {
+  padding: 14px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.wizard-implementation-row > strong {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.wizard-implementation-row > label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.wizard-implementation-row input[type="text"],
+.wizard-implementation-row input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.implementation-days > span {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.implementation-day-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.implementation-day-buttons label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.implementation-day-buttons input {
+  accent-color: #2e7d32;
+}
+
+.wizard-empty-note {
+  color: #666;
+  font-size: 14px;
+}
+
+/* =====================================================
    MOBILE TUNING
 ===================================================== */
 
@@ -649,4 +764,4025 @@ button.danger {
   .calendar-day {
     font-size: 13px;
   }
+}
+
+/* =====================
+   HABIT POLARITY BUTTONS
+===================== */
+
+.polarity-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 6px;
+  opacity: 0.85;
+}
+
+.polarity-btn:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.polarity-btn.positive {
+  background: #2e7d32; /* navbar green */
+}
+
+.polarity-btn.neutral {
+  background: #4169e1; /* royal blue */
+}
+
+.polarity-btn.negative {
+  background: #7b1e24; /* bordeaux */
+}
+
+.polarity-btn.selected {
+  opacity: 1;
+}
+
+/* =====================
+   WIZARD
+===================== */
+
+.wizard-callout {
+  border: 1px dashed #2e7d32;
+  background: rgba(46, 125, 50, 0.05);
+  padding: 14px;
+  border-radius: 10px;
+  margin: 16px 0;
+}
+
+.wizard-btn {
+  margin-top: 10px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* =====================================================
+   HABITS / HELPER
+   Pomocník je samostatná průvodcovská vrstva nad seznamem návyků.
+===================================================== */
+
+.habits-header {
+  flex-wrap: wrap;
+}
+
+.helper-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.wizard-habit-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.wizard-habit-name {
+  font-size: 16px;
+}
+
+/* =====================================================
+   HABIT WIZARD – společný vzhled
+===================================================== */
+
+.wizard-card {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wizard-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  color: #555;
+  font-size: 14px;
+}
+
+.wizard-intro {
+  max-width: 680px;
+  margin: 0 auto 22px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.wizard-list {
+  margin: 18px 0;
+}
+
+.wizard-list-row,
+.wizard-polarity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.wizard-add-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.wizard-add-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+}
+
+.wizard-delete {
+  border: none;
+  background: transparent;
+  padding: 4px 6px;
+  font-size: 16px;
+}
+
+.wizard-polarity-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.wizard-polarity-row .polarity-btn {
+  margin: 0;
+}
+
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.wizard-nav-right {
+  display: flex;
+  gap: 10px;
+}
+
+.wizard-identity {
+  margin: 22px 0;
+}
+
+.wizard-identity label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.wizard-identity textarea {
+  width: 100%;
+  min-height: 90px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.wizard-intention-row input {
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+}
+
+.wizard-intention-text {
+  flex: 1;
+}
+
+.wizard-review-date {
+  width: 150px;
+}
+
+@media (max-width: 768px) {
+  .wizard-polarity-row,
+  .wizard-intention-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .wizard-review-date {
+    width: auto;
+  }
+}
+
+/* =====================================================
+   KNOWHOW – PŘEHLED
+===================================================== */
+
+.knowhow-page { width: 100%; }
+
+.knowhow-heading {
+  margin-bottom: 18px;
+  padding: 24px 26px;
+  border: 1px solid #e8dece;
+  border-radius: 22px;
+  background: linear-gradient(115deg, #fbf8f0 0%, #f4efe3 100%);
+}
+
+.knowhow-heading-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.knowhow-eyebrow,
+.knowhow-section-kicker {
+  display: block;
+  color: #2e6844;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  margin-bottom: 5px;
+}
+
+.knowhow-heading h2 {
+  margin: 0 0 6px;
+  font-size: clamp(28px, 4vw, 40px);
+  color: #214f31;
+}
+
+.knowhow-intro {
+  max-width: 760px;
+  margin: 0 !important;
+  color: #555;
+  line-height: 1.5;
+}
+
+.knowhow-search-open {
+  flex: 0 0 auto;
+  min-width: 220px;
+  margin: 0;
+  padding: 12px 18px;
+  border: 1px solid #d8cdbb;
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #444;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.knowhow-search-open:hover { background: #fff; border-color: #2e6844; }
+
+.knowhow-category-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 0 6px;
+  margin-bottom: 22px;
+  scrollbar-width: thin;
+}
+
+.knowhow-category-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: 1px solid #e1d8ca;
+  border-radius: 13px;
+  background: #fffdf9;
+  color: #333;
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.knowhow-category-chip span { font-size: 17px; }
+.knowhow-category-chip:hover { border-color: #91aa91; transform: translateY(-1px); }
+.knowhow-category-chip.active { background: #3f7a4b; color: #fff; border-color: #3f7a4b; }
+
+.knowhow-featured,
+.knowhow-library {
+  padding: 20px;
+  border: 1px solid #e8dece;
+  border-radius: 20px;
+  background: #fffdfa;
+  margin-bottom: 18px;
+}
+
+.knowhow-section-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.knowhow-section-title h3 { margin: 0; font-size: 23px; font-weight: 600; color: #263f2c; }
+.knowhow-section-note { color: #777; font-size: 13px; }
+
+.knowhow-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.knowhow-featured-card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid #e3dacd;
+  border-radius: 17px;
+  background: #fff;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.knowhow-featured-card:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(70, 70, 40, .08); }
+.knowhow-featured-card > img { display: block; width: 100%; height: 132px; object-fit: cover; background: #f3eee4; }
+
+.knowhow-featured-body { position: relative; padding: 12px 14px 16px; min-height: 112px; }
+.knowhow-featured-body > span { color: #56805f; font-size: 12px; font-weight: 700; }
+.knowhow-featured-body strong { display: block; margin: 3px 22px 5px 0; font-size: 18px; line-height: 1.15; }
+.knowhow-featured-body p { margin: 0; color: #666; font-size: 14px; line-height: 1.35; }
+.knowhow-featured-body i { position: absolute; right: 12px; bottom: 10px; color: #d97778; font-size: 22px; font-style: normal; }
+
+.knowhow-library-header { align-items: center; }
+.knowhow-view-toggle { display: flex; border: 1px solid #ded5c7; border-radius: 10px; overflow: hidden; background: #fff; }
+.knowhow-view-toggle button { padding: 8px 11px; border: 0; background: transparent; color: #555; font-family: inherit; font-size: 13px; cursor: pointer; }
+.knowhow-view-toggle button + button { border-left: 1px solid #ded5c7; }
+.knowhow-view-toggle button.active { background: #3f7a4b; color: #fff; }
+
+.knowhow-category-section + .knowhow-category-section { margin-top: 24px; }
+.knowhow-category-title { display: flex; align-items: center; gap: 10px; margin: 0 0 9px; padding-bottom: 7px; border-bottom: 1px solid #eee6da; }
+.knowhow-category-title > span { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #edf4e9; color: #2e6844; font-size: 18px; }
+.knowhow-category-title h4 { margin: 0; font-size: 17px; color: #294c34; }
+.knowhow-category-title small { color: #888; font-size: 12px; }
+
+.knowhow-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.knowhow-library-item {
+  width: 100%; display: flex; align-items: center; gap: 10px; min-width: 0;
+  padding: 11px 12px; border: 1px solid #ece5da; border-radius: 11px; background: #fff;
+  color: inherit; font-family: inherit; text-align: left; cursor: pointer; transition: .15s ease;
+}
+.knowhow-library-item:hover { border-color: #a5baa5; background: #fbfdf9; transform: translateX(2px); }
+.knowhow-library-icon { flex: 0 0 34px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #f4efe6; color: #477052; font-size: 15px; }
+.knowhow-library-copy { min-width: 0; flex: 1; }
+.knowhow-library-copy strong { display: block; font-size: 16px; line-height: 1.2; }
+.knowhow-library-copy small { display: block; margin-top: 2px; color: #8a8a8a; font-size: 11px; }
+.knowhow-library-arrow { color: #56805f; font-size: 24px; line-height: 1; }
+
+.knowhow-bottom-note { display: flex; align-items: center; gap: 10px; padding: 15px 18px; margin-bottom: 18px; border-radius: 15px; background: #f1f5e9; color: #3f5544; }
+.knowhow-bottom-note strong { white-space: nowrap; }
+.knowhow-bottom-note span { color: #657064; font-size: 14px; line-height: 1.4; }
+
+@media (max-width: 900px) {
+  .knowhow-featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .knowhow-heading { padding: 18px; }
+  .knowhow-heading-top { display: block; }
+  .knowhow-search-open { width: 100%; margin-top: 14px; }
+  .knowhow-featured, .knowhow-library { padding: 15px; border-radius: 16px; }
+  .knowhow-featured-grid { grid-template-columns: 1fr 1fr; gap: 9px; }
+  .knowhow-featured-card > img { height: 105px; }
+  .knowhow-featured-body { min-height: 118px; padding: 10px 11px 14px; }
+  .knowhow-featured-body strong { font-size: 16px; }
+  .knowhow-featured-body p { font-size: 13px; }
+  .knowhow-section-title { align-items: flex-start; }
+  .knowhow-section-note { display: none; }
+  .knowhow-library-header { display: block; }
+  .knowhow-view-toggle { width: 100%; margin-top: 10px; }
+  .knowhow-view-toggle button { flex: 1; }
+  .knowhow-library-list { grid-template-columns: 1fr; }
+  .knowhow-bottom-note { display: block; }
+  .knowhow-bottom-note span { display: block; margin-top: 4px; }
+}
+
+/* =====================================================
+   KNOWHOW – PŘEHLED 4 ZÁKONŮ
+===================================================== */
+
+.knowhow-laws-overview {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) minmax(0, 1fr);
+  border: 1px solid transparent;
+  margin: 18px 0 28px;
+}
+
+.knowhow-laws-row {
+  display: contents;
+}
+
+.knowhow-laws-overview > div:not(.knowhow-laws-row),
+.knowhow-laws-overview > .knowhow-laws-row > div {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+}
+
+.knowhow-laws-head > div {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+  padding-top: 0 !important;
+  padding-bottom: 8px !important;
+}
+
+.knowhow-law-arrow {
+  justify-content: center;
+}
+
+.knowhow-law-arrow a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.knowhow-law-arrow a img {
+  display: block;
+  width: 48px;
+  height: auto;
+  max-height: 36px;
+  object-fit: contain;
+}
+
+.knowhow-law-arrow a:hover {
+  transform: translateX(3px) scale(1.03);
+}
+
+.knowhow-laws-overview a:not(.knowhow-law-arrow a) {
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.knowhow-laws-overview a:not(.knowhow-law-arrow a):hover {
+  text-decoration: underline;
+}
+
+.knowhow-law-section {
+  scroll-margin-top: 20px;
+}
+
+/* =====================================================
+   KNOWHOW – DETAIL
+===================================================== */
+
+.knowhow-detail {
+  position: relative;
+  min-height: 60vh;
+  padding: 24px 28px 56px;
+  box-sizing: border-box;
+}
+
+.knowhow-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  min-height: 54px;
+  padding: 4px 0 12px;
+  border-bottom: 1px solid #e8e0d4;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.knowhow-detail-brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: clamp(132px, 16vw, 190px);
+  max-width: 34%;
+  text-decoration: none;
+}
+.knowhow-detail-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 58px;
+  object-fit: contain;
+  object-position: left center;
+}
+.knowhow-detail-section {
+  margin-left: auto;
+  color: #24563e;
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 650;
+  letter-spacing: .015em;
+  white-space: nowrap;
+}
+
+.knowhow-back {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.knowhow-article {
+  max-width: 820px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.knowhow-article h2 {
+  margin-bottom: 18px;
+}
+
+.knowhow-article h3 {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.knowhow-article li {
+  margin-bottom: 10px;
+}
+
+.knowhow-source {
+  position: absolute;
+  right: 24px;
+  bottom: 18px;
+  font-size: 12px;
+  color: #777;
+}
+
+.knowhow-links {
+  margin-top: 32px;
+  padding-top: 14px;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+  color: #666;
+}
+
+.knowhow-links a {
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.knowhow-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .knowhow-laws-overview {
+    grid-template-columns: 42px minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .knowhow-laws-overview > .knowhow-laws-row > div {
+    padding: 9px 7px;
+    font-size: 14px;
+  }
+
+  .knowhow-law-arrow a {
+    width: 46px;
+    height: 36px;
+  }
+
+  .knowhow-law-arrow a img {
+    width: 42px;
+    max-height: 32px;
+  }
+
+  .knowhow-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .knowhow-tile {
+    min-height: 72px;
+    font-size: 16px;
+  }
+
+  .knowhow-detail {
+    padding: 18px 16px 52px;
+  }
+
+  .knowhow-source {
+    right: 16px;
+    bottom: 14px;
+  }
+}
+
+/* =====================================================
+   KNOWHOW – VYHLEDÁVÁNÍ
+===================================================== */
+
+.knowhow-search-open {
+  margin-top: 14px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.knowhow-search-open:hover {
+  background: #256628;
+}
+
+.knowhow-search {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #f8f9fb;
+  overflow-y: auto;
+}
+
+.knowhow-search-panel {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.knowhow-search-header {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.knowhow-search-header h2 {
+  text-align: left;
+  margin: 0;
+}
+
+.knowhow-search-box input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border: 2px solid #2e7d32;
+  border-radius: 12px;
+  background: white;
+  font-family: inherit;
+  font-size: 18px;
+  outline: none;
+}
+
+.knowhow-search-box input:focus {
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.knowhow-search-hints {
+  margin: 12px 2px 22px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.knowhow-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.knowhow-search-result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.knowhow-search-result:hover {
+  background: rgba(46, 125, 50, 0.08);
+  border-color: #2e7d32;
+}
+
+.knowhow-search-result strong {
+  font-size: 17px;
+}
+
+.knowhow-search-result span {
+  color: #777;
+  font-size: 13px;
+}
+
+.knowhow-search-empty {
+  color: #777;
+  text-align: center;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .knowhow-search-panel {
+    padding: 18px 16px;
+  }
+
+  .knowhow-search-header {
+    margin-bottom: 18px;
+  }
+
+  .knowhow-search-header h2 {
+    font-size: 20px;
+  }
+}
+
+/* =====================================================
+   ASISTENT – KONVERZAČNÍ NÁPOVĚDA
+===================================================== */
+
+.wizard-assistant-question {
+  max-width: 680px;
+  margin: 18px auto;
+  padding: 14px 16px;
+  border: 1px dashed #2e7d32;
+  border-radius: 12px;
+  background: rgba(46, 125, 50, 0.05);
+  line-height: 1.45;
+}
+
+.wizard-assistant-question strong,
+.wizard-assistant-question span {
+  display: block;
+}
+
+.wizard-assistant-question span {
+  margin-top: 5px;
+  color: #666;
+}
+
+.wizard-assistant-optional {
+  background: #fafafa;
+  border-color: #ccc;
+}
+
+.wizard-assistant-question textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 70px;
+  margin-top: 10px;
+  padding: 9px 11px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.wizard-coaching-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.wizard-coaching-card {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.wizard-coaching-card strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.wizard-coaching-card p {
+  margin: 0 0 10px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.wizard-coaching-card textarea {
+  width: 100%;
+  min-height: 76px;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .wizard-coaching-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =====================================================
+   KNOWHOW – NIGHTTIME CORTISOL
+===================================================== */
+.knowhow-food-heading {
+  margin-top: 26px;
+  margin-bottom: 16px;
+  color: #214f38;
+}
+
+.knowhow-food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0 30px;
+}
+
+.knowhow-food-card {
+  padding: 14px 14px 16px;
+  border: 1px solid #e2e6e0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(0,0,0,.045);
+  text-align: left;
+}
+
+.knowhow-food-card img {
+  width: min(100%, 190px);
+  height: 150px;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto 8px;
+}
+
+.knowhow-food-card h4 {
+  margin: 4px 0 6px;
+  color: #244f3a;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.knowhow-food-card h4 small {
+  font-size: .82em;
+  font-weight: 600;
+}
+
+.knowhow-food-card p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.knowhow-note {
+  margin-top: 24px;
+  padding: 14px 16px;
+  border-left: 4px solid #777;
+  background: #f7f7f7;
+  color: #555;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .knowhow-food-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .knowhow-food-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .knowhow-food-card img {
+    height: 170px;
+  }
+}
+
+
+/* =====================================================
+   KNOWHOW – PRAVIDLO DVOU MINUT
+===================================================== */
+.two-minute-visual {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 6px auto 26px;
+  padding: 20px 22px;
+  max-width: 720px;
+  border: 1px solid #dce8df;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f3f8f4, #eef5f8);
+}
+
+.two-minute-display {
+  flex: 0 0 auto;
+  min-width: 150px;
+  padding: 14px 18px 11px;
+  border-radius: 14px;
+  background: #183c32;
+  color: #dff8e9;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 5px 14px rgba(24,60,50,.16);
+}
+
+.two-minute-display span {
+  display: block;
+  font-family: "Courier New", monospace;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.two-minute-display small {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: .8;
+}
+
+.two-minute-visual-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.two-minute-visual-copy strong {
+  color: #214f38;
+  font-size: 20px;
+}
+
+.two-minute-visual-copy span {
+  color: #666;
+  line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+  .two-minute-visual {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* =====================================================
+   KNOWHOW – SUBSTANCE LINKS / GLOSSARY
+===================================================== */
+.knowhow-substance-link {
+  color: #2e7d32;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.knowhow-substance-link:hover {
+  color: #256628;
+}
+
+.knowhow-substance-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 22px;
+}
+
+.knowhow-substance-index a {
+  display: inline-block;
+  padding: 7px 11px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  background: #fafafa;
+  color: #2e7d32;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.knowhow-substance-index a:hover {
+  background: rgba(46, 125, 50, 0.08);
+}
+
+.knowhow-substance {
+  scroll-margin-top: 20px;
+  padding: 16px 18px;
+  margin: 12px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.knowhow-substance:target {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.10);
+}
+
+.knowhow-substance h4 {
+  margin: 0 0 6px;
+}
+
+.knowhow-substance p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   KNOWHOW – SNÍDANĚ PODLE CÍLE
+===================================================== */
+.knowhow-breakfast-hero {
+  max-width: 820px;
+  margin: 18px auto 28px;
+  padding: 18px 22px 0;
+  border: 1px solid #e3e3e3;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8f9fb, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  overflow: hidden;
+}
+
+.knowhow-breakfast-hero-text {
+  flex: 1 1 auto;
+  padding-bottom: 18px;
+}
+
+.knowhow-breakfast-hero-text h3 {
+  margin-top: 0;
+}
+
+.knowhow-breakfast-hero-text p {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.knowhow-breakfast-hero > img {
+  width: 190px;
+  max-height: 245px;
+  object-fit: contain;
+  align-self: flex-end;
+  flex: 0 0 auto;
+}
+
+.knowhow-breakfast-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 20px 0 30px;
+}
+
+.knowhow-breakfast-card {
+  border: 1px solid #e1e1e1;
+  border-radius: 15px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
+}
+
+.knowhow-breakfast-image {
+  height: 245px;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.knowhow-breakfast-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.knowhow-breakfast-card h3,
+.knowhow-breakfast-card p {
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.knowhow-breakfast-card h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.knowhow-breakfast-card p {
+  line-height: 1.5;
+}
+
+.knowhow-breakfast-card p:last-child {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .knowhow-breakfast-hero {
+    padding: 16px 16px 0;
+    align-items: flex-end;
+  }
+
+  .knowhow-breakfast-hero > img {
+    width: 135px;
+    max-height: 190px;
+  }
+
+  .knowhow-breakfast-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .knowhow-breakfast-image {
+    height: 230px;
+  }
+}
+
+/* =====================================================
+   KNOWHOW – MOŽNOST VÝBĚRU
+===================================================== */
+.knowhow-choice-hero,
+.knowhow-choice-mini {
+  margin: 20px auto 30px;
+  max-width: 860px;
+  text-align: center;
+}
+
+.knowhow-choice-hero img,
+.knowhow-choice-mini img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.10);
+}
+
+.knowhow-choice-mini {
+  max-width: 720px;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .knowhow-choice-hero,
+  .knowhow-choice-mini {
+    margin-left: -4px;
+    margin-right: -4px;
+  }
+}
+
+/* =====================================================
+   NOVÁ SPODNÍ NAVIGACE – VIZUÁL SCHVÁLENÉHO NÁHLEDU
+===================================================== */
+:root {
+  --nav-ink: #756f63;
+  --nav-active: #2e6b38;
+  --nav-bg: rgba(255, 252, 245, 0.98);
+  --nav-line: #e4ded2;
+  --nav-active-bg: #eef3e8;
+}
+
+body {
+  background: #fffdf8;
+  padding-bottom: 86px;
+}
+
+.app-content {
+  box-sizing: border-box;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  height: 78px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: stretch;
+  background: var(--nav-bg);
+  border-top: 1px solid var(--nav-line);
+  box-shadow: 0 -5px 20px rgba(80, 68, 48, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.bottom-nav-item {
+  position: relative;
+  min-width: 0;
+  padding: 9px 6px 7px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--nav-ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease;
+}
+
+.bottom-nav-item:hover {
+  background: #faf7ef;
+  color: var(--nav-active);
+}
+
+.bottom-nav-item.active {
+  color: var(--nav-active);
+  font-weight: 700;
+}
+
+.bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+  background: var(--nav-active);
+}
+
+.bottom-nav-icon {
+  height: 30px;
+  min-width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 27px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.bottom-nav-calendar {
+  font-size: 31px;
+}
+
+.bottom-nav-more .bottom-nav-icon {
+  letter-spacing: 3px;
+  font-size: 20px;
+}
+
+.more-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 88px;
+  z-index: 999;
+  width: min(330px, calc(100vw - 40px));
+}
+
+.more-panel-inner {
+  padding: 18px 20px;
+  background: #fffdf8;
+  border: 1px solid var(--nav-line);
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(60, 50, 35, .16);
+}
+
+.more-panel-title {
+  color: #2e6b38;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.more-panel-inner p {
+  margin: 0;
+  color: #666056;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .app-content {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 680px) {
+  body {
+    padding-bottom: 74px;
+  }
+
+  .bottom-nav {
+    height: 68px;
+  }
+
+  .bottom-nav-item {
+    font-size: 10px;
+    padding: 5px 1px 4px;
+    gap: 1px;
+  }
+
+  .bottom-nav-icon {
+    height: 26px;
+    min-width: 26px;
+    font-size: 23px;
+  }
+
+  .bottom-nav-calendar {
+    font-size: 27px;
+  }
+
+  .bottom-nav-more .bottom-nav-icon {
+    font-size: 17px;
+  }
+
+  .bottom-nav-item.active::after {
+    left: 17%;
+    right: 17%;
+    height: 3px;
+  }
+
+  .more-panel {
+    right: 10px;
+    bottom: 76px;
+    width: calc(100vw - 20px);
+  }
+}
+
+/* Nové menu nahrazuje starý horní desktop/mobile navigační systém. */
+.navbar,
+.mobile-header,
+.mobile-menu {
+  display: none !important;
+}
+
+.bottom-nav-icon svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bottom-nav-more .bottom-nav-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 680px) {
+  .bottom-nav-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .bottom-nav-more .bottom-nav-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+}
+
+.knowhow-choice-together {
+  margin: 18px auto 26px;
+  max-width: 900px;
+}
+
+.knowhow-choice-together img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(70, 58, 40, .13);
+}
+
+/* =====================================================
+   KNOW HOW – KLÍČOVÁ SLOVA, PROPOJENÍ A ZDRAVÉ STÁRNUTÍ
+===================================================== */
+.knowhow-keywords {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: #f7f4eb;
+  border: 1px solid #e4ded2;
+  border-radius: 16px;
+}
+
+.knowhow-keywords > strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #2e6b38;
+  font-size: 15px;
+}
+
+.knowhow-keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.knowhow-keyword {
+  border: 1px solid #d8d2c4;
+  background: #fffdf8;
+  color: #5e594f;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.knowhow-keyword:hover {
+  border-color: #9caf91;
+  color: #2e6b38;
+  background: #eef3e8;
+}
+
+.knowhow-related {
+  margin-top: 26px;
+}
+
+.knowhow-related h3 {
+  color: #2e6b38;
+  margin-bottom: 12px;
+}
+
+.knowhow-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.knowhow-related-card {
+  text-align: left;
+  border: 1px solid #e0dbd0;
+  background: #fffdf8;
+  border-radius: 15px;
+  padding: 13px 15px;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(70, 60, 45, .05);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.knowhow-related-card:hover {
+  transform: translateY(-1px);
+  border-color: #b6c5ad;
+  box-shadow: 0 7px 18px rgba(70, 60, 45, .09);
+}
+
+.knowhow-related-card strong {
+  display: block;
+  color: #2e6b38;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.knowhow-related-card span {
+  display: block;
+  color: #777064;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.knowhow-aging-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 22px 0;
+  padding: 17px 19px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #eef3e8, #f8f4e8);
+  border: 1px solid #d8dfcf;
+}
+
+.knowhow-aging-highlight strong {
+  color: #2e6b38;
+  font-size: 18px;
+}
+
+.knowhow-aging-highlight span {
+  color: #4f4a41;
+  line-height: 1.5;
+}
+
+.knowhow-aging-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin: 18px 0 26px;
+}
+
+.knowhow-aging-grid article {
+  padding: 17px;
+  background: #fbfaf6;
+  border: 1px solid #e4ded2;
+  border-radius: 17px;
+}
+
+.knowhow-aging-grid h4 {
+  margin: 0 0 7px;
+  color: #2e6b38;
+  font-size: 17px;
+}
+
+.knowhow-aging-grid p {
+  margin: 0 0 10px;
+  color: #514d46;
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.knowhow-aging-grid .knowhow-topic-link {
+  color: #2e6b38;
+  font-weight: 700;
+}
+
+.knowhow-sources {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e4ded2;
+  color: #777064;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 680px) {
+  .knowhow-related-grid,
+  .knowhow-aging-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .knowhow-keyword {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+}
+
+/* =====================================================
+   HLAVNÍ STRÁNKA / MENU – jednotný vizuální styl Know HOW
+===================================================== */
+.home-page {
+  padding: 28px 18px 30px;
+  color: #262b25;
+}
+
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  min-height: 300px;
+  overflow: hidden;
+  border: 1px solid #e4dacb;
+  border-radius: 26px;
+  background: linear-gradient(135deg, #fffaf0 0%, #f4ead8 100%);
+  box-shadow: 0 10px 32px rgba(76, 61, 40, .09);
+}
+
+.home-hero-copy {
+  padding: 42px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-kicker {
+  color: #2e6b38;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.home-hero h1 {
+  margin: 0 0 10px;
+  color: #234c2c;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.05;
+}
+
+.home-hero p {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.45;
+}
+
+.home-hero-note {
+  margin-top: 18px !important;
+  color: #2e6b38;
+  font-weight: 600;
+}
+
+.home-hero-image-wrap {
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.home-hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.home-section-heading {
+  margin: 30px 4px 16px;
+}
+
+.home-section-heading h2 {
+  margin: 0 0 4px;
+  color: #28362a;
+  font-size: 28px;
+}
+
+.home-section-heading p {
+  margin: 0;
+  color: #716b61;
+  font-size: 16px;
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.home-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid #e5dccd;
+  border-radius: 22px;
+  background: #fffaf2;
+  color: inherit;
+  box-shadow: 0 7px 22px rgba(76, 61, 40, .07);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 28px rgba(76, 61, 40, .12);
+}
+
+.home-card-illustration {
+  height: 165px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 18px;
+  background: linear-gradient(135deg, #f0e6d5, #f9f1e5);
+}
+
+.home-card-illustration svg {
+  width: 43px;
+  height: 43px;
+  padding: 10px;
+  box-sizing: content-box;
+  border-radius: 50%;
+  background: rgba(255,255,255,.85);
+  stroke: #356b3c;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-illustration-calendar { background: linear-gradient(135deg, #eee4d3, #f7eddd); }
+.home-illustration-sun { background: linear-gradient(135deg, #f2e4cd, #f8efd9); }
+.home-illustration-chat { background: linear-gradient(135deg, #e9e5d7, #f7eee1); }
+
+.home-card-body {
+  position: relative;
+  padding: 18px 20px 22px;
+  min-height: 125px;
+}
+
+.home-card-body h3 {
+  margin: 0 0 7px;
+  color: #35633a;
+  font-size: 24px;
+}
+
+.home-card-body p {
+  margin: 0 40px 0 0;
+  color: #625e56;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.home-card-arrow {
+  position: absolute;
+  right: 19px;
+  bottom: 19px;
+  color: #356b3c;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.home-more-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 20px 22px;
+  border: 1px solid #dfe5d5;
+  border-radius: 20px;
+  background: #f0f3e9;
+}
+
+.home-more-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffaf2;
+  color: #356b3c;
+  font-size: 23px;
+}
+
+.home-more-card h3 { margin: 0 0 4px; color: #35633a; font-size: 19px; }
+.home-more-card p { margin: 0; color: #656158; line-height: 1.45; font-size: 14px; }
+
+.bottom-nav-menu .bottom-nav-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+@media (max-width: 680px) {
+  .home-page { padding: 16px 10px 24px; }
+  .home-hero { grid-template-columns: 1fr; }
+  .home-hero-copy { padding: 28px 22px 22px; }
+  .home-hero-image-wrap { min-height: 220px; max-height: 260px; }
+  .home-hero p { font-size: 18px; }
+  .home-section-heading h2 { font-size: 24px; }
+  .home-cards { grid-template-columns: 1fr; gap: 14px; }
+  .home-card-illustration { height: 135px; }
+}
+
+/* ===== Citát Arthura Asheho na hlavní stránce ===== */
+.home-quote-card {
+  position: relative;
+  margin-top: 18px;
+  padding: 28px 30px 24px;
+  border: 1px solid #e2dacb;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fffaf1 0%, #f1eadb 100%);
+  text-align: center;
+  box-shadow: 0 7px 22px rgba(76, 61, 40, .06);
+}
+
+.home-quote-mark {
+  color: #356b3c;
+  font-family: Georgia, serif;
+  font-size: 48px;
+  line-height: .7;
+  margin-bottom: 10px;
+}
+
+.home-quote-card blockquote {
+  margin: 0;
+  color: #294b30;
+  font-size: 21px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.home-quote-card p {
+  margin: 12px 0 0;
+  color: #716b61;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.home-illustration-lightbulb {
+  background: linear-gradient(135deg, #e9eddc, #f7f0df);
+}
+
+@media (max-width: 680px) {
+  .home-quote-card { padding: 24px 18px 20px; }
+  .home-quote-card blockquote { font-size: 18px; }
+}
+
+
+/* =====================================================
+   JÍDLO + 30DENNÍ SYSTÉM HUBNUTÍ
+===================================================== */
+.food-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 18px 110px;
+}
+.food-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding: 30px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #f6f0e5, #eef4eb);
+  border: 1px solid #e2e5d9;
+  margin-bottom: 22px;
+}
+.food-kicker { color:#4f7654; font-weight:700; margin-bottom:8px; }
+.food-hero h1 { margin:0 0 10px; color:#173d31; font-size:42px; line-height:1.05; }
+.food-hero p { margin:0; max-width:720px; color:#5d625d; line-height:1.55; font-size:17px; }
+.food-hero-badge { padding:16px 20px; border-radius:18px; background:#fffaf1; color:#315b42; text-align:center; border:1px solid #dde4d7; line-height:1.4; }
+.food-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.food-card { appearance:none; border:1px solid #e3e2d9; border-radius:22px; background:#fffdf8; padding:22px; text-align:left; cursor:pointer; display:flex; flex-direction:column; gap:9px; color:#26372f; box-shadow:0 6px 18px rgba(44,62,50,.05); transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+.food-card:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(44,62,50,.09); border-color:#cfdacb; }
+.food-card-featured { background:linear-gradient(145deg,#f1f7ee,#fffaf0); border-color:#cad9c8; }
+.food-card-icon { width:42px; height:42px; display:grid; place-items:center; border-radius:14px; background:#e8f0e3; font-size:23px; }
+.food-card strong { font-size:19px; color:#214b39; }
+.food-card span { color:#686963; line-height:1.45; }
+.food-card b { color:#3d7047; margin-top:auto; }
+.food-note { display:flex; gap:12px; margin-top:18px; padding:17px 20px; border-radius:18px; background:#f5f1e7; color:#5f625d; line-height:1.5; }
+.food-note strong { color:#315b42; white-space:nowrap; }
+
+.fatloss-comic img, .fatloss-compare img, .fatloss-plate img { width:100%; height:auto; display:block; border-radius:18px; }
+.fatloss-comic { margin:18px 0 20px; overflow:hidden; border:1px solid #e2ded4; background:#fbf8f0; }
+.fatloss-dialogue { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:16px 0 22px; }
+.fatloss-dialogue > div { padding:15px 17px; border:1px solid #e7e0d8; border-radius:16px; background:#fffaf5; }
+.fatloss-dialogue strong { display:block; color:#8d4a4a; margin-bottom:5px; }
+.fatloss-dialogue span { display:block; color:#5f625d; line-height:1.45; }
+.fatloss-overwhelm { display:flex; gap:14px; flex-direction:column; padding:20px 22px; border-radius:20px; background:#f8eee7; border-left:5px solid #b35d5d; margin:20px 0 26px; }
+.fatloss-overwhelm strong { color:#7d3d3d; font-size:21px; }
+.fatloss-overwhelm span { color:#555b55; line-height:1.55; }
+.fatloss-compare { margin:14px 0 20px; }
+.fatloss-tools { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0 28px; }
+.fatloss-tools > div { padding:16px 17px; border-radius:17px; background:#f7f4eb; border:1px solid #e5e0d5; }
+.fatloss-tools b { display:block; color:#24513e; margin-bottom:5px; }
+.fatloss-tools span { color:#60625d; line-height:1.45; }
+.fatloss-step { display:grid; grid-template-columns:50px 1fr; gap:16px; padding:22px 0; border-top:1px solid #e6e1d7; }
+.fatloss-step-number { width:42px; height:42px; border-radius:50%; background:#1f5942; color:white; display:grid; place-items:center; font-weight:800; font-size:20px; }
+.fatloss-step h3 { margin-top:0; }
+.fatloss-media { max-width:560px; margin:12px 0 16px; }
+.fatloss-media img { width:100%; display:block; border-radius:18px; border:1px solid #e5e0d7; }
+.fatloss-plate { margin:6px 0 26px; }
+.fatloss-calculator-card { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:16px 18px; border-radius:18px; background:#edf4ea; border:1px solid #d7e3d2; margin:15px 0; }
+.fatloss-calculator-card div { display:flex; flex-direction:column; gap:4px; }
+.fatloss-calculator-card strong { color:#24513e; }
+.fatloss-calculator-card span { color:#62655f; font-size:14px; }
+.fatloss-calculator-card a { color:#2f6840; font-weight:700; white-space:nowrap; }
+.fatloss-actions { padding:15px 17px; border-radius:17px; background:#f6f1e8; border:1px solid #e6e0d5; margin-top:15px; }
+.fatloss-actions strong { color:#2d6540; }
+.fatloss-actions ul { margin:8px 0 0; padding-left:20px; }
+.fatloss-treats { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
+.fatloss-treats span { padding:9px 12px; border-radius:999px; background:#fbf2e7; border:1px solid #eadfce; }
+.fatloss-exercise-links { display:flex; flex-wrap:wrap; gap:9px; margin:12px 0; }
+.fatloss-exercise-links .knowhow-topic-link { margin:0; }
+.fatloss-why { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:14px 0 24px; }
+.fatloss-why > div { padding:15px 13px; border-radius:16px; background:#f5f3ea; text-align:center; border:1px solid #e6e1d7; }
+.fatloss-why strong, .fatloss-why span { display:block; }
+.fatloss-why strong { color:#28543f; margin-top:5px; }
+.fatloss-why span { color:#666761; font-size:13px; line-height:1.4; margin-top:4px; }
+.fatloss-screenshot-card { margin:26px 0; padding:24px; border-radius:22px; background:#183f32; color:#fff; box-shadow:0 12px 28px rgba(24,63,50,.13); }
+.fatloss-screenshot-kicker { opacity:.75; font-size:12px; letter-spacing:.08em; font-weight:700; }
+.fatloss-screenshot-card h3 { color:#fff; margin:8px 0 12px; }
+.fatloss-screenshot-card ol { margin:0; padding-left:22px; }
+.fatloss-screenshot-card li { margin:8px 0; line-height:1.45; }
+.fatloss-options { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:15px 0; }
+.fatloss-options article { padding:20px; border-radius:20px; background:#f8f3ea; border:1px solid #e6dfd4; }
+.fatloss-option-number { color:#a15454; font-weight:800; font-size:12px; letter-spacing:.08em; }
+.fatloss-options h4 { margin:7px 0; color:#24513e; font-size:21px; }
+.fatloss-options p { margin:0; color:#60625d; line-height:1.5; }
+.fatloss-final-note { margin-top:22px; padding:22px; border-radius:20px; background:linear-gradient(135deg,#eff5ea,#f8efe8); border:1px solid #dfe5d9; text-align:center; }
+.fatloss-final-note strong, .fatloss-final-note span { display:block; }
+.fatloss-final-note strong { color:#23513d; font-size:21px; }
+.fatloss-final-note span { margin-top:6px; color:#5e625c; }
+
+@media (max-width: 820px) {
+  .food-grid, .fatloss-options { grid-template-columns:1fr; }
+  .fatloss-tools { grid-template-columns:1fr; }
+  .fatloss-why { grid-template-columns:repeat(2,1fr); }
+  .food-hero { grid-template-columns:1fr; }
+}
+@media (max-width: 600px) {
+  .food-page { padding:16px 10px 105px; }
+  .food-hero { padding:22px; }
+  .food-hero h1 { font-size:34px; }
+  .fatloss-dialogue { grid-template-columns:1fr; }
+  .fatloss-step { grid-template-columns:40px 1fr; gap:11px; }
+  .fatloss-step-number { width:36px; height:36px; font-size:17px; }
+  .fatloss-calculator-card { align-items:flex-start; flex-direction:column; }
+  .fatloss-why { grid-template-columns:1fr 1fr; }
+}
+
+/* ===== KNOW HOW: ZDRAVÝ ŽIVOTNÍ STYL ===== */
+.plate-hero, .strength-hero, .circuit-hero { margin: 18px 0 24px; border-radius: 22px; overflow: hidden; border: 1px solid #e5ded2; background: #f7f1e8; }
+.plate-hero img, .strength-hero img, .circuit-hero img { display:block; width:100%; height:auto; }
+.plate-measures { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:15px 0 22px; }
+.plate-measures article { padding:16px 14px; border-radius:18px; background:#f8f3eb; border:1px solid #e7dfd3; text-align:center; }
+.plate-measure-icon { display:flex; align-items:center; justify-content:center; width:50px; height:50px; margin:0 auto 8px; border-radius:50%; background:#e8efe3; font-size:25px; }
+.plate-measures h4 { margin:5px 0; color:#28533f; font-size:17px; }
+.plate-measures p { margin:0; color:#65665f; font-size:13px; line-height:1.45; }
+.plate-examples { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:15px 0 22px; }
+.plate-examples article { padding:16px; border-radius:17px; background:#fbf5ec; border:1px solid #e8dfd2; }
+.plate-examples h4 { margin:0 0 7px; color:#28533f; }
+.plate-examples p { margin:0; color:#60635e; line-height:1.45; }
+.strength-hero, .circuit-hero { max-width:900px; }
+.circuit-movements { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:15px 0 24px; }
+.circuit-movements article { position:relative; padding:18px 16px 16px 54px; min-height:88px; border-radius:18px; background:#f8f3eb; border:1px solid #e7dfd3; }
+.circuit-movements b { position:absolute; left:16px; top:17px; display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:#dce8d7; color:#28533f; }
+.circuit-movements strong, .circuit-movements span { display:block; }
+.circuit-movements strong { color:#28533f; margin-bottom:5px; }
+.circuit-movements span { color:#666761; font-size:13px; line-height:1.4; }
+.lifestyle-intro { margin:18px 0; padding:20px 22px; border-radius:20px; background:linear-gradient(135deg,#eef4e9,#f8eee7); border:1px solid #dfe5d9; text-align:center; }
+.lifestyle-intro strong, .lifestyle-intro span { display:block; }
+.lifestyle-intro strong { color:#28533f; font-size:21px; }
+.lifestyle-intro span { margin-top:5px; color:#60635e; }
+.lifestyle-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:15px 0 24px; }
+.lifestyle-grid article { padding:18px; border-radius:18px; background:#faf5ed; border:1px solid #e6ded2; }
+.lifestyle-grid b { display:block; color:#28533f; font-size:18px; margin-bottom:7px; }
+.lifestyle-grid span { display:block; color:#62645f; line-height:1.5; font-size:14px; min-height:64px; }
+.lifestyle-grid .knowhow-topic-link { margin:10px 0 0; padding:0; background:none; border:0; color:#2e6844; font-weight:700; }
+.lifestyle-final { margin-top:22px; padding:24px; border-radius:22px; background:#eaf1e6; border:1px solid #d7e1d2; text-align:center; }
+.lifestyle-final strong, .lifestyle-final span { display:block; }
+.lifestyle-final strong { color:#28533f; font-size:22px; }
+.lifestyle-final span { margin-top:7px; color:#5f645e; }
+@media (max-width: 900px) {
+  .plate-measures, .plate-examples, .circuit-movements, .lifestyle-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 600px) {
+  .plate-measures, .plate-examples, .circuit-movements, .lifestyle-grid { grid-template-columns:1fr; }
+}
+
+/* v24 — Potraviny, které stojí za pozornost */
+.protein-food-intro {
+  margin: 18px 0 22px;
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,#eef4e9,#f8eee7);
+  border: 1px solid #dfe5d9;
+  text-align: center;
+}
+.protein-food-intro strong, .protein-food-intro span { display:block; }
+.protein-food-intro strong { color:#28533f; font-size:22px; }
+.protein-food-intro span { margin-top:6px; color:#62645f; }
+.protein-food-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:16px 0 28px;
+}
+.protein-food-card {
+  padding:14px;
+  border-radius:20px;
+  background:#faf5ed;
+  border:1px solid #e6ded2;
+  overflow:hidden;
+}
+.protein-food-card img {
+  display:block;
+  width:100%;
+  border-radius:16px;
+  border:1px solid #e7dfd3;
+  background:#f5efe7;
+}
+.protein-food-card h3 { margin:13px 4px 7px; color:#28533f; }
+.protein-tags { display:flex; flex-wrap:wrap; gap:6px; margin:0 4px 10px; }
+.protein-tags span {
+  padding:4px 8px;
+  border-radius:999px;
+  background:#e8efe3;
+  color:#48664f;
+  font-size:12px;
+  font-weight:700;
+}
+.protein-food-card p { margin:0 4px 4px; color:#62645f; line-height:1.5; font-size:14px; }
+.protein-food-summary {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:14px 0 24px;
+}
+.protein-food-summary article {
+  padding:17px;
+  border-radius:18px;
+  background:#eef4e9;
+  border:1px solid #d9e3d4;
+}
+.protein-food-summary b { display:block; color:#28533f; margin-bottom:7px; }
+.protein-food-summary span { display:block; color:#60635e; line-height:1.5; font-size:14px; }
+.protein-food-note {
+  margin:20px 0 24px;
+  padding:20px 22px;
+  border-radius:20px;
+  background:#fff3e8;
+  border:1px solid #eadbca;
+  color:#625f59;
+  line-height:1.55;
+}
+.protein-food-note strong { color:#8a5a3b; }
+.protein-sources { padding-left:22px; }
+.protein-sources li { margin:7px 0; color:#60635e; line-height:1.45; }
+.protein-sources a { color:#2e6844; font-weight:600; }
+@media (max-width: 760px) {
+  .protein-food-grid, .protein-food-summary { grid-template-columns:1fr; }
+}
+
+/* =====================================================
+   v26 – OSOBNÍ AVATAR + ZAŘÍZENÍ / GARMIN
+===================================================== */
+.knowhow-heading-identity { display:flex; align-items:center; gap:16px; }
+.knowhow-avatar { width:72px; height:72px; object-fit:cover; border-radius:50%; border:3px solid #fffaf2; box-shadow:0 5px 16px rgba(76,61,40,.14); flex:0 0 72px; }
+.knowhow-featured-visual.no-person { position:relative; height:100%; min-height:130px; overflow:hidden; }
+.knowhow-featured-visual.no-person img { width:100%; height:100%; object-fit:cover; display:block; }
+.knowhow-featured-visual.no-person span { position:absolute; left:14px; top:12px; width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:rgba(255,250,242,.9); font-size:22px; }
+
+.devices-page { max-width:980px; margin:0 auto; padding:24px 18px 100px; color:#28362a; }
+.devices-hero { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:30px; border:1px solid #e5dccd; border-radius:26px; background:linear-gradient(135deg,#f3eee3,#fbf8f0); margin-bottom:20px; }
+.devices-eyebrow { color:#356b3c; font-weight:700; font-size:14px; }
+.devices-hero h1 { margin:8px 0 8px; font-size:32px; }
+.devices-hero p { margin:0; max-width:700px; color:#625e56; line-height:1.5; }
+.devices-hero-icon { width:86px; height:86px; flex:0 0 86px; display:grid; place-items:center; border-radius:50%; background:#e1ebdc; font-size:40px; }
+.device-card { border:1px solid #ded6c7; border-radius:24px; padding:26px; background:#fffaf2; box-shadow:0 7px 22px rgba(76,61,40,.07); }
+.device-card-top { display:flex; justify-content:space-between; align-items:center; gap:15px; }
+.garmin-mark { font-weight:900; letter-spacing:1.8px; color:#111; }
+.device-status { padding:7px 12px; border-radius:999px; background:#eee9df; color:#70695e; font-size:13px; font-weight:700; }
+.device-status.connected { background:#e1efdf; color:#2e6844; }
+.device-card h2 { margin:20px 0 8px; font-size:27px; color:#263b2a; }
+.device-card-lead { max-width:760px; color:#5f5a52; line-height:1.55; margin-bottom:18px; }
+.device-metrics { display:flex; flex-wrap:wrap; gap:9px; margin:18px 0 22px; }
+.device-metrics span { border:1px solid #e2d9ca; background:#faf6ed; border-radius:999px; padding:8px 12px; font-size:13px; }
+.device-connect-button { border:0; border-radius:12px; padding:12px 18px; background:#2e6844; color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+.device-connect-button:hover { background:#255838; }
+.device-connect-button:disabled { opacity:.7; cursor:default; }
+.device-hint { margin:14px 0 0; font-size:13px; line-height:1.5; color:#777066; }
+.device-hint-warning { padding:12px 14px; border-radius:12px; background:#f4efe3; color:#625b4f; }
+.device-info-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:16px; }
+.device-info-card { border:1px solid #e5dccd; border-radius:20px; padding:20px; background:#fffdf8; }
+.device-info-card > span { font-size:25px; }
+.device-info-card h3 { margin:9px 0 6px; font-size:18px; }
+.device-info-card p { margin:0; color:#6a655c; line-height:1.45; font-size:14px; }
+.devices-back { margin-top:18px; border:0; background:transparent; color:#356b3c; font:inherit; font-weight:700; cursor:pointer; padding:8px 0; }
+
+@media (max-width:760px) {
+  .knowhow-heading-identity { align-items:flex-start; }
+  .knowhow-avatar { width:56px; height:56px; flex-basis:56px; }
+  .devices-page { padding:14px 10px 90px; }
+  .devices-hero { padding:22px; }
+  .devices-hero h1 { font-size:26px; }
+  .devices-hero-icon { width:64px; height:64px; flex-basis:64px; font-size:30px; }
+  .device-info-grid { grid-template-columns:1fr; }
+}
+
+/* =====================================================
+   v28 – jednotný osobní avatar + čisté měření porcí
+===================================================== */
+.home-avatar-image { object-position: 50% 42%; }
+
+.personal-topic-visual {
+  display:grid;
+  grid-template-columns: 44% 56%;
+  min-height: 260px;
+  overflow:hidden;
+  border:1px solid #e4dacb;
+  border-radius:22px;
+  background:linear-gradient(135deg,#eef3e8 0%,#f8efe0 100%);
+  margin:18px 0 24px;
+}
+.personal-topic-avatar { min-height:260px; overflow:hidden; }
+.personal-topic-avatar img { width:100%; height:100%; object-fit:cover; object-position:50% 35%; display:block; }
+.personal-topic-context { display:flex; flex-direction:column; justify-content:center; gap:10px; padding:30px 28px; color:#294b37; }
+.personal-topic-context strong { font-size:32px; line-height:1.08; }
+.personal-topic-context > span:last-child { color:#5f655e; font-size:17px; line-height:1.45; }
+.personal-topic-icon { width:56px; height:56px; display:grid; place-items:center; border-radius:50%; background:#fffaf2; border:1px solid #ddd4c5; font-size:29px; }
+
+.portion-guide {
+  margin:18px 0 24px;
+  padding:24px;
+  border:1px solid #dfd8cc;
+  border-radius:24px;
+  background:#fbf7ef;
+}
+.portion-guide-title { font-size:28px; font-weight:800; color:#244b37; margin-bottom:5px; }
+.portion-guide-subtitle { color:#6d6a63; margin-bottom:18px; }
+.portion-guide-row { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:center; gap:10px; }
+.portion-item { text-align:center; min-width:0; }
+.portion-icon {
+  width:112px; height:112px; margin:0 auto 10px; display:grid; place-items:center; border-radius:50%;
+  background:#f2ecee; border:1px solid #e5ddd5; font-size:58px; line-height:1;
+}
+.portion-item strong { display:block; color:#294c39; font-size:20px; margin-bottom:4px; }
+.portion-item b { display:block; color:#3f754d; font-size:17px; letter-spacing:.02em; }
+.portion-plus { color:#bd6d5a; font-size:34px; font-weight:700; }
+.portion-guide-foot { margin-top:20px; padding:14px 16px; border-radius:15px; background:#edf3e6; color:#49604f; font-weight:600; text-align:center; }
+
+.choice-board { display:grid; gap:12px; margin:18px 0 26px; }
+.choice-row { display:grid; grid-template-columns:1fr 46px 1fr; align-items:stretch; gap:10px; }
+.choice-panel { min-height:150px; border:1px solid #e2d8ca; border-radius:20px; padding:18px; display:grid; grid-template-columns:70px 1fr; grid-template-rows:auto 1fr; column-gap:14px; box-shadow:0 6px 18px rgba(80,65,45,.06); }
+.choice-panel-dark { background:linear-gradient(135deg,#283d3e,#394d4e); color:#fffaf2; }
+.choice-panel-light { background:linear-gradient(135deg,#fff7ec,#f3e7d5); color:#2c352d; }
+.choice-panel > span { grid-column:2; font-size:18px; font-weight:700; line-height:1.3; margin-bottom:4px; }
+.choice-panel > strong { grid-column:2; font-size:19px; line-height:1.35; align-self:start; }
+.choice-avatar-mini { grid-column:1; grid-row:1 / span 2; width:70px; height:70px; border-radius:50%; overflow:hidden; border:3px solid rgba(255,255,255,.75); }
+.choice-avatar-mini img { width:100%; height:100%; object-fit:cover; object-position:50% 38%; }
+.choice-arrow { display:grid; place-items:center; color:#3e6f49; font-size:30px; font-weight:800; }
+
+.day-device-summary { margin:20px 0 0; padding:18px; border:1px solid #dfe7da; border-radius:20px; background:#f3f7ef; }
+.day-device-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.day-device-header > span { width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:#fffaf2; font-size:23px; }
+.day-device-header strong, .day-device-header small { display:block; }
+.day-device-header strong { color:#2d583b; }
+.day-device-header small { color:#777167; margin-top:2px; }
+.day-device-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+.day-device-grid > div { padding:12px; border-radius:14px; background:#fffaf2; border:1px solid #e5ddcf; }
+.day-device-grid span, .day-device-grid b { display:block; }
+.day-device-grid span { color:#6a675f; font-size:13px; margin-bottom:5px; }
+.day-device-grid b { color:#2a4e38; font-size:21px; }
+
+.device-card-top h2 { margin:0; }
+.device-activity-card { margin-top:16px; border:1px solid #e5dccd; border-radius:20px; padding:20px; background:#fffdf8; }
+.device-activity-card h3 { margin:0; }
+.garmin-activity-list { margin-top:12px; color:#706b62; }
+
+@media (max-width:760px) {
+  .personal-topic-visual { grid-template-columns:1fr; }
+  .personal-topic-avatar { min-height:220px; max-height:280px; }
+  .portion-guide { padding:16px; }
+  .portion-guide-row { grid-template-columns:1fr 20px 1fr; }
+  .portion-plus:nth-of-type(2), .portion-plus:nth-of-type(4) { display:none; }
+  .portion-item { margin-bottom:10px; }
+  .portion-icon { width:88px; height:88px; font-size:46px; }
+  .choice-row { grid-template-columns:1fr; }
+  .choice-arrow { transform:rotate(90deg); height:22px; }
+  .day-device-grid { grid-template-columns:1fr 1fr; }
+}
+.portion-icon svg { width:72px; height:72px; display:block; }
+.breakfast-avatar { width:150px !important; height:150px !important; border-radius:50%; object-fit:cover; object-position:50% 36%; border:4px solid #fffaf2; box-shadow:0 8px 24px rgba(75,60,40,.16); }
+.garmin-activity-list { display:grid; gap:8px; }
+.garmin-activity-row { display:grid; grid-template-columns:1.4fr 1fr .7fr .7fr; gap:10px; padding:11px 12px; border-radius:12px; background:#fbf7ef; border:1px solid #e7dfd3; font-size:13px; color:#666157; }
+.garmin-activity-row strong { color:#2f5c3f; }
+@media (max-width:760px) {
+  .garmin-activity-row { grid-template-columns:1fr 1fr; }
+}
+
+/* v29 – méně vizuálního šumu, žádné náhodné postavy v náhledech */
+.knowhow-featured-card > img { height: 150px; object-fit: cover; }
+.knowhow-featured-card { box-shadow: 0 5px 18px rgba(65,58,45,.06); }
+.knowhow-featured-body { min-height: 124px; padding: 13px 15px 17px; }
+.knowhow-featured-body > span { display:inline-flex; padding:4px 8px; border-radius:999px; background:#edf3e8; color:#356946; }
+.knowhow-featured-body strong { font-size:19px; margin-top:7px; }
+.knowhow-featured-card:focus-visible { outline:3px solid rgba(62,115,75,.35); outline-offset:2px; }
+
+.portion-icon { background: radial-gradient(circle at 50% 45%, #fffdf8 0 58%, #edf2e8 59% 100%); border:0; box-shadow: inset 0 0 0 1px rgba(71,93,70,.08); }
+.portion-icon img { width:86px; height:86px; object-fit:contain; display:block; filter: drop-shadow(0 5px 4px rgba(55,45,35,.10)); }
+.portion-item:nth-of-type(1) .portion-icon { background: radial-gradient(circle, #fff5f4 0 58%, #f3dfdd 59%); }
+.portion-item:nth-of-type(3) .portion-icon { background: radial-gradient(circle, #f3f7ed 0 58%, #e2eddc 59%); }
+.portion-item:nth-of-type(5) .portion-icon { background: radial-gradient(circle, #fff7e9 0 58%, #f1e4c7 59%); }
+.portion-item:nth-of-type(7) .portion-icon { background: radial-gradient(circle, #eef6f5 0 58%, #dcebe8 59%); }
+.portion-icon svg { display:none; }
+
+.choice-panel { grid-template-columns:1fr; grid-template-rows:auto 1fr; text-align:left; min-height:118px; }
+.choice-panel > strong { grid-column:1; }
+.choice-panel > span { grid-column:1; }
+.choice-icon { width:48px; height:48px; display:grid; place-items:center; border-radius:15px; background:rgba(255,255,255,.75); font-size:25px; margin-bottom:10px; }
+.choice-panel-dark .choice-icon { background:rgba(255,255,255,.12); }
+.choice-avatar-mini { display:none; }
+
+.two-minute-visual { max-width:820px; padding:14px 18px; }
+.two-minute-display { min-width:210px; padding:0; background:transparent; box-shadow:none; }
+.two-minute-display img { display:block; width:210px; height:132px; object-fit:cover; border-radius:18px; }
+.two-minute-visual-copy strong { font-family:"Segoe UI", Arial, sans-serif; font-size:27px; }
+.two-minute-visual-copy span { font-size:18px; color:#2f4d39; }
+
+.device-food-link-card { display:flex; gap:16px; align-items:flex-start; margin-top:16px; border:1px solid #e5dccd; border-radius:20px; padding:20px; background:#f5f8f1; }
+.device-food-link-card > span { width:48px; height:48px; flex:0 0 48px; display:grid; place-items:center; border-radius:15px; background:#fffaf2; font-size:25px; }
+.device-food-link-card h3 { margin:0 0 6px; color:#2d563a; }
+.device-food-link-card p { margin:0; color:#676158; line-height:1.5; }
+.day-device-activities { margin:14px 0 0; padding:18px; border:1px solid #e5dccd; border-radius:20px; background:#fffdf8; }
+.day-device-activity-list { display:grid; gap:8px; }
+.day-device-activity-list > div { display:grid; grid-template-columns:1.5fr 1fr .7fr .7fr; gap:8px; padding:10px 12px; border-radius:12px; background:#f7f4ec; }
+.day-device-activity-list span { color:#716b61; font-size:13px; }
+@media (max-width:760px) {
+  .portion-icon img { width:68px; height:68px; }
+  .two-minute-display img { width:180px; height:112px; }
+  .day-device-activity-list > div { grid-template-columns:1fr 1fr; }
+}
+
+/* =====================================================
+   v31 – domů bez fotografií, konzistentní ilustrace
+===================================================== */
+#app[data-screen="home"] .app-content { width:100%; max-width:none; padding:0; margin:0; box-sizing:border-box; }
+.home-dashboard { color:#23322a; }
+.home-topbar { display:grid; grid-template-columns:auto minmax(220px,1fr) auto; align-items:center; gap:22px; margin-bottom:16px; }
+.home-brand strong { display:block; font-family:"Segoe UI", Arial, sans-serif; font-size:30px; color:#1f4f35; line-height:1; }
+.home-brand strong span { color:#df7d86; }
+.home-brand small { display:block; margin-top:4px; color:#69806c; letter-spacing:.16em; font-size:10px; }
+.home-search { justify-self:center; width:min(620px,100%); padding:12px 18px; border:1px solid #ded7cb; border-radius:999px; background:#fffdf9; color:#4c514b; box-shadow:0 3px 12px rgba(74,65,52,.05); }
+.home-search:first-letter { font-size:20px; }
+.home-status { display:flex; align-items:center; gap:10px; padding:11px 15px; border:1px solid #ded7cb; border-radius:999px; background:#fffdf9; color:#526056; }
+.home-welcome-grid { display:grid; grid-template-columns:minmax(0,1.35fr) 220px 300px; gap:14px; align-items:stretch; }
+.home-welcome-card { position:relative; min-height:260px; overflow:hidden; border:1px solid #e3dacd; border-radius:24px; background:#f5f0e6; box-shadow:0 8px 24px rgba(68,57,45,.06); }
+.home-welcome-image { width:100%; height:100%; min-height:260px; object-fit:cover; display:block; }
+.home-welcome-copy { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:28px 34px; background:linear-gradient(90deg, rgba(250,246,237,.93) 0%, rgba(250,246,237,.72) 40%, rgba(250,246,237,.08) 75%); }
+.home-kicker { color:#4c805d; font-size:12px; font-weight:700; letter-spacing:.14em; margin-bottom:7px; }
+.home-welcome-copy h1 { margin:0 0 10px; font-family:"Segoe UI", Arial, sans-serif; font-size:50px; line-height:1; color:#214d35; font-weight:700; }
+.home-welcome-copy h1 span { color:#df7d86; }
+.home-welcome-copy p { margin:0; max-width:360px; font-size:19px; line-height:1.42; color:#415045; }
+.home-focus-card,.home-garmin-card { border:1px solid #e3dacd; border-radius:22px; background:#fffdf9; padding:20px; box-shadow:0 8px 24px rgba(68,57,45,.06); }
+.home-focus-card h2,.home-garmin-card h2 { margin:0 0 15px; color:#214d35; font-size:20px; }
+.home-focus-card div { display:flex; align-items:center; gap:10px; margin:13px 0; color:#3e5145; font-size:15px; }
+.home-focus-card div:first-letter { color:#4f805f; }
+.home-garmin-head { display:flex; flex-direction:column; gap:8px; }
+.home-garmin-head span { align-self:flex-start; padding:5px 9px; border-radius:999px; background:#f0f1ea; color:#71806f; font-size:12px; }
+.home-garmin-card p { margin:14px 0; color:#6b6c66; font-size:13px; line-height:1.4; }
+.home-garmin-card button,.home-activity-card button { border:0; background:#2f7042; color:white; border-radius:12px; padding:9px 12px; font-family:inherit; cursor:pointer; }
+.home-section { margin-top:18px; }
+.home-section-title { display:flex; align-items:end; justify-content:space-between; gap:15px; margin:0 2px 12px; }
+.home-section-title > div span,.home-card-heading > div > span { display:block; color:#6e896f; font-size:11px; font-weight:700; letter-spacing:.12em; }
+.home-section-title h2,.home-card-heading h2 { margin:3px 0 0; color:#294a34; font-size:23px; }
+.home-section-title small { color:#8b8a82; font-size:12px; }
+.home-tile-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; }
+.home-visual-tile { padding:0; text-align:left; overflow:hidden; border:1px solid #e3dacd; border-radius:20px; background:#fffdf9; color:inherit; box-shadow:0 7px 18px rgba(68,57,45,.05); cursor:pointer; }
+.home-visual { height:118px; background:#f3efe7; overflow:hidden; }
+.home-visual img { display:block; width:100%; height:100%; object-fit:cover; }
+.home-visual-body { position:relative; padding:11px 13px 13px; min-height:95px; }
+.home-visual-body > span { display:inline-flex; padding:3px 7px; border-radius:999px; background:#eef3e9; color:#4d7b58; font-size:10px; font-weight:700; }
+.home-visual-body h3 { margin:7px 22px 4px 0; font-size:17px; color:#2b3b31; }
+.home-visual-body p { margin:0; color:#66655f; font-size:12px; line-height:1.35; }
+.home-visual-body i { position:absolute; right:12px; bottom:10px; font-style:normal; color:#447553; font-size:22px; }
+.home-lower-grid { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(230px,.65fr) minmax(240px,.8fr); gap:12px; margin-top:16px; }
+.home-portion-card,.home-two-minute-card,.home-activity-card { border:1px solid #e3dacd; border-radius:22px; background:#fffdf9; box-shadow:0 7px 20px rgba(68,57,45,.05); }
+.home-portion-card { padding:18px; }
+.home-card-heading { display:flex; justify-content:space-between; gap:12px; align-items:end; margin-bottom:10px; }
+.home-card-heading small { color:#8a897f; font-size:11px; }
+.home-hands-row { display:grid; grid-template-columns:1fr 16px 1fr 16px 1fr 16px 1fr; align-items:center; gap:2px; }
+.home-hands-row > b { color:#b77a69; font-size:22px; text-align:center; }
+.home-hand { text-align:center; min-width:0; }
+.home-hand-image { height:82px; display:flex; align-items:flex-end; justify-content:center; }
+.home-hand-image img { width:auto; height:76px; max-width:100%; object-fit:contain; display:block; filter:drop-shadow(0 4px 4px rgba(70,58,44,.08)); }
+.home-hand strong { display:block; margin-top:4px; color:#294b36; font-size:13px; }
+.home-hand span { display:inline-flex; margin-top:4px; padding:4px 7px; border-radius:999px; font-size:9px; font-weight:700; background:#edf3e8; color:#4a7a56; }
+.home-hand.protein span { background:#f7dfdd; color:#a64f53; }
+.home-hand.carb span { background:#f5e7cd; color:#a17328; }
+.home-hand.fat span { background:#e4edf0; color:#3e6b7b; }
+.home-portion-foot { margin-top:12px; padding:10px 12px; border-radius:13px; background:#edf3e8; color:#4d6350; font-size:12px; text-align:center; }
+.home-two-minute-card { display:flex; align-items:center; gap:12px; padding:18px; text-align:left; cursor:pointer; }
+.home-two-minute-card img { width:120px; height:120px; object-fit:contain; flex:none; }
+.home-two-minute-card span { color:#6e896f; font-size:10px; font-weight:700; letter-spacing:.12em; }
+.home-two-minute-card h2 { margin:4px 0 8px; font-family:"Segoe UI", Arial, sans-serif; font-size:25px; color:#2b583d; }
+.home-two-minute-card p { margin:0; color:#525b54; font-size:14px; line-height:1.45; }
+.home-activity-card { padding:18px; }
+.home-activity-row { min-height:86px; display:flex; flex-direction:column; justify-content:center; gap:7px; padding:13px; border-radius:16px; background:#f7f4ec; }
+.home-activity-row strong { color:#2f5a3e; font-size:17px; }
+.home-activity-row span { color:#a7aa9f; font-size:14px; }
+.home-activity-row small { color:#77766e; line-height:1.35; }
+.home-quote-card { margin-top:16px; }
+
+/* Clean standalone portion assets: no colored circles, no pasted screenshot background. */
+.portion-icon { background:transparent !important; border:0 !important; box-shadow:none !important; }
+.portion-icon img { filter:drop-shadow(0 5px 4px rgba(55,45,35,.08)); }
+
+/* A detail page may use the illustrated avatar, never the user's original photo. */
+.personal-topic-avatar img,.breakfast-avatar,.knowhow-avatar { object-fit:contain; background:#f8f2e8; }
+.personal-topic-avatar { background:#f8f2e8; }
+
+.knowhow-featured[hidden] { display:none; }
+
+@media (max-width: 1100px) {
+  .home-welcome-grid { grid-template-columns:minmax(0,1fr) 240px; }
+  .home-garmin-card { grid-column:2; grid-row:1; }
+  .home-focus-card { grid-column:2; grid-row:2; }
+  .home-welcome-card { grid-column:1; grid-row:1 / span 2; }
+  .home-tile-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .home-lower-grid { grid-template-columns:1fr 1fr; }
+  .home-activity-card { grid-column:1 / -1; }
+}
+@media (max-width: 720px) {
+  #app[data-screen="home"] .app-content { padding:10px 10px 92px; }
+  .home-topbar { grid-template-columns:1fr auto; }
+  .home-search { grid-column:1 / -1; grid-row:2; width:auto; justify-self:stretch; }
+  .home-status { justify-self:end; }
+  .home-welcome-grid { grid-template-columns:1fr; }
+  .home-welcome-card,.home-focus-card,.home-garmin-card { grid-column:auto; grid-row:auto; }
+  .home-welcome-card { min-height:220px; }
+  .home-welcome-image { min-height:220px; }
+  .home-welcome-copy { padding:22px; }
+  .home-welcome-copy h1 { font-size:40px; }
+  .home-tile-grid { grid-template-columns:1fr 1fr; }
+  .home-lower-grid { grid-template-columns:1fr; }
+  .home-activity-card { grid-column:auto; }
+  .home-hands-row { grid-template-columns:1fr 12px 1fr; }
+  .home-hands-row .home-hand:nth-of-type(5), .home-hands-row .home-hand:nth-of-type(4), .home-hands-row > b:nth-of-type(3) { display:none; }
+}
+@media (max-width:720px) {
+  .home-hands-row { grid-template-columns:1fr 1fr; gap:10px 18px; }
+  .home-hands-row > b { display:none; }
+  .home-hand-image { height:76px; }
+}
+
+.portion-chart-card { display:grid; grid-template-columns:1fr 1.2fr; gap:18px; align-items:center; margin-top:18px; padding:16px 18px; border-radius:18px; background:#f4f6ee; border:1px solid #dee6d6; }
+.portion-chart-card strong { display:block; margin-bottom:6px; color:#2c5037; font-size:20px; }
+.portion-chart-card p { margin:0; color:#6b6f68; line-height:1.45; font-size:14px; }
+.portion-chart-card img { width:100%; max-height:250px; object-fit:contain; display:block; }
+@media (max-width:760px) { .portion-chart-card { grid-template-columns:1fr; } .portion-chart-card img { max-height:220px; } }
+
+/* =====================================================
+   v32 – NÁVYKY JAKO CENTRUM
+===================================================== */
+.habits-center { max-width: 1120px; margin: 0 auto; }
+.habits-center-hero {
+  display:flex; justify-content:space-between; align-items:flex-end; gap:28px;
+  padding:28px 30px; margin-bottom:18px; border:1px solid #e6dece; border-radius:24px;
+  background:linear-gradient(120deg,#fbf8f0,#f0f5e9);
+}
+.habits-eyebrow,.habits-section-kicker { display:block; color:#39734a; font-size:12px; font-weight:700; letter-spacing:.08em; margin-bottom:7px; }
+.habits-center-hero h1 { margin:0 0 9px; font-size:clamp(30px,4vw,46px); line-height:1.05; color:#193c28; font-family:var(--font-main); }
+.habits-center-hero p { max-width:760px; margin:0; color:#5d665f; font-size:16px; line-height:1.5; }
+.habits-primary-action { border:0; background:#2e7d32; color:#fff; border-radius:999px; padding:12px 18px; white-space:nowrap; font-weight:700; }
+.habits-primary-action:hover { background:#256b2b; }
+.habits-center-tabs { display:flex; gap:7px; padding:6px; margin-bottom:18px; border:1px solid #e5ddce; border-radius:15px; background:#fffdf8; overflow:auto; }
+.habits-center-tabs button { border:0; background:transparent; color:#59605a; padding:10px 16px; border-radius:11px; white-space:nowrap; }
+.habits-center-tabs button.active { background:#3f7a4b; color:#fff; }
+.habits-center-overview { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:15px; }
+.habits-center-overview article { padding:17px; border:1px solid #e7dfd2; border-radius:16px; background:#fffdf8; }
+.habits-center-overview strong { display:block; font-size:28px; color:#244a31; }
+.habits-center-overview span { color:#777; font-size:13px; }
+.habits-center-overview .positive strong { color:#34733f; }
+.habits-center-overview .changing strong { color:#a45b4e; }
+.habits-center-overview .unknown strong { color:#9a865b; }
+.habits-guidance-card { display:flex; align-items:center; gap:14px; padding:16px 18px; margin-bottom:15px; border-radius:17px; background:#eef5e9; border:1px solid #dbe8d3; }
+.guidance-icon { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#fff; color:#39734a; font-size:20px; flex:0 0 auto; }
+.habits-guidance-card strong { color:#244a31; }
+.habits-guidance-card p { margin:3px 0 0; color:#687268; font-size:14px; line-height:1.4; }
+.habits-guidance-card button { margin-left:auto; border:0; background:transparent; color:#39734a; font-weight:700; white-space:nowrap; }
+.habits-list-card { padding:19px; border:1px solid #e7dfd2; border-radius:20px; background:#fffdf8; }
+.habits-list-heading { display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:10px; }
+.habits-list-heading h2 { margin:0; color:#244a31; }
+.habit-filters { display:flex; gap:5px; flex-wrap:wrap; }
+.habit-filters button { padding:6px 10px; border:1px solid #ddd5c8; background:#fff; color:#626761; border-radius:999px; font-size:12px; }
+.habit-filters button.active { background:#e8f1e3; color:#2e6844; border-color:#bad0b7; }
+.habit-center-row { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 6px; border-top:1px solid #eee8df; }
+.habit-row-main { display:flex; align-items:center; gap:12px; min-width:0; }
+.habit-row-main strong { display:block; color:#26362b; }
+.habit-row-main small { display:block; margin-top:3px; color:#999; }
+.habit-status-dot { width:10px; height:10px; border-radius:50%; flex:0 0 auto; background:#b7aa8e; }
+.habit-status-dot.positive { background:#3e8650; }.habit-status-dot.changing { background:#ad6456; }.habit-status-dot.neutral { background:#6686a8; }
+.habit-row-meta { display:flex; align-items:center; gap:9px; flex:0 0 auto; }
+.habit-status-label { font-size:11px; padding:5px 8px; border-radius:999px; background:#f0eee8; color:#777; }
+.habit-status-label.positive { background:#e8f2e7; color:#39734a; }.habit-status-label.changing { background:#f7e8e5; color:#955044; }
+.habit-row-actions { display:flex; gap:3px; }
+.habit-row-actions .pol-btn { width:27px; height:27px; padding:0; border-radius:50%; border:0; background:#eee; color:#777; }
+.habit-row-actions .pol-btn[data-p="+"] { color:#fff; background:#4d8b55; }.habit-row-actions .pol-btn[data-p="N"] { color:#fff; background:#6684a5; }.habit-row-actions .pol-btn[data-p="-"] { color:#fff; background:#a35c50; }
+.habit-row-actions .pol-btn:not(.selected) { opacity:.25; }
+.habit-arrow { color:#39734a; font-size:21px; }
+.habit-empty { padding:28px 10px; text-align:center; color:#7b817c; }
+.habit-tools-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:15px; }
+.habit-tool-card { text-align:left; border:1px solid #e6dfd3; background:#fbf9f3; border-radius:16px; padding:15px; }
+.habit-tool-card span { display:block; font-size:22px; margin-bottom:7px; }.habit-tool-card strong { display:block; color:#315b3c; }.habit-tool-card small { display:block; color:#7b817b; margin-top:4px; line-height:1.35; }
+.habit-coach-layout,.reflection-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(260px,1fr); gap:15px; }
+.habit-coach-main,.reflection-main { padding:24px; border:1px solid #e7dfd2; border-radius:20px; background:#fffdf8; }
+.habit-coach-main h2,.reflection-main h2 { margin:0 0 9px; color:#244a31; font-size:30px; }
+.habit-coach-lead { color:#646d65; line-height:1.5; margin:0 0 18px; }
+.habit-coach-steps { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.habit-coach-steps article { display:flex; gap:10px; padding:13px; border-radius:14px; background:#f4f5ee; }
+.habit-coach-steps b { width:28px; height:28px; display:grid; place-items:center; border-radius:50%; background:#3f7a4b; color:#fff; flex:0 0 auto; }
+.habit-coach-steps strong { color:#315b3c; }.habit-coach-steps p { margin:3px 0 0; color:#747b75; font-size:13px; line-height:1.35; }
+.habit-identity-box { margin:18px 0; padding:15px; border:1px solid #e3dccf; border-radius:15px; background:#faf8f2; }
+.habit-identity-box label { display:block; margin-bottom:7px; color:#315b3c; font-weight:700; }
+.habit-identity-box textarea,.reflection-field textarea { width:100%; min-height:85px; box-sizing:border-box; border:1px solid #d8d0c2; border-radius:11px; padding:10px; font:inherit; background:#fff; resize:vertical; }
+.habit-coach-side { display:flex; flex-direction:column; gap:10px; }
+.habit-side-card { padding:17px; border:1px solid #e6dfd3; border-radius:17px; background:#f5f6ef; }
+.habit-side-card > span { font-size:21px; }.habit-side-card strong { display:block; margin:6px 0 4px; color:#315b3c; }.habit-side-card p { margin:0; color:#6f766f; line-height:1.45; font-size:14px; }
+.inline-link,.habit-side-link { border:0; background:transparent; color:#39734a; padding:8px 0 0; font-weight:700; text-align:left; }
+.change-framework { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin:18px 0; }
+.change-framework div { padding:14px; border-radius:14px; background:#f7f3eb; border:1px solid #e8dfd2; }.change-framework strong { display:block; color:#315b3c; }.change-framework span { display:block; margin-top:4px; color:#777; font-size:13px; line-height:1.35; }
+.habit-change-list { display:flex; flex-direction:column; gap:7px; }.habit-change-item { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px; border:1px solid #e7dfd2; background:#fff; text-align:left; }.habit-change-item strong { color:#39453c; }.habit-change-item > span:last-child { color:#7a817a; font-size:12px; }.change-dot { width:26px; height:26px; display:grid; place-items:center; border-radius:50%; background:#f5e2de; color:#9b5549; font-weight:700; }
+.reflection-statement { display:flex; align-items:center; gap:8px; margin:20px 0; padding:17px 20px; border-radius:16px; background:#eef5e9; color:#315b3c; }.reflection-statement span { font-size:30px; color:#9aae8f; }.reflection-field { display:block; margin:13px 0; color:#455048; font-weight:700; }.reflection-field textarea { margin-top:6px; }
+.reflection-score { padding:20px; border-radius:17px; background:#315f3c; color:#fff; }.reflection-score strong { display:block; font-size:42px; }.reflection-score span { opacity:.85; }
+.more-panel-link { display:block; width:100%; margin-top:7px; text-align:left; border:1px solid #e2dbcf; background:#fff; color:#315b3c; }
+@media (max-width: 760px) {
+  .habits-center-hero { flex-direction:column; align-items:flex-start; padding:22px; }
+  .habits-center-tabs { margin-bottom:12px; }
+  .habits-center-overview,.habit-tools-grid { grid-template-columns:1fr 1fr; }
+  .habits-list-heading { align-items:flex-start; flex-direction:column; }
+  .habit-status-label { display:none; }
+  .habit-coach-layout,.reflection-layout { grid-template-columns:1fr; }
+  .habit-coach-steps,.change-framework { grid-template-columns:1fr; }
+}
+@media (max-width: 470px) {
+  .habits-center-overview { grid-template-columns:1fr 1fr; }
+  .habit-tools-grid { grid-template-columns:1fr; }
+  .habit-row-actions { display:none; }
+  .habits-guidance-card { align-items:flex-start; flex-wrap:wrap; }
+  .habits-guidance-card button { margin-left:52px; }
+}
+
+/* =====================================================
+   v32 – KRUHOVÝ TRÉNINK
+===================================================== */
+.circuit-intro-card { display:flex; justify-content:space-between; gap:18px; align-items:center; padding:18px 20px; margin:18px 0; border:1px solid #e4ddd1; border-radius:18px; background:#f5f5ed; }
+.circuit-intro-card h3 { margin:0 0 4px; color:#244a31; }.circuit-intro-card p { margin:0; color:#687168; line-height:1.4; }.circuit-intro-badge { min-width:110px; padding:12px; border-radius:14px; background:#fff; text-align:center; color:#315b3c; }.circuit-intro-badge strong,.circuit-intro-badge span { display:block; }.circuit-intro-badge strong { margin-top:3px; }.circuit-intro-badge span { font-size:11px; color:#777; }
+.circuit-exercise-list { display:flex; flex-direction:column; gap:9px; }
+.circuit-exercise-card { display:grid; grid-template-columns:230px minmax(0,1fr) 245px; gap:0; min-height:180px; overflow:hidden; border:1px solid #e6dfd3; border-radius:18px; background:#fffdf8; }
+.circuit-exercise-image { min-height:180px; background:#eee9df; }.circuit-exercise-image img { display:block; width:100%; height:100%; object-fit:cover; }
+.circuit-exercise-copy { display:grid; grid-template-columns:38px 1fr; gap:10px; padding:18px; }.circuit-number { width:32px; height:32px; display:grid; place-items:center; border-radius:50%; background:#1f5130; color:#fff; font-family:Arial,sans-serif; font-weight:700; }.circuit-exercise-copy h3 { margin:0 0 2px; color:#254a31; font-size:20px; }.circuit-exercise-copy strong { color:#4f5b52; font-size:13px; }.circuit-exercise-copy p { margin:7px 0 0; color:#687168; font-size:13px; line-height:1.35; }.circuit-levels { color:#4f5b52 !important; }
+.circuit-tip { border-left:1px solid #eee6da; padding:18px; display:flex; gap:9px; background:#fbfaf5; }.circuit-tip > span { font-size:20px; }.circuit-tip strong { color:#315b3c; }.circuit-tip p { margin:5px 0 0; color:#697069; font-size:13px; line-height:1.4; }
+.circuit-build-card { margin-top:15px; padding:19px; border:1px solid #dfe5d9; border-radius:18px; background:#eef4e9; }.circuit-build-card h3 { margin:0; color:#244a31; }.circuit-build-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:13px; }.circuit-build-grid div { padding:12px; border-radius:13px; background:#fffdf8; }.circuit-build-grid b,.circuit-build-grid span { display:block; }.circuit-build-grid b { color:#315b3c; }.circuit-build-grid span { margin-top:4px; color:#737b73; font-size:12px; line-height:1.35; }
+@media (max-width: 900px) { .circuit-exercise-card { grid-template-columns:190px 1fr; }.circuit-tip { grid-column:1 / -1; border-left:0; border-top:1px solid #eee6da; }.circuit-build-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width: 600px) { .circuit-intro-card { align-items:flex-start; flex-direction:column; }.circuit-exercise-card { grid-template-columns:1fr; }.circuit-exercise-image { height:210px; }.circuit-exercise-copy { padding:14px; }.circuit-tip { padding:14px; }.circuit-build-grid { grid-template-columns:1fr; } }
+
+
+/* ===== v33: finální rozložení Home + plná spodní navigace ===== */
+.bottom-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.more-panel { left: 0; right: 0; bottom: 78px; width: auto; }
+.more-panel-inner { border-radius: 18px 18px 0 0; padding: 16px 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: center; }
+.more-panel-title { grid-column: 1 / -1; margin: 0; }
+.more-panel-link { min-height: 44px; border: 1px solid #e4ded2; border-radius: 12px; background: #fffdf8; color: #4c554c; font: inherit; cursor: pointer; }
+.more-panel-link:hover { background: #eef3e8; color: #2e6b38; }
+.home-dashboard-v33 .home-welcome-card { min-height: 220px; }
+.home-dashboard-v33 .home-welcome-copy h1 { font-size: clamp(38px, 5vw, 68px); }
+.home-dashboard-v33 .home-welcome-copy p { font-size: 19px; font-weight: 700; line-height: 1.35; }
+.home-dashboard-v33 .home-tile-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.home-dashboard-v33 .home-visual-tile { min-width: 0; }
+.home-dashboard-v33 .home-visual { height: 145px; }
+.home-dashboard-v33 .home-visual img { width: 100%; height: 100%; object-fit: cover; }
+.home-dashboard-v33 .home-two-minute-card { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.home-dashboard-v33 .home-two-minute-card img { width: 42%; max-height: 150px; object-fit: contain; order: 2; }
+.home-garmin-card .garmin-check { color: #55705b; margin: 5px 0; font-size: 13px; }
+.home-garmin-card button { margin-top: 10px; }
+.home-recommended { margin-top: 20px; padding: 16px 18px; border: 1px solid #e7dfd1; border-radius: 18px; background: #fffdf8; display: flex; align-items: center; gap: 20px; }
+.home-recommended h2 { margin: 0 0 3px; color: #294b39; }
+.home-recommended small { color: #777066; }
+.home-recommended-row { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 8px; flex: 1; }
+.home-recommended-row span { padding: 12px 8px; border: 1px solid #e4ded2; border-radius: 12px; text-align: center; font-size: 12px; color: #566053; background: #fbf8f1; }
+@media (max-width: 1100px) { .home-dashboard-v33 .home-tile-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .home-recommended { display:block; } .home-recommended-row { margin-top: 12px; } }
+@media (max-width: 680px) { .more-panel { bottom: 68px; } .more-panel-inner { grid-template-columns: 1fr 1fr; padding: 12px; } .home-dashboard-v33 .home-tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-dashboard-v33 .home-visual { height: 120px; } .home-recommended-row { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+/* =====================================================
+   v34 – HOME podle schváleného úvodního návrhu
+   Jedna navigace: spodní lišta. Levý panel je pouze osobní profil.
+===================================================== */
+.home-dashboard-v34 {
+  display:grid;
+  grid-template-columns:190px minmax(0,1fr);
+  gap:18px;
+  color:#26372d;
+  font-family:"Segoe UI", Arial, sans-serif;
+}
+.home-dashboard-v34 button { font-family:inherit; }
+.home-profile-rail {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:4px 8px 18px;
+  background:linear-gradient(180deg,#fffdf8 0%,#f3f5ed 100%);
+  border:1px solid #e5dfd3;
+  border-radius:24px;
+  box-sizing:border-box;
+}
+.home-profile-brand { width:100%; text-align:center; margin-bottom:14px; }
+.home-profile-brand strong { display:block; color:#4d8060; font-size:27px; line-height:1; }
+.home-profile-brand strong span { color:#e17e88; }
+.home-profile-brand small { display:block; margin-top:5px; color:#7c8d7c; font-size:9px; letter-spacing:.14em; }
+.home-profile-avatar { width:116px; height:116px; overflow:hidden; border-radius:50%; border:4px solid #fffdf8; box-shadow:0 5px 18px rgba(68,57,45,.13); }
+.home-profile-avatar img { width:100%; height:100%; object-fit:cover; object-position:52% 34%; display:block; }
+.home-profile-greeting { width:100%; padding:13px 7px 12px; text-align:left; }
+.home-profile-greeting strong { color:#466e53; font-size:17px; }
+.home-profile-greeting strong span { color:#e17e88; }
+.home-profile-greeting p { margin:5px 0 0; color:#829083; font-size:12px; line-height:1.35; }
+.home-profile-landscape { width:100%; height:120px; overflow:hidden; border-radius:17px; margin-top:auto; background:#e7eee2; }
+.home-profile-landscape img { width:100%; height:100%; object-fit:cover; display:block; }
+.home-profile-quote { padding:13px 7px 0; color:#70806f; font-size:12px; line-height:1.45; text-align:center; }
+.home-profile-quote span { color:#e17e88; }
+.home-main { min-width:0; }
+.home-dashboard-v34 .home-topbar { grid-template-columns:minmax(0,1fr) auto; margin-bottom:12px; }
+.home-dashboard-v34 .home-search { justify-self:stretch; width:auto; max-width:640px; }
+.home-dashboard-v34 .home-status { justify-self:end; }
+.home-welcome-card-v34 { min-height:0; height:auto; border-radius:24px; }
+.home-welcome-card-v34 .home-welcome-image { min-height:0; height:auto; aspect-ratio:700 / 215; object-fit:cover; }
+.home-welcome-panels { display:grid; grid-template-columns:minmax(240px,.75fr) minmax(320px,1fr); gap:12px; margin-top:12px; }
+.home-dashboard-v34 .home-focus-card,
+.home-dashboard-v34 .home-garmin-card { min-height:0; padding:17px 19px; }
+.home-focus-card h2,.home-garmin-card h2 { font-family:inherit; }
+.home-focus-link { width:100%; display:flex; align-items:center; gap:10px; padding:7px 0; border:0; background:transparent; color:#435247; text-align:left; cursor:pointer; font-size:15px; }
+.home-focus-link span:first-child { width:27px; text-align:center; font-size:21px; }
+.home-focus-link:hover { color:#2e7042; }
+.home-dashboard-v34 .home-garmin-card { position:relative; }
+.home-dashboard-v34 .home-garmin-head { flex-direction:row; justify-content:space-between; align-items:center; }
+.home-dashboard-v34 .home-garmin-head h2 { margin:0; }
+.home-text-link { border:0; background:transparent; color:#39734a; padding:8px 0 0 8px; cursor:pointer; }
+.home-dashboard-v34 .home-section { margin-top:16px; }
+.home-dashboard-v34 .home-tile-grid { grid-template-columns:repeat(6,minmax(0,1fr)); gap:9px; }
+.home-dashboard-v34 .home-visual { height:112px; }
+.home-dashboard-v34 .home-visual-body { min-height:91px; }
+.home-dashboard-v34 .home-visual-body h3 { font-family:inherit; font-size:16px; }
+.home-lower-grid-v34 { grid-template-columns:1.25fr .85fr .8fr 1fr; gap:10px; }
+.home-image-card { border:1px solid #e3dacd; border-radius:20px; background:#fffdf9; box-shadow:0 7px 20px rgba(68,57,45,.05); cursor:pointer; color:inherit; text-align:left; overflow:hidden; }
+.home-portion-card { padding:0; position:relative; }
+.home-portion-card img { display:block; width:100%; height:100%; min-height:230px; object-fit:cover; object-position:center; }
+.home-card-link { color:#39734a; font-weight:700; font-size:12px; padding:9px 13px 11px; background:#fffdf9; }
+.home-plate-card { padding:15px; }
+.home-plate-card h2,.home-two-minute-card h2 { margin:3px 0 7px; color:#2b583d; font-family:inherit; font-size:22px; }
+.home-plate-card img { display:block; width:100%; height:150px; object-fit:contain; margin:0 auto; }
+.home-card-label { color:#6e896f; font-size:10px; font-weight:700; letter-spacing:.12em; }
+.home-two-minute-card { padding:15px; position:relative; }
+.home-two-minute-card p { margin:0; color:#525b54; font-size:14px; line-height:1.4; }
+.home-two-minute-card img { width:100%; height:115px; object-fit:contain; margin-top:4px; }
+.home-dashboard-v34 .home-activity-card { padding:15px; }
+.home-dashboard-v34 .home-activity-row { min-height:61px; padding:9px 11px; }
+.home-dashboard-v34 .home-activity-row strong { font-size:15px; }
+.home-dashboard-v34 .home-activity-row small { font-size:10px; }
+.home-tea-strip { display:grid; grid-template-columns:95px 1fr auto; gap:15px; align-items:center; margin-top:12px; padding:12px 15px; border:1px solid #e5dccd; border-radius:20px; background:#fffdf9; }
+.home-tea-image { width:95px; height:75px; overflow:hidden; border-radius:14px; }
+.home-tea-image img { width:100%; height:100%; object-fit:cover; }
+.home-tea-strip > div:nth-child(2) span { color:#6e896f; font-size:10px; font-weight:700; letter-spacing:.12em; }
+.home-tea-strip h2 { margin:2px 0 3px; color:#2b583d; font-family:inherit; font-size:21px; }
+.home-tea-strip p { margin:0; color:#697169; font-size:13px; line-height:1.35; }
+.home-tea-strip button { border:0; background:transparent; color:#39734a; font-weight:700; cursor:pointer; white-space:nowrap; }
+.home-recommended-v34 { display:block; margin-top:12px; }
+.home-recommended-heading { margin-bottom:9px; }
+.home-recommended-heading h2 { margin:0 0 2px; color:#294b39; font-family:inherit; font-size:21px; }
+.home-recommended-row { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
+.home-recommended-item { min-width:0; padding:0; overflow:hidden; border:1px solid #e4ded2; border-radius:14px; background:#fbf8f1; text-align:left; cursor:pointer; }
+.home-recommended-item img { display:block; width:100%; height:72px; object-fit:cover; }
+.home-recommended-item span { display:block; padding:7px 8px 9px; color:#566053; font-size:12px; line-height:1.15; }
+.home-dashboard-v34 .home-quote-card { margin-top:12px; }
+
+/* Důležité: česká interpunkce musí mít stejný font jako ostatní nadpisy. */
+.home-dashboard-v34 .home-two-minute-card h2,
+.home-dashboard-v34 .home-plate-card h2,
+.home-dashboard-v34 .home-recommended-heading h2,
+.home-dashboard-v34 .home-tea-strip h2,
+.home-dashboard-v34 .home-section-title h2 { font-family:"Segoe UI", Arial, sans-serif; }
+
+@media (max-width:1180px) {
+  .home-dashboard-v34 { grid-template-columns:160px minmax(0,1fr); gap:12px; }
+  .home-dashboard-v34 .home-tile-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .home-lower-grid-v34 { grid-template-columns:1fr 1fr; }
+  .home-activity-card { grid-column:1 / -1; }
+  .home-recommended-row { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media (max-width:760px) {
+  #app[data-screen="home"] .app-content { padding:10px 10px 90px; }
+  .home-dashboard-v34 { display:block; }
+  .home-profile-rail { display:grid; grid-template-columns:64px 1fr; grid-template-rows:auto auto; gap:4px 10px; align-items:center; padding:10px 12px; margin-bottom:10px; }
+  .home-profile-brand { grid-column:1 / -1; margin:0 0 3px; text-align:left; }
+  .home-profile-brand strong { font-size:23px; }
+  .home-profile-brand small { display:none; }
+  .home-profile-avatar { width:58px; height:58px; border-width:2px; }
+  .home-profile-greeting { padding:0; }
+  .home-profile-greeting strong { font-size:15px; }
+  .home-profile-greeting p { margin-top:2px; }
+  .home-profile-landscape,.home-profile-quote { display:none; }
+  .home-dashboard-v34 .home-topbar { grid-template-columns:1fr; }
+  .home-dashboard-v34 .home-status { justify-self:stretch; justify-content:center; }
+  .home-welcome-card-v34 .home-welcome-image { aspect-ratio:700 / 215; }
+  .home-welcome-panels { grid-template-columns:1fr; }
+  .home-dashboard-v34 .home-tile-grid { grid-template-columns:1fr 1fr; }
+  .home-lower-grid-v34 { grid-template-columns:1fr; }
+  .home-activity-card { grid-column:auto; }
+  .home-tea-strip { grid-template-columns:70px 1fr; }
+  .home-tea-image { width:70px; height:70px; }
+  .home-tea-strip button { grid-column:2; text-align:left; }
+  .home-recommended-row { grid-template-columns:1fr 1fr; }
+}
+
+/* v34 – schválená grafika talíře nahrazuje starý koláčový diagram */
+.portion-chart-card img[src*="portion-guide-approved"] {
+  max-height: none;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+}
+.home-plate-card img[src*="portion-guide-approved"] {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+}
+@media (max-width:760px) {
+  .home-plate-card img[src*="portion-guide-approved"] { height: 220px; object-fit: cover; }
+}
+
+/* =====================================================
+   DAY FEEDBACK – 3 FÁZE / LISTOVÝ UKAZATEL
+===================================================== */
+.day-feedback {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 auto 12px;
+  padding: 14px 18px;
+  border: 1px solid #dfe7da;
+  border-radius: 20px;
+  background: #fbfaf3;
+  text-align: left;
+}
+
+.day-feedback-visual {
+  flex: 0 0 116px;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+}
+
+.day-feedback-switch {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 1px solid #d9e2d1;
+  background: radial-gradient(circle at center, #fffdf7 0 31%, transparent 32%), #f0f4e9;
+}
+
+.day-feedback-mark {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 1px solid #cfdac8;
+  color: #54705a;
+  font: 600 12px/1 system-ui, sans-serif;
+  z-index: 2;
+}
+
+.day-feedback-mark--1 { left: 39px; top: 5px; }
+.day-feedback-mark--2 { right: 5px; bottom: 18px; }
+.day-feedback-mark--3 { left: 5px; bottom: 18px; }
+
+.day-feedback-leaf {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 43px;
+  transform-origin: 50% 88%;
+  transform: translate(-50%, -88%) rotate(var(--leaf-angle));
+  transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  z-index: 3;
+}
+
+.day-feedback-leaf::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 0;
+  width: 31px;
+  height: 48px;
+  border-radius: 90% 10% 90% 10%;
+  background: #4f8a5b;
+  transform: rotate(25deg);
+  box-shadow: 0 2px 6px rgba(45,88,59,.14);
+}
+
+.day-feedback-leaf::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  width: 2px;
+  height: 41px;
+  border-radius: 2px;
+  background: #eaf1e6;
+  transform: rotate(25deg);
+}
+
+.day-feedback-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.day-feedback-copy strong {
+  color: #244b32;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.day-feedback-copy span {
+  color: #77746d;
+  font-size: 13px;
+}
+
+.day-feedback--phase-1 { border-color: #dfe7da; }
+.day-feedback--phase-2 { border-color: #cddfc9; background: #f4f7ef; }
+.day-feedback--phase-3 { border-color: #b8d2b9; background: #edf5eb; }
+
+.day-feedback-label {
+  font: 600 11px/1 system-ui, sans-serif;
+  color: #617261;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.day-add-oneoff {
+  display: block;
+  margin: 0 0 18px auto;
+  padding: 9px 14px;
+  border: 1px solid #cbd9c5;
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #2f6840;
+  font: 600 13px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.day-add-oneoff:hover {
+  background: #eef5e9;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 6px;
+  color: #77746d;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (max-width: 620px) {
+  .day-feedback {
+    gap: 12px;
+    padding: 12px;
+  }
+  .day-feedback-visual {
+    flex-basis: 94px;
+  }
+  .day-feedback-switch {
+    width: 88px;
+    height: 88px;
+  }
+  .day-feedback-mark--1 { left: 31px; top: 4px; }
+  .day-feedback-mark--2 { right: 4px; bottom: 14px; }
+  .day-feedback-mark--3 { left: 4px; bottom: 14px; }
+  .day-feedback-leaf { transform: translate(-50%, -88%) scale(.86) rotate(var(--leaf-angle)); }
+  .day-feedback-copy strong { font-size: 15px; }
+}
+
+/* ===== NÁKUPNÍ SEZNAM ===== */
+.shopping-center { max-width: 1180px; margin: 0 auto; padding: 28px 24px 110px; }
+.shopping-header { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding:28px; border:1px solid #e4e0d5; border-radius:26px; background:linear-gradient(135deg,#fbfaf3,#f1f6eb); margin-bottom:20px; }
+.shopping-header h1 { margin:6px 0 8px; color:#244b32; font-size:clamp(30px,4vw,46px); }
+.shopping-header p { max-width:720px; margin:0; color:#6e716b; line-height:1.55; }
+.shopping-layout { display:grid; grid-template-columns:270px minmax(0,1fr); gap:18px; }
+.shopping-list-sidebar,.shopping-main { background:#fffdf8; border:1px solid #e2dfd4; border-radius:22px; padding:18px; }
+.shopping-sidebar-title { font-weight:700; color:#244b32; padding:4px 8px 12px; }
+.shopping-list-nav { width:100%; display:grid; grid-template-columns:28px 1fr auto; align-items:center; gap:8px; text-align:left; padding:11px 12px; margin:3px 0; border:1px solid transparent; border-radius:14px; background:transparent; color:#526257; cursor:pointer; }
+.shopping-list-nav.active { background:#edf5e8; border-color:#d4e2ce; color:#244b32; }
+.shopping-list-nav small { opacity:.65; }
+.shopping-main-header { display:flex; justify-content:space-between; gap:16px; align-items:center; }
+.shopping-main-header h2 { margin:5px 0 0; color:#244b32; }
+.shopping-header-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.secondary-action { border:1px solid #ccd9c6; background:#fff; color:#49634f; border-radius:999px; padding:8px 12px; cursor:pointer; }
+.secondary-action.danger { color:#98605b; border-color:#ead3d0; }
+.shopping-add-form { display:flex; gap:8px; margin:20px 0 12px; }
+.shopping-add-form input { flex:1; min-width:0; padding:13px 15px; border:1px solid #d8d7cf; border-radius:14px; background:#fff; font:inherit; }
+.shopping-add-form button { border:0; border-radius:14px; padding:0 17px; background:#2f7044; color:#fff; font-weight:700; cursor:pointer; }
+.shopping-item { display:grid; grid-template-columns:28px 1fr 36px; align-items:center; gap:10px; padding:12px 8px; border-top:1px solid #ece9df; cursor:pointer; }
+.shopping-item input { width:20px; height:20px; accent-color:#4f8a5b; cursor:pointer; }
+.shopping-item span { color:#343b35; }
+.shopping-edit { width:32px; height:32px; border:1px solid #dfe2d9; border-radius:50%; background:#fff; color:#657267; cursor:pointer; }
+.shopping-undo { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; margin:10px 0 2px; border:1px solid #d8e4d2; border-radius:13px; background:#f2f7ed; color:#516453; font-size:13px; }
+.shopping-undo button { border:0; background:transparent; color:#2f7044; font-weight:700; cursor:pointer; }
+.shopping-empty,.shopping-empty-items { text-align:center; padding:48px 20px; color:#70766f; }
+.shopping-empty h2 { color:#244b32; margin:10px 0 5px; }
+.shopping-empty-icon { font-size:42px; }
+.shopping-empty-items { display:flex; flex-direction:column; align-items:center; gap:5px; }
+.shopping-empty-items span { font-size:28px; }
+.shopping-empty-items strong { color:#506052; }
+.shopping-empty-small { padding:12px 8px; color:#8a8c85; font-size:13px; }
+@media (max-width:760px) {
+  .shopping-center { padding:18px 12px 100px; }
+  .shopping-header { flex-direction:column; align-items:stretch; padding:20px; }
+  .shopping-layout { grid-template-columns:1fr; }
+  .shopping-list-sidebar { order:0; }
+  .shopping-main { order:1; }
+  .shopping-main-header { align-items:flex-start; flex-direction:column; }
+  .shopping-add-form button { padding:0 12px; }
+}
+
+/* =====================================================
+   v37 – vizuální sjednocení a necropované obrázky
+===================================================== */
+:root {
+  --font-heading-safe: "Segoe UI", Arial, sans-serif;
+}
+
+/* Česká interpunkce: stejné písmo pro všechny hlavní nadpisy. */
+h1, h2, h3, h4, h5, h6,
+.knowhow-page h1, .knowhow-page h2, .knowhow-page h3, .knowhow-page h4,
+.food-page h1, .food-page h2, .food-page h3,
+.home-dashboard-v34 h1, .home-dashboard-v34 h2, .home-dashboard-v34 h3,
+.shopping-center h1, .shopping-center h2,
+.circuit-exercise-copy h3,
+.day-header h2 {
+  font-family: var(--font-heading-safe);
+}
+
+/* Obrázky v kartách se nesmí násilně ořezávat. Výjimkou jsou záměrně komponované bannery. */
+.home-visual {
+  height: auto !important;
+  min-height: 0;
+  aspect-ratio: 1.35 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f3eb;
+}
+.home-visual img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center;
+}
+
+.home-portion-card {
+  height: auto !important;
+  overflow: hidden;
+}
+.home-portion-card img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  object-fit: contain !important;
+  object-position: center;
+}
+
+.home-plate-card img[src*="portion-guide-approved"] {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center;
+}
+
+.home-tea-image img,
+.home-recommended-item img {
+  object-fit: contain !important;
+  background: #f7f3eb;
+}
+
+/* V doporučených tématech necháváme ilustraci dýchat; text zůstává pod ní. */
+.home-recommended-item img {
+  height: 92px !important;
+}
+
+/* Know HOW: plné fotografie/ilustrace bez useknutých hlav, postav a objektů. */
+.knowhow-featured-card > img {
+  height: 150px !important;
+  object-fit: contain !important;
+  object-position: center;
+  background: #f7f3eb;
+}
+.knowhow-featured-visual.no-person img {
+  object-fit: contain !important;
+}
+
+.knowhow-food-card img {
+  height: 180px !important;
+  object-fit: contain !important;
+  background: #faf7f0;
+}
+
+.knowhow-breakfast-image {
+  height: auto !important;
+  min-height: 230px;
+}
+.knowhow-breakfast-image img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 420px;
+  object-fit: contain !important;
+}
+
+.knowhow-choice-together img {
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+.circuit-exercise-image {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f3eb;
+}
+.circuit-exercise-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* Detail talíře: text nad schválenou grafikou a grafika přes celou šířku. */
+.portion-chart-card {
+  display: block !important;
+}
+.portion-chart-card > div {
+  margin-bottom: 14px;
+}
+.portion-chart-card img {
+  width: 100% !important;
+  max-height: none !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* -----------------------------------------------------
+   Home – kompozice podle schváleného úvodního návrhu:
+   hero vlevo, Dnešní fokus + Garmin vpravo.
+----------------------------------------------------- */
+.home-dashboard-v34 .home-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(285px, .95fr);
+  gap: 12px;
+  align-items: start;
+}
+.home-dashboard-v34 .home-topbar,
+.home-dashboard-v34 .home-section,
+.home-dashboard-v34 .home-lower-grid,
+.home-dashboard-v34 .home-tea-strip,
+.home-dashboard-v34 .home-recommended,
+.home-dashboard-v34 .home-quote-card {
+  grid-column: 1 / -1;
+}
+.home-dashboard-v34 .home-welcome-card-v34 {
+  grid-column: 1;
+  grid-row: 2;
+}
+.home-dashboard-v34 .home-welcome-panels {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 0;
+}
+.home-dashboard-v34 .home-focus-card,
+.home-dashboard-v34 .home-garmin-card {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 1180px) {
+  .home-dashboard-v34 .home-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-dashboard-v34 .home-welcome-card-v34,
+  .home-dashboard-v34 .home-welcome-panels {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .home-dashboard-v34 .home-welcome-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-dashboard-v34 .home-main {
+    display: block;
+  }
+  .home-dashboard-v34 .home-welcome-panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 12px;
+  }
+  .home-dashboard-v34 .home-visual {
+    aspect-ratio: 1.25 / 1;
+  }
+}
+
+/* Seznamy – obecné pojmenování, nikoli pouze nákupní seznam. */
+.shopping-header h1 { font-family: var(--font-heading-safe); }
+
+/* =====================================================
+   v38 – čistá infografika, sjednocené tematické karty a sdílení
+===================================================== */
+
+/* The approved plate graphic is transparent and sits directly on the page. */
+.portion-guide-clean {
+  margin: 18px 0 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.plate-balance-visual {
+  position: relative;
+  margin: 8px 0 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.plate-balance-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Do not resurrect the old pie-chart-like panel. */
+.plate-balance-visual + .knowhow-note { margin-top: 0; }
+.portion-chart-card { display: none !important; }
+
+/* One consistent visual language for topic sharing. */
+.knowhow-shareable-visual { position: relative; }
+.knowhow-share-image,
+.knowhow-share-button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.86);
+  border-radius: 50%;
+  background: rgba(255,253,248,.94);
+  color: #2d5b3e;
+  box-shadow: 0 5px 16px rgba(50,45,35,.16);
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.knowhow-share-image { position: absolute; top: 14px; right: 14px; z-index: 3; }
+.knowhow-share-button { margin-left: auto; flex: 0 0 40px; }
+.knowhow-share-image:hover,
+.knowhow-share-button:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(50,45,35,.2); }
+.knowhow-share-image:focus-visible,
+.knowhow-share-button:focus-visible { outline: 3px solid rgba(62,115,75,.35); outline-offset: 2px; }
+
+/* The detail header keeps the share action visually unobtrusive. */
+.knowhow-detail-header { display: flex; align-items: center; gap: 12px; }
+.knowhow-detail-header > span { flex: 0 0 auto; }
+.knowhow-detail-header .knowhow-back { flex: 0 0 36px; }
+@media (max-width: 560px) {
+  .knowhow-detail { padding: 16px 14px 42px; }
+  .knowhow-detail-header { gap: 9px; min-height: 44px; margin-bottom: 18px; }
+  .knowhow-detail-brand { width: 116px; max-width: 38%; }
+  .knowhow-detail-brand img { max-height: 42px; }
+  .knowhow-detail-section { font-size: 14px; }
+  .knowhow-detail-header .knowhow-back { width: 32px; height: 32px; flex-basis: 32px; }
+}
+
+.share-fallback-popover {
+  position: fixed;
+  z-index: 10000;
+  width: 190px;
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid #ded7ca;
+  border-radius: 16px;
+  background: #fffdf8;
+  box-shadow: 0 12px 34px rgba(52,44,32,.18);
+}
+.share-fallback-popover strong { padding: 4px 8px 7px; color: #294f38; }
+.share-fallback-popover button {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: transparent;
+  color: #3c4f42;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.share-fallback-popover button:hover { background: #edf3e8; color: #2d6840; }
+
+/* Topic tiles: the category label is always on the same visual level. */
+.home-visual { position: relative; overflow: hidden; }
+.home-visual-label {
+  position: absolute;
+  left: 9px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255,253,248,.96);
+  color: #3e5748;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 7px rgba(40,50,42,.08);
+}
+.home-visual-body > span { display: none !important; }
+.home-visual-tile .home-visual-body h3 { margin-top: 0; }
+
+/* The portion graphic is a clean visual on Home rather than a framed screenshot. */
+.home-portion-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.home-portion-card img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+.home-portion-card .home-card-link { background: transparent; padding-left: 0; }
+
+/* All non-banner topic thumbnails breathe inside their allocated space. */
+.home-recommended-item { background: transparent; }
+.home-recommended-item img { background: transparent !important; }
+.circuit-exercise-image img { object-fit: contain !important; }
+
+@media (max-width: 760px) {
+  .knowhow-share-image { top: 9px; right: 9px; }
+  .knowhow-share-image,
+  .knowhow-share-button { width: 36px; height: 36px; font-size: 20px; }
+  .portion-guide-clean .portion-guide-row { margin-top: 10px; }
+}
+
+/* ===== Home v39 — Know HOW dashboard ===== */
+.home-dashboard-v39{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;max-width:1480px;margin:0 auto;padding:18px 20px 30px;background:#fbfaf7;color:#142735;min-height:100vh}
+.home-dashboard-v39 .home-profile-rail{position:sticky;top:12px;align-self:start;height:calc(100vh - 40px);min-height:680px;padding:8px 8px 14px;background:transparent;border:0;box-shadow:none;display:flex;flex-direction:column;align-items:stretch}
+.home-dashboard-v39 .home-profile-brand{text-align:left;margin:0 0 20px;padding-left:10px}.home-dashboard-v39 .home-profile-brand strong{font-size:28px;color:#153b2a}.home-dashboard-v39 .home-profile-brand small{font-size:12px;color:#536657;letter-spacing:0;text-transform:none}
+.home-profile-mark{width:42px;height:42px;margin:0 0 16px 8px;border-radius:50%;background:#e7f0e2;color:#3c7d4f;display:grid;place-items:center;font-size:27px}
+.home-side-nav{display:flex;flex-direction:column;gap:5px}.home-side-link{border:0;background:transparent;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:13px;text-align:left;font:inherit;font-size:15px;color:#173040;cursor:pointer}.home-side-link span{width:23px;text-align:center;font-size:20px}.home-side-link:hover,.home-side-link.active{background:#e4eedf;color:#214f31}.home-side-link.active{font-weight:700}
+.home-side-quote{margin-top:auto;padding:18px 8px 4px;color:#476b53;font-size:15px;line-height:1.45;text-align:left}.home-side-quote em{font-family:"Segoe UI", Arial, sans-serif;font-size:21px}.home-side-quote span{color:#4b8c5d;font-size:25px}
+.home-dashboard-v39 .home-main{min-width:0}.home-topbar-v39{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 2px 12px}.home-topbar-v39 .home-search{max-width:680px;width:100%;background:#fff;border:1px solid #e8e3da;border-radius:15px;padding:10px 15px;color:#718078}.home-topbar-v39 .home-status{display:flex;gap:15px;align-items:center;color:#63726b;font-size:13px;white-space:nowrap}
+.home-hero-v39{position:relative;display:grid;grid-template-columns:1.15fr 1fr 245px;min-height:330px;overflow:hidden;border:1px solid #e7e0d5;border-radius:25px;background:#f5f0e5;box-shadow:0 8px 24px rgba(68,57,45,.06)}.home-hero-v39>img{width:100%;height:100%;min-height:330px;object-fit:cover;object-position:center}.home-hero-copy-v39{padding:28px 24px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,rgba(250,247,239,.18),#faf7ef 16%,#faf7ef 100%)}.home-hero-script{font-family:"Segoe UI", Arial, sans-serif;font-size:43px;line-height:.98;font-weight:700;color:#173d2a}.home-hero-heart{font-size:43px;color:#347b4b;line-height:1;margin:4px 0 8px}.home-hero-copy-v39 p{font-size:16px;line-height:1.4;margin:0 0 18px;color:#33453e}.home-hero-copy-v39 button{align-self:flex-start;border:0;border-radius:22px;background:#3d8b4f;color:white;padding:10px 21px;font:700 14px inherit;cursor:pointer}.home-hero-copy-v39 button b{margin-left:8px;font-size:18px}.home-hero-points{padding:28px 18px 20px;background:#faf7ef;display:flex;flex-direction:column;justify-content:center;gap:20px}.home-hero-points>div{display:flex;gap:13px;align-items:center}.home-hero-points b{width:45px;height:45px;border-radius:50%;background:#edf3e8;display:grid;place-items:center;font-size:23px;font-weight:400}.home-hero-points>div:nth-child(2) b{background:#fff0eb;color:#e56c61}.home-hero-points>div:nth-child(3) b{background:#fff3dd;color:#f3a12a}.home-hero-points span{font-size:13px;line-height:1.28}.home-hero-points strong{font-size:14px}
+.home-feature-row-v39{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;margin-top:12px}.home-dashboard-v39 .home-focus-card,.home-dashboard-v39 .home-garmin-card{border:1px solid #e7e0d5;border-radius:18px;background:#fffdf9;padding:17px 19px;box-shadow:0 4px 16px rgba(68,57,45,.045)}.home-dashboard-v39 .home-focus-card h2,.home-dashboard-v39 .home-garmin-card h2{font-size:18px;margin:0 0 10px;color:#1e3029}.home-dashboard-v39 .home-focus-link{background:transparent;border:0;width:100%;display:flex;gap:10px;padding:7px 0;text-align:left;font:inherit;color:#34483e;cursor:pointer}.home-dashboard-v39 .home-focus-link span:first-child{width:25px}.home-dashboard-v39 .home-garmin-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.home-dashboard-v39 .home-garmin-head span{font-size:11px;background:#f0eee8;border-radius:10px;padding:5px 8px;color:#77736c}.home-dashboard-v39 .home-garmin-card p{margin:6px 0;font-size:12px;color:#777}.home-dashboard-v39 .garmin-check{font-size:12px;margin:5px 0;color:#506158}.home-dashboard-v39 #home-garmin{margin-top:8px;border:0;border-radius:18px;background:#3d8b4f;color:#fff;padding:9px 14px;font:700 12px inherit;cursor:pointer}
+.home-section-v39{margin-top:18px}.home-dashboard-v39 .home-section-title{display:flex;align-items:end;justify-content:space-between;margin-bottom:9px}.home-dashboard-v39 .home-section-title h2{margin:0;font-size:22px}.home-dashboard-v39 .home-section-title small{color:#78827b}.home-tile-grid-v39{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.home-dashboard-v39 .home-visual-tile{border:1px solid #e8e1d7;border-radius:17px;background:#fffdf9;overflow:hidden;padding:0;text-align:left;cursor:pointer;box-shadow:0 3px 13px rgba(68,57,45,.04)}.home-dashboard-v39 .home-visual{height:142px;position:relative;background:#eee}.home-dashboard-v39 .home-visual img{width:100%;height:100%;object-fit:cover;display:block}.home-dashboard-v39 .home-visual-label{position:absolute;left:10px;top:9px;border-radius:12px;padding:5px 8px;background:rgba(255,255,255,.88);font-size:10px;font-weight:700;color:#355742}.home-dashboard-v39 .home-visual-body{position:relative;padding:10px 12px 13px;min-height:66px}.home-dashboard-v39 .home-visual-body h3{margin:0 28px 2px 0;font-size:17px;color:#172a36}.home-dashboard-v39 .home-visual-body p{margin:0;color:#6d766f;font-size:12px}.home-dashboard-v39 .home-visual-body i{position:absolute;right:10px;top:13px;width:27px;height:27px;border-radius:50%;background:#f4f7f2;display:grid;place-items:center;font-style:normal;color:#345f41}
+.home-lower-grid-v39{display:grid;grid-template-columns:1.25fr .9fr .9fr .9fr;gap:11px;margin-top:15px}.home-image-card-v39{position:relative;min-height:190px;border:1px solid #e7e0d5;border-radius:17px;overflow:hidden;background:#fffdf9;padding:0;cursor:pointer;text-align:left}.home-image-card-v39 img{width:100%;height:100%;object-fit:cover;display:block}.home-image-card-v39 span{position:absolute;left:12px;bottom:10px;border-radius:12px;background:rgba(255,255,255,.91);padding:6px 9px;font-size:11px;color:#34563f}.home-two-v39{display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:10px;gap:8px}.home-two-v39 img{height:170px;object-fit:contain;order:2}.home-two-v39 div{padding:6px}.home-two-v39 strong{font-size:19px;color:#315f40}.home-two-v39 p{font-size:12px;line-height:1.35;color:#5e6a63}.home-portion-v39 img{object-fit:cover}.home-recommended-v39{margin-top:16px}.home-dashboard-v39 .home-recommended{border:1px solid #e7e0d5;background:#fffdf9;border-radius:18px;padding:14px 16px}.home-dashboard-v39 .home-recommended-heading{min-width:185px}.home-dashboard-v39 .home-recommended-heading h2{font-size:18px}.home-dashboard-v39 .home-recommended-row{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.home-dashboard-v39 .home-recommended-item{border:1px solid #e6dfd5;background:#faf8f2;border-radius:12px;padding:0;overflow:hidden;cursor:pointer}.home-dashboard-v39 .home-recommended-item img{display:block;width:100%;height:70px;object-fit:cover}.home-dashboard-v39 .home-recommended-item span{display:block;padding:7px 5px;font-size:11px;color:#566053}.home-quote-card-v39{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 18px;margin-top:14px;border-radius:16px;background:#fff;border:1px solid #eee7dc;color:#3d5f49}.home-quote-card-v39 blockquote{margin:0;font-family:"Segoe UI", Arial, sans-serif;font-size:19px}.home-quote-card-v39>span{font-size:21px}
+.knowhow-topic-hero-image{margin:0 0 18px;border-radius:18px;overflow:hidden;background:#f4f0e7}.knowhow-topic-hero-image img{width:100%;max-height:420px;object-fit:cover;display:block}
+@media(max-width:1100px){.home-dashboard-v39{grid-template-columns:170px minmax(0,1fr);gap:14px}.home-hero-v39{grid-template-columns:1fr 1fr}.home-hero-points{display:none}.home-tile-grid-v39{grid-template-columns:repeat(3,minmax(0,1fr))}.home-lower-grid-v39{grid-template-columns:1fr 1fr}.home-dashboard-v39 .home-recommended{display:block}.home-dashboard-v39 .home-recommended-row{margin-top:10px}}
+@media(max-width:720px){.home-dashboard-v39{display:block;padding:10px 10px 80px}.home-dashboard-v39 .home-profile-rail{position:static;height:auto;min-height:0;padding:4px 2px 10px}.home-profile-mark,.home-side-quote{display:none}.home-dashboard-v39 .home-profile-brand{text-align:center;margin-bottom:8px}.home-side-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.home-side-link{justify-content:center;padding:8px 5px;font-size:11px;gap:5px}.home-side-link span{font-size:15px;width:auto}.home-topbar-v39{display:none}.home-hero-v39{grid-template-columns:1fr;min-height:0}.home-hero-v39>img{height:190px;min-height:190px}.home-hero-copy-v39{padding:18px}.home-hero-script{font-size:33px}.home-hero-points{display:none}.home-feature-row-v39{grid-template-columns:1fr}.home-tile-grid-v39{grid-template-columns:1fr 1fr}.home-dashboard-v39 .home-visual{height:115px}.home-lower-grid-v39{grid-template-columns:1fr}.home-two-v39{min-height:170px}.home-dashboard-v39 .home-recommended-row{grid-template-columns:repeat(2,minmax(0,1fr))}.home-quote-card-v39 blockquote{font-size:16px}}
+
+/* =====================================================
+   v40 – HOME: finální vizuál podle schváleného návrhu
+   Hero = jedna velká fotografie se srdcem a textem.
+   Témata = čtyři karty s malými generalizovanými keywords.
+   Dvě minuty = pouze dodaný obrázek + šipka, bez duplicitního textu.
+===================================================== */
+.home-dashboard-v40 {
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 22px;
+  background: #fbfaf7;
+}
+
+.home-dashboard-v40 .home-profile-brand strong {
+  color: #1b4b36;
+}
+
+.home-dashboard-v40 .home-profile-brand small {
+  color: #718073;
+}
+
+.home-dashboard-v40 .home-side-quote {
+  color: #496e55;
+}
+
+.home-dashboard-v40 .home-hero-v40 {
+  display: block;
+  min-height: 0;
+  height: auto;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #eaf1e7;
+  box-shadow: 0 7px 24px rgba(68,57,45,.06);
+}
+
+.home-dashboard-v40 .home-hero-v40 > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+}
+
+.home-section-v40 {
+  margin-top: 22px;
+}
+
+.home-section-title-v40 {
+  align-items: center !important;
+  margin-bottom: 12px !important;
+}
+
+.home-section-heading-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-section-heading-wrap h2 {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 27px !important;
+  font-weight: 700;
+  color: #183b31 !important;
+  letter-spacing: -.01em;
+}
+
+.home-section-leaf {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: #2e6c49;
+  font-size: 29px;
+  transform: rotate(-20deg);
+}
+
+.home-section-title-v40 small {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  color: #7d817a !important;
+}
+
+.home-tile-grid-v40 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.home-dashboard-v40 .home-visual-tile-v40 {
+  border-radius: 18px;
+  background: #fffdf9;
+  box-shadow: 0 5px 16px rgba(68,57,45,.055);
+}
+
+.home-dashboard-v40 .home-visual-tile-v40:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(68,57,45,.08);
+}
+
+.home-dashboard-v40 .home-visual-tile-v40 .home-visual {
+  height: 178px;
+  background: #f0eee8;
+}
+
+.home-dashboard-v40 .home-visual-tile-v40 .home-visual img {
+  object-fit: cover;
+}
+
+.home-dashboard-v40 .home-visual-tile-v40:nth-child(3) .home-visual img {
+  object-position: center;
+}
+
+.home-dashboard-v40 .home-keyword-label {
+  left: 12px;
+  top: 11px;
+  padding: 5px 10px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.93);
+  border: 1px solid rgba(225,222,212,.9);
+  box-shadow: 0 2px 7px rgba(55,50,43,.07);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 600;
+  color: #234b39;
+}
+
+.home-dashboard-v40 .home-visual-body {
+  min-height: 88px;
+  padding: 12px 14px 14px;
+}
+
+.home-dashboard-v40 .home-visual-body h3 {
+  margin: 0 34px 3px 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #19372f;
+}
+
+.home-dashboard-v40 .home-visual-body p {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  color: #777b74;
+}
+
+.home-dashboard-v40 .home-visual-body i {
+  right: 13px;
+  top: 18px;
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background: #eef4eb;
+  color: #2e6645;
+  font-size: 21px;
+}
+
+.home-two-minute-section-v40 {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.home-two-minute-card-v40 {
+  position: relative;
+  display: block;
+  width: min(310px, 100%);
+  padding: 0;
+  border: 1px solid #e5ded2;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f7f3ea;
+  box-shadow: 0 5px 16px rgba(68,57,45,.055);
+  cursor: pointer;
+  text-align: left;
+}
+
+.home-two-minute-card-v40 img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.home-two-minute-arrow {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(247,251,244,.94);
+  border: 1px solid rgba(210,221,207,.95);
+  color: #2f6646;
+  font-size: 22px;
+  box-shadow: 0 2px 8px rgba(55,50,43,.08);
+}
+
+.home-two-minute-card-v40:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(68,57,45,.08);
+}
+
+.home-quote-card-v40 {
+  margin-top: 20px;
+}
+
+/* Detail: supplied image blends into the warm Know HOW article instead of looking pasted on. */
+.two-minute-detail-visual {
+  width: min(720px, 100%);
+  margin: 0 auto 22px;
+  padding: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fbf7ee;
+  line-height: 0;
+}
+
+.two-minute-detail-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  opacity: .97;
+}
+
+@media (max-width: 1100px) {
+  .home-dashboard-v40 {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+  .home-tile-grid-v40 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .home-dashboard-v40 {
+    display: block;
+    padding: 10px 10px 80px;
+  }
+  .home-dashboard-v40 .home-profile-rail {
+    position: static;
+    height: auto;
+    min-height: 0;
+    padding: 4px 2px 10px;
+  }
+  .home-dashboard-v40 .home-side-quote {
+    display: none;
+  }
+  .home-dashboard-v40 .home-profile-brand {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .home-dashboard-v40 .home-hero-v40 > img {
+    aspect-ratio: 1.5 / 1;
+    min-height: 0;
+  }
+  .home-section-title-v40 {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .home-section-heading-wrap h2 {
+    font-size: 24px !important;
+  }
+  .home-tile-grid-v40 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .home-dashboard-v40 .home-visual-tile-v40 .home-visual {
+    height: 128px;
+  }
+  .home-dashboard-v40 .home-visual-body {
+    min-height: 78px;
+  }
+  .home-dashboard-v40 .home-visual-body h3 {
+    font-size: 18px;
+  }
+  .home-dashboard-v40 .home-visual-body p {
+    font-size: 12px;
+  }
+  .home-two-minute-card-v40 {
+    width: min(280px, 100%);
+  }
+}
+
+@media (max-width: 460px) {
+  .home-tile-grid-v40 {
+    grid-template-columns: 1fr;
+  }
+  .home-dashboard-v40 .home-visual-tile-v40 .home-visual {
+    height: 180px;
+  }
+}
+
+
+/* v41: evidence-aware Know HOW additions and simple gut-barrier animation */
+.general-facts-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.general-facts-list article,.routine-9010-grid article{padding:15px;border:1px solid #e3e9e1;border-radius:15px;background:#fbfcf9}
+.general-facts-list h3{margin:0 0 7px;font-size:16px;color:#315c43}
+.general-facts-list p{margin:0;line-height:1.55}
+.food-power-quote,.routine-quote{margin:16px 0;padding:18px 20px;border-left:4px solid #7c9d7d;border-radius:0 14px 14px 0;background:#f4f7f0;color:#31533c;font-size:1.08rem;font-weight:600}
+.routine-9010-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
+.routine-9010-grid h3{margin-top:0;color:#315c43}
+.cortisol-signs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 22px}
+.gut-barrier-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}
+.gut-barrier-panel{padding:14px;border:1px solid #e0e7dd;border-radius:16px;background:#fbfcf8;overflow:hidden}
+.gut-barrier-panel h4{margin:0 0 12px;color:#315c43;text-align:center}
+.gut-lumen{height:130px;position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(#f5e6cf 0 55%,#f1c9ad 55% 100%)}
+.gut-particle{position:absolute;z-index:2;width:9px;height:9px;border-radius:50%;background:#b77c3b;top:18px;animation:gut-float 3.5s ease-in-out infinite alternate}
+.gut-particle.p1{left:20%;animation-delay:-.5s}.gut-particle.p2{left:45%;top:32px;animation-delay:-1.3s}.gut-particle.p3{left:72%;top:14px;animation-delay:-2s}.gut-particle.p4{left:87%;top:39px;animation-delay:-.8s}
+.gut-wall{position:absolute;z-index:3;left:0;right:0;top:58px;height:28px;display:flex;gap:3px;justify-content:center;align-items:stretch;padding:0 7px}
+.gut-wall i{flex:1;border:1px solid #7a9d78;border-radius:5px 5px 3px 3px;background:#a8c7a0;box-shadow:inset 0 -5px 0 #8fb28b}
+.gut-underlayer{position:absolute;left:0;right:0;bottom:0;height:43px;background:repeating-linear-gradient(135deg,#e4a9a0 0 8px,#f0c2b5 8px 16px)}
+.gut-crossing{position:absolute;z-index:4;width:8px;height:8px;border-radius:50%;background:#b77c3b;top:-13px;left:31%;animation:gut-cross 2.8s ease-in-out infinite}
+.gut-crossing.c2{left:68%;animation-delay:-1.1s}
+.leaky .gut-wall i:nth-child(2),.leaky .gut-wall i:nth-child(4){transform:translateY(4px);margin-inline:2px}
+.gut-barrier-panel p{font-size:.9rem;line-height:1.45;margin:11px 0 0}
+.gut-animation-caption{font-size:.82rem;color:#69756c;text-align:center;margin-top:-10px}
+@keyframes gut-float{from{transform:translateY(0)}to{transform:translateY(15px)}}
+@keyframes gut-cross{0%{top:45px;opacity:0;transform:scale(.7)}35%{opacity:1}100%{top:103px;opacity:0;transform:scale(1.15)}}
+@media(max-width:650px){.general-facts-list,.routine-9010-grid,.gut-barrier-comparison{grid-template-columns:1fr}.cortisol-signs{grid-template-columns:1fr}.gut-lumen{height:110px}}
+@media(prefers-reduced-motion:reduce){.gut-particle,.gut-crossing{animation:none}}
+
+/* v42 – osobní import Garmin CSV a přehled skutečných dat */
+.garmin-import-card { margin-bottom:16px; }
+.garmin-import-instructions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:16px 0; }
+.garmin-import-instructions strong { width:100%; color:#294b37; }
+.garmin-import-instructions span { padding:7px 10px; border-radius:10px; background:#edf3e8; color:#315a3d; font-size:13px; }
+.garmin-file-input { display:block; width:100%; max-width:100%; margin:10px 0 12px; padding:12px; border:1px dashed #a9bea4; border-radius:13px; background:#fffdf8; color:#4f5d4f; font:inherit; }
+.garmin-file-label { display:inline-flex; padding:11px 16px; border-radius:12px; background:#2e6844; color:white; font-weight:700; }
+.garmin-import-dashboard { margin-top:18px; }
+.garmin-empty-state { padding:22px; border:1px dashed #d6dfd0; border-radius:18px; background:#f8faf5; text-align:center; color:#6b7168; }
+.garmin-empty-state > span { display:block; font-size:30px; margin-bottom:8px; }
+.garmin-empty-state strong { display:block; color:#2d583b; font-size:18px; }
+.garmin-empty-state p { margin:7px auto 0; max-width:420px; line-height:1.5; }
+.garmin-data-heading { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:12px; }
+.garmin-data-heading strong,.garmin-data-heading span { display:block; }
+.garmin-data-heading strong { color:#294b37; }
+.garmin-data-heading span { margin-top:4px; font-size:14px; color:#706b62; }
+.garmin-data-heading small { color:#7a7368; font-size:12px; }
+.garmin-metric-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+.garmin-metric-grid article { padding:14px; border:1px solid #e3e8dd; border-radius:15px; background:#f7f9f4; min-width:0; }
+.garmin-metric-grid article span,.garmin-metric-grid article strong { display:block; }
+.garmin-metric-grid article span { color:#6a6d63; font-size:13px; margin-bottom:8px; }
+.garmin-metric-grid article strong { color:#2e563a; font-size:22px; overflow-wrap:anywhere; }
+.garmin-subsection { margin-top:20px; }
+.garmin-subsection h3 { margin:0 0 10px; color:#294b37; font-size:18px; }
+.garmin-daily-table-wrap { overflow-x:auto; border:1px solid #e6dfd3; border-radius:13px; }
+.garmin-daily-table { width:100%; border-collapse:collapse; font-size:13px; background:#fffdf8; }
+.garmin-daily-table th,.garmin-daily-table td { padding:10px 12px; text-align:left; border-bottom:1px solid #eee7dc; white-space:nowrap; }
+.garmin-daily-table th { background:#f2f5ee; color:#4b624e; font-weight:700; }
+.garmin-daily-table tbody tr:last-child td { border-bottom:0; }
+.garmin-sleep-pills { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.garmin-sleep-pills span { display:flex; flex-direction:column; gap:5px; padding:11px; border-radius:12px; background:#f2f5ee; color:#6c6b61; font-size:12px; }
+.garmin-sleep-pills strong { color:#315a3d; font-size:15px; }
+.garmin-import-activities { display:grid; gap:8px; }
+.garmin-import-activities article { display:grid; grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,.7fr)); align-items:center; gap:10px; padding:12px; border:1px solid #e7dfd3; border-radius:13px; background:#fbf7ef; font-size:13px; color:#6a655c; }
+.garmin-import-activities article > div strong,.garmin-import-activities article > div span { display:block; }
+.garmin-import-activities article > div strong { color:#2f5c3f; }
+.garmin-import-activities article > div span { margin-top:4px; }
+.garmin-clear-button { margin-top:16px; border:1px solid #d8cfc0; border-radius:10px; background:#fffdf8; color:#6b594c; padding:9px 12px; font:inherit; font-size:13px; cursor:pointer; }
+.garmin-clear-button[hidden] { display:none; }
+@media (max-width:760px) {
+ .garmin-metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .garmin-sleep-pills { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .garmin-data-heading { align-items:flex-start; flex-direction:column; }
+ .garmin-import-activities article { grid-template-columns:1fr 1fr; }
+ .garmin-import-activities article > div { grid-column:1 / -1; }
+}
+
+
+/* Habit APP v43 – Know HOW: Emoce */
+.emotions-opening-quote { max-width: 760px; margin: 28px auto; padding: 22px 26px; text-align: center; border-left: 0; border-top: 1px solid #9ab59a; border-bottom: 1px solid #9ab59a; color: #355d43; font-size: clamp(1.05rem, 2.2vw, 1.35rem); line-height: 1.65; font-style: italic; }
+.emotions-quote-list { display: grid; gap: 18px; margin: 22px 0; }
+.emotions-quote-list section { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; }
+.emotions-quote-list section > span { color: #638b69; font-size: 1.2rem; line-height: 1.5; }
+.emotions-quote-list h4 { margin: 0 0 5px; color: #315a3c; font-size: 1rem; line-height: 1.45; }
+.emotions-quote-list p { margin: 0; color: #5f665f; font-size: .92rem; line-height: 1.7; }
+.knowhow-source-note { color: #858a83; font-size: .82rem; font-style: italic; }
+
+
+/* v44 fixes: consistent Czech typography, image clarity and five-item navigation */
+:root { --font-main: "Segoe UI", Arial, sans-serif; }
+body, button, input, select, textarea { font-family: "Segoe UI", Arial, sans-serif !important; }
+.home-dashboard-v39 h1, .home-dashboard-v39 h2, .home-dashboard-v39 h3,
+.home-dashboard-v39 .home-hero-script, .home-dashboard-v39 .home-side-quote em,
+.home-two-minute-visual-copy strong, .home-two-minute-card-v40 h2,
+.knowhow-article h1, .knowhow-article h2, .knowhow-article h3,
+.knowhow-topic-title, .knowhow-featured-card h3, .shopping-header h1 {
+  font-family: "Segoe UI", Arial, sans-serif !important;
+  font-weight: 600;
+  font-style: normal;
+}
+.bottom-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.home-two-minute-card-v40 img {
+  aspect-ratio: auto; height: auto; object-fit: contain;
+  image-rendering: auto;
+}
+.knowhow-topic-hero-image img { width: 100%; height: auto; max-height: 520px; object-fit: contain; }
+.knowhow-featured-card img, .knowhow-library-item img { image-rendering: auto; }
+
+
+/* v45: stable Czech typography, sage backgrounds and consistent calendar controls */
+:root { --font-main: "Segoe UI", Arial, sans-serif; --font-heading-safe: "Segoe UI", Arial, sans-serif; }
+html, body { font-family: "Segoe UI", Arial, sans-serif !important; }
+button, input, select, textarea { font-family: inherit; }
+.knowhow-detail, .card.knowhow-detail, .knowhow-article { background-color: #f0f5ec; }
+.knowhow-topic-hero-image { background: #edf3e8; }
+.knowhow-topic-hero-image img { display:block; width:100%; height:auto; max-height:520px; object-fit:contain; }
+.calendar-header { display:grid; grid-template-columns:44px minmax(0,1fr) 44px; gap:12px; align-items:center; width:100%; box-sizing:border-box; }
+.calendar-header button { width:44px; min-width:44px; max-width:44px; height:44px; min-height:44px; padding:0; display:flex; align-items:center; justify-content:center; box-sizing:border-box; font-size:18px; line-height:1; letter-spacing:normal; flex:none; }
+.calendar-header strong { min-width:0; letter-spacing:normal; overflow-wrap:anywhere; }
+.calendar-grid { min-width:0; width:100%; box-sizing:border-box; }
+.knowhow-article h1, .knowhow-article h2, .knowhow-article h3, .knowhow-article h4, .emotions-quote-list h4 { font-family:"Segoe UI", Arial, sans-serif !important; font-weight:600; font-style:normal; }
+.home-dashboard-v39 .home-hero-script, .home-dashboard-v39 .home-side-quote em, .home-quote-card-v39 blockquote, .home-brand strong, .home-welcome-copy h1, .home-two-minute-card h2, .two-minute-visual-copy strong { font-family:"Segoe UI", Arial, sans-serif !important; font-style:normal; }
+.plate-balance-visual img { display:block; width:100%; height:auto; object-fit:contain; image-rendering:auto; }
+
+
+/* ===== v46 home dashboard refinements ===== */
+.home-dashboard-v40 .home-profile-avatar { width:94px; height:94px; margin:0 auto 2px; flex-shrink:0; }
+.home-dashboard-v40 .home-profile-avatar img { object-position:center 28%; }
+.home-dashboard-v40 .home-profile-greeting { padding:7px 5px 10px; }
+.home-dashboard-v40 .home-profile-greeting strong { font-size:15px; }
+.home-dashboard-v40 .home-profile-greeting p { font-size:11px; }
+.home-dashboard-v40 .home-profile-landscape { height:82px; margin-top:10px; border-radius:12px; overflow:hidden; width:100%; }
+.home-dashboard-v40 .home-profile-landscape img { width:100%; height:100%; display:block; object-fit:cover; object-position:center 60%; }
+.home-dashboard-v40 .home-side-quote { padding:8px 4px 0; font-size:11px; line-height:1.3; }
+.home-garmin-mini { width:100%; display:flex; align-items:center; gap:8px; margin-top:10px; padding:9px 7px; text-align:left; border:1px solid #dfe8d8; border-radius:13px; background:#f4f8ef; color:#244c35; cursor:pointer; }
+.home-garmin-copy { min-width:0; display:flex; flex-direction:column; gap:3px; }
+.home-garmin-copy strong { font-size:11px; }
+.home-garmin-copy small { font-size:9px; color:#64776a; line-height:1.2; }
+.home-garmin-copy b { font-size:10px; color:#2e7d42; }
+.home-garmin-watch { display:block; position:relative; width:29px; height:40px; flex:0 0 29px; border-radius:9px; background:linear-gradient(90deg,#f8faf6,#dce4dd,#fff); border:1px solid #c6d1c8; box-shadow:inset 0 0 0 2px #eef2ed; }
+.home-garmin-watch:before { content:""; position:absolute; width:21px; height:21px; left:3px; top:8px; border-radius:50%; background:#fdfefa; border:2px solid #87988c; box-shadow:inset 0 0 0 2px #e2e8e2; }
+.home-garmin-watch:after { content:""; position:absolute; width:4px; height:4px; right:0; top:15px; border-radius:50%; background:#7f9e84; }
+.home-topbar-v39 .home-status { gap:8px; flex-wrap:wrap; justify-content:flex-end; white-space:normal; }
+.home-date-pill,.home-weather { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #e4e6d9; border-radius:999px; background:#f7faf2; color:#375b42; font-size:12px; }
+.home-dashboard-v40 .home-tile-grid-v40 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.home-dashboard-v40 .home-visual-tile-v40 .home-visual { height:150px; }
+.home-dashboard-v40 .home-visual-tile-v40 .home-visual img { object-fit:cover; }
+.home-dashboard-v40 .home-visual-tile-v40:nth-child(5) .home-visual img { object-fit:contain; background:#f7f4ec; }
+@media (max-width:1100px) { .home-dashboard-v40 .home-tile-grid-v40 { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:720px) { .home-dashboard-v40 .home-tile-grid-v40 { grid-template-columns:repeat(2,minmax(0,1fr)); } .home-dashboard-v40 .home-profile-avatar { width:70px;height:70px; } .home-dashboard-v40 .home-profile-landscape { display:none; } .home-garmin-mini { max-width:260px; } .home-topbar-v39 .home-status { justify-content:flex-start; } .home-date-pill span { max-width:140px; } }
+
+
+/* v47: restore Habit App identity and compact nature heart banner */
+.home-dashboard-v40 .home-profile-brand strong { font-family: "Segoe Script", "Brush Script MT", cursive !important; font-size: 29px; font-weight: 600; font-style: italic; letter-spacing: -.6px; }
+.home-dashboard-v40 .home-profile-brand strong span { color: #df8e91; }
+.home-dashboard-v40 .home-profile-brand small { display:block; font-family: inherit; letter-spacing:.04em; text-transform:uppercase; font-size:9px; }
+.home-dashboard-v40 .home-hero-v40 { height: 112px !important; min-height:112px !important; border-radius:14px; }
+.home-dashboard-v40 .home-hero-v40 > img { height:112px !important; min-height:112px !important; aspect-ratio:auto !important; object-fit:cover; object-position:center 48%; }
+.home-dashboard-v40 .home-profile-landscape { height:118px; margin-top:auto; border-radius:0; background:#e8efe2; }
+.home-dashboard-v40 .home-profile-landscape img { object-position:center 62%; }
+.home-dashboard-v40 .home-side-quote { display:none !important; }
+.home-dashboard-v40 .home-profile-avatar, .home-dashboard-v40 .home-profile-greeting { display:none !important; }
+.home-dashboard-v40 .home-date-pill { white-space:normal; }
+.plate-layout-visual { margin:14px 0 22px; padding:8px; border-radius:18px; background:#fffdf8; border:1px solid #eee4d7; }
+.plate-layout-visual img { display:block; width:100%; height:auto; max-height:none; object-fit:contain; image-rendering:auto; }
+@media(max-width:720px){ .home-dashboard-v40 .home-hero-v40,.home-dashboard-v40 .home-hero-v40 > img { height:90px !important; min-height:90px !important; } .home-dashboard-v40 .home-profile-landscape { display:block !important; height:90px; margin-top:10px; } .home-dashboard-v40 .home-profile-brand strong { font-size:25px; } }
+
+/* v49: compact brand banner, linked micro-guides, and cohesive article imagery */
+.home-dashboard-v40 .home-hero-v40 { height: 112px !important; min-height: 112px !important; border-radius: 13px; }
+.home-dashboard-v40 .home-hero-v40 > img { height: 112px !important; min-height: 112px !important; width:100%; object-fit:cover; object-position:center 44%; aspect-ratio:auto !important; }
+.home-dashboard-v40 .home-profile-landscape img { object-position: left center !important; }
+.home-two-minute-layout-v49 { display:grid !important; grid-template-columns:minmax(220px, .9fr) minmax(0, 1.6fr); align-items:stretch; gap:14px; }
+.home-two-minute-layout-v49 .home-two-minute-card-v40 { width:100%; min-width:0; height:100%; }
+.home-two-minute-layout-v49 .home-two-minute-card-v40 img { height:100%; min-height:190px; max-height:245px; aspect-ratio:auto; object-fit:cover; object-position:center 46%; }
+.home-quick-links-v49 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.home-quick-links-v49 button { min-width:0; display:flex; flex-direction:column; align-items:stretch; gap:8px; text-align:left; padding:9px; border:1px solid #e8dfd2; border-radius:14px; background:#fffdf8; color:#294d39; cursor:pointer; }
+.home-quick-links-v49 button img { width:100%; height:95px; object-fit:cover; border-radius:9px; background:#f2eee5; }
+.home-quick-links-v49 button span { display:flex; flex-direction:column; gap:4px; }
+.home-quick-links-v49 button strong { font-size:13px; line-height:1.25; }
+.home-quick-links-v49 button small { font-size:11px; color:#66756a; line-height:1.3; }
+.home-quick-links-v49 button>b { align-self:flex-end; width:23px; height:23px; border-radius:50%; display:grid; place-items:center; background:#edf4e9; }
+.home-quick-links-v49 button:hover { border-color:#b8cdb7; transform:translateY(-1px); }
+.plate-layout-visual { max-width:100%; margin:16px auto 24px; }
+.plate-layout-visual img { display:block; width:100%; height:auto; object-fit:contain; border-radius:16px; }
+.plate-balance-visual { max-width:100%; margin:16px auto 24px; }
+.plate-balance-visual img { display:block; width:100%; height:auto; object-fit:contain; border-radius:16px; }
+.knowhow-detail .knowhow-topic-hero-image { max-width:100%; margin:0 0 18px; border-radius:16px; overflow:hidden; }
+.knowhow-detail .knowhow-topic-hero-image img { display:block; width:100%; max-height:300px; object-fit:cover; object-position:center 45%; }
+.knowhow-detail .two-minute-detail-visual { max-width:650px; }
+.knowhow-detail .two-minute-detail-visual img { width:100%; height:auto; }
+/* Restore the intended script-like display style instead of the later generic sans-serif override. */
+.home-dashboard-v40 .home-profile-brand strong, .home-dashboard-v40 .home-quote-card-v40 blockquote { font-family:"Segoe Print","Bradley Hand",cursive !important; }
+@media(max-width:900px) { .home-two-minute-layout-v49 { grid-template-columns:1fr; } .home-two-minute-layout-v49 .home-two-minute-card-v40 { max-width:340px; } .home-quick-links-v49 { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:560px) { .home-quick-links-v49 { grid-template-columns:1fr; } .home-quick-links-v49 button { display:grid; grid-template-columns:88px minmax(0,1fr) 24px; align-items:center; } .home-quick-links-v49 button img { height:68px; } .home-dashboard-v40 .home-hero-v40,.home-dashboard-v40 .home-hero-v40 > img { height:84px !important; min-height:84px !important; } }
+
+
+/* =====================================================
+   HABIT APP v50 — sjednocený úvod a články
+===================================================== */
+.home-dashboard-v50 .home-hero-v50 {
+  position: relative !important; display:block !important; height:112px !important; min-height:112px !important;
+  overflow:hidden; border-radius:13px; background:#eaf0df; border:1px solid #e7e0d5;
+}
+.home-dashboard-v50 .home-hero-v50 > img { width:100%; height:100%; min-height:0 !important; display:block; object-fit:cover; object-position:center 53%; }
+.home-dashboard-v50 .home-hero-v50 h1 { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; margin:0; padding:6px 12px; text-align:center; color:#174c36; font-family:"Segoe Print","Bradley Hand","Brush Script MT",cursive; font-size:clamp(21px,2.3vw,35px); font-weight:600; font-style:italic; line-height:.96; text-shadow:0 1px 8px rgba(255,255,255,.72); }
+.home-dashboard-v50 .home-hero-v50 h1 span { color:#df8588; font-family:inherit; }
+.home-dashboard-v50 .home-tile-grid-v40 { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:10px !important; }
+.home-dashboard-v50 .home-visual-tile-v40 { min-width:0; border-radius:15px !important; }
+.home-dashboard-v50 .home-visual-tile-v40 .home-visual { height:130px !important; }
+.home-dashboard-v50 .home-visual-tile-v40 .home-visual img { object-fit:cover; }
+.home-dashboard-v50 .home-visual-tile-v40:nth-child(6) .home-visual img { object-fit:cover; }
+.home-dashboard-v50 .home-visual-label.home-keyword-label { left:9px; top:9px; bottom:auto; width:56px; min-height:86px; padding:9px 5px; border-radius:12px; display:flex; flex-direction:column; justify-content:center; gap:6px; white-space:normal; text-align:center; background:rgba(255,253,248,.96); color:#214f3a; box-shadow:0 3px 10px rgba(40,50,42,.12); }
+.home-dashboard-v50 .home-visual-label.home-keyword-label b { font-size:24px; line-height:1.1; font-weight:400; }
+.home-dashboard-v50 .home-visual-label.home-keyword-label span { font-size:10px; line-height:1.1; }
+.home-dashboard-v50 .home-visual-body { min-height:65px !important; padding:9px 34px 11px 11px !important; }
+.home-dashboard-v50 .home-visual-body h3 { font-size:15px !important; line-height:1.2; }
+.home-dashboard-v50 .home-visual-body p { font-size:11px !important; line-height:1.3; }
+.home-dashboard-v50 .home-section-title-v40 { display:none !important; }
+.home-dashboard-v50 .home-mantra-grid-v50 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+.home-dashboard-v50 .home-mantra-grid-v50 .home-quote-card { min-width:0; margin:0; padding:10px 12px; display:flex; align-items:center; gap:10px; border:1px solid #dce7d8; border-radius:13px; background:#f7f8ef; }
+.home-dashboard-v50 .home-mantra-grid-v50 .home-quote-card blockquote { flex:1; margin:0; font-size:clamp(12px,1.1vw,16px); line-height:1.3; text-align:center; color:#24553d; }
+.home-dashboard-v50 .home-mantra-grid-v50 .home-quote-card blockquote small { display:block; margin-top:3px; font-family:inherit; font-size:10px; }
+.home-dashboard-v50 .home-mantra-grid-v50 .home-quote-card > span { flex:none; }
+.home-dashboard-v50 .home-profile-landscape { min-height:280px; height:auto !important; background:#f5f1e6; }
+.home-dashboard-v50 .home-profile-landscape img { width:100%; height:190px; object-fit:cover; object-position:center 45%; }
+.home-dashboard-v50 .home-profile-landscape::after { content:"24 hodin.\A1 440 minut.\A86 400 sekund.\AVyužij je."; white-space:pre-line; display:block; padding:9px 5px 13px; color:#315d4b; text-align:center; font-family:"Segoe Print","Bradley Hand","Brush Script MT",cursive; font-size:clamp(15px,1.3vw,22px); font-style:italic; line-height:1.25; }
+.home-dashboard-v50 .home-profile-brand small { display:none !important; }
+.home-dashboard-v50 .home-profile-brand strong { font-family:"Segoe Print","Bradley Hand","Brush Script MT",cursive !important; font-size:30px !important; font-weight:600; font-style:italic; color:#24553d; }
+.home-dashboard-v50 .home-profile-brand strong span { color:#df8588; }
+/* Know HOW page has its own editorial intro; it does not change the Home banner. */
+.knowhow-page .knowhow-heading { border:1px solid #e6e3d6; border-radius:14px; background:linear-gradient(105deg,#f7f4e9 0%,#f1f5eb 100%); padding:20px 22px; margin-bottom:18px; }
+.knowhow-page .knowhow-heading-top { align-items:center; gap:24px; }
+.knowhow-page .knowhow-heading-identity { min-width:0; }
+.knowhow-page .knowhow-heading h2 { font-size:clamp(24px,2.4vw,34px); color:#24553d; margin:4px 0 7px; }
+.knowhow-page .knowhow-intro { max-width:760px; line-height:1.55; }
+/* Consistent image treatment for the nighttime food cards, without embedded labels. */
+.knowhow-food-grid { gap:14px; }
+.knowhow-food-card { display:flex; flex-direction:column; min-width:0; padding:12px; border-radius:15px; background:#fffdf8; }
+.knowhow-food-card img { width:100%; height:150px; object-fit:contain; padding:8px; margin:0 auto 8px; border-radius:11px; background:#f7f4ec; }
+.knowhow-food-card h4 { font-size:15px; }
+.knowhow-food-card p { font-size:12px; line-height:1.45; }
+/* Relationship advice: four equal-width cards instead of an uneven 3+1 layout. */
+.relationships-grid { grid-template-columns:repeat(4,minmax(0,1fr)) !important; gap:10px !important; }
+.relationships-grid article { min-width:0; height:100%; padding:14px 12px; display:flex; flex-direction:column; border-radius:14px; }
+.relationships-grid article b { font-size:14px; line-height:1.25; }
+.relationships-grid article span { min-height:0; font-size:12px; line-height:1.45; }
+/* Never display a generated lookalike portrait in the breakfast introduction. */
+.knowhow-breakfast-hero { grid-template-columns:minmax(0,1fr) !important; }
+.knowhow-breakfast-hero .breakfast-avatar { display:none !important; }
+.two-minute-detail-visual img { width:100%; max-width:820px; height:auto; object-fit:contain; }
+@media(max-width:1000px) {
+ .home-dashboard-v50 .home-tile-grid-v40 { grid-template-columns:repeat(3,minmax(0,1fr)) !important; }
+ .relationships-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+ .home-dashboard-v50 .home-profile-landscape { min-height:210px; }
+ .home-dashboard-v50 .home-profile-landscape img { height:130px; }
+}
+@media(max-width:720px) {
+ .home-dashboard-v50 .home-tile-grid-v40 { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+ .home-dashboard-v50 .home-hero-v50,.home-dashboard-v50 .home-hero-v50 > img { height:90px !important; min-height:90px !important; }
+ .home-dashboard-v50 .home-hero-v50 h1 { font-size:22px; }
+ .home-dashboard-v50 .home-mantra-grid-v50 { grid-template-columns:1fr; }
+ .home-dashboard-v50 .home-profile-landscape { min-height:0; }
+ .home-dashboard-v50 .home-profile-landscape img { height:95px; }
+ .home-dashboard-v50 .home-profile-landscape::after { font-size:15px; }
+ .relationships-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+ .knowhow-page .knowhow-heading { padding:15px; }
+}
+
+
+/* v51: apply the approved Habit APP dashboard layout to the real application */
+.home-dashboard-v50 { display:grid !important; grid-template-columns:250px minmax(0,1fr) !important; gap:18px !important; align-items:start; }
+.home-dashboard-v50 .home-profile-rail { position:sticky; top:10px; min-width:0; }
+.home-dashboard-v50 .home-main { min-width:0; }
+.home-dashboard-v50 .home-topbar-v39 { display:grid !important; grid-template-columns:minmax(0,1fr) auto !important; gap:14px; align-items:center; margin:0 0 12px; }
+.home-dashboard-v50 .home-search { min-height:42px; display:flex; align-items:center; gap:9px; padding:0 16px; border:1px solid #e8e0d5; border-radius:14px; background:#fff; color:#71817b; box-shadow:0 2px 8px rgba(40,50,40,.03); }
+.home-dashboard-v50 .home-date-pill { min-height:42px; white-space:nowrap; border-radius:14px; background:#fffdf8; }
+.home-dashboard-v50 .home-hero-v50 { position:relative; height:170px !important; min-height:170px !important; margin:0 0 12px; border:1px solid #e8dfd3; border-radius:14px; overflow:hidden; box-shadow:0 3px 12px rgba(50,55,45,.05); }
+.home-dashboard-v50 .home-hero-v50 > img { width:100%; height:100% !important; min-height:0 !important; display:block; object-fit:cover; object-position:center 52%; }
+.home-dashboard-v50 .home-hero-v50 h1 { font-family:'Segoe Print','Bradley Hand','Brush Script MT',cursive !important; font-size:clamp(28px,3vw,48px) !important; font-weight:600; line-height:1.02; color:#174c36; text-shadow:0 1px 7px rgba(255,255,255,.65); }
+.home-dashboard-v50 .home-hero-v50 h1 span { display:inline; color:#df8588; }
+.home-dashboard-v50 .home-section-v40 { margin-top:0 !important; }
+.home-dashboard-v50 .home-tile-grid-v40 { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:10px !important; }
+.home-dashboard-v50 .home-visual-tile-v40 { display:flex !important; flex-direction:column !important; width:100%; min-width:0; padding:0 !important; overflow:hidden; border:1px solid #e8e0d5; border-radius:14px !important; background:#fffdf9; text-align:left; box-shadow:0 3px 12px rgba(60,50,40,.045); }
+.home-dashboard-v50 .home-visual-tile-v40 .home-visual { display:block !important; position:relative; width:100% !important; height:132px !important; min-height:132px !important; flex:0 0 132px; overflow:hidden; background:#f1eee6; }
+.home-dashboard-v50 .home-visual-tile-v40 .home-visual img { display:block !important; width:100% !important; height:100% !important; max-width:none !important; object-fit:cover !important; object-position:center; }
+.home-dashboard-v50 .home-visual-label.home-keyword-label { left:10px; top:10px; bottom:auto; width:62px; min-height:82px; padding:8px 5px; border-radius:12px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:7px; text-align:center; white-space:normal; background:rgba(255,253,248,.96); color:#174c3b; box-shadow:0 3px 10px rgba(40,50,42,.12); }
+.home-dashboard-v50 .home-visual-label.home-keyword-label b { font-size:24px; line-height:1.1; font-weight:400; }
+.home-dashboard-v50 .home-visual-label.home-keyword-label span { font-size:10px; line-height:1.15; }
+.home-dashboard-v50 .home-visual-body { position:relative; display:block !important; min-height:72px !important; padding:9px 39px 11px 12px !important; }
+.home-dashboard-v50 .home-visual-body h3 { margin:0 0 3px !important; font-size:16px !important; line-height:1.22; }
+.home-dashboard-v50 .home-visual-body p { margin:0 !important; font-size:12px !important; line-height:1.35; }
+.home-dashboard-v50 .home-visual-body i { right:10px; top:50%; bottom:auto; transform:translateY(-50%); width:29px; height:29px; display:grid; place-items:center; border-radius:50%; background:#edf4e9; color:#286344; font-size:20px; }
+.home-dashboard-v50 .home-mantra-grid-v50 { margin-top:12px; }
+.home-dashboard-v50 .home-profile-landscape { min-height:0 !important; height:auto !important; margin-top:12px; border-radius:13px; overflow:hidden; }
+.home-dashboard-v50 .home-profile-landscape img { display:block; width:100%; height:205px !important; object-fit:cover; object-position:center 45%; }
+.home-dashboard-v50 .home-profile-landscape::after { font-size:clamp(19px,1.7vw,27px); padding:10px 5px 15px; }
+.relationships-followup { display:block; clear:both; margin-top:28px; padding-top:4px; }
+.relationships-followup > h3 { margin:0 0 12px; }
+.relationships-followup > p { margin:0 0 16px; line-height:1.7; max-width:1000px; }
+.relationships-grid { margin-bottom:0 !important; }
+.knowhow-breakfast-hero { display:none !important; }
+.breakfast-principle { margin:18px 0 24px; }
+.plate-explainer { max-width:900px; margin:0 0 12px; line-height:1.6; }
+.plate-layout-visual { display:none !important; }
+.knowhow-detail .knowhow-topic-hero-image img[src*='fat-loss-comic-cz'] { max-height:none !important; height:auto !important; object-fit:contain !important; }
+.knowhow-detail .knowhow-topic-hero-image:has(img[src*='fat-loss-comic-cz']) { max-width:100%; margin-bottom:22px; }
+.choice-board { margin:22px 0 30px; }
+.choice-row { min-height:120px; }
+.choice-panel { padding:18px 16px; }
+.knowhow-food-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.knowhow-food-card { padding:12px; border:1px solid #e6dfd2; border-radius:15px; background:#fffdf8; }
+.knowhow-food-card img { width:100%; height:150px; object-fit:contain; padding:6px; background:#f6f2e9; border-radius:10px; }
+.protein-food-grid-clean { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:20px 0 28px; }
+.protein-food-grid-clean .protein-food-card { min-width:0; padding:14px; border:1px solid #e5d9b8; border-radius:16px; background:linear-gradient(145deg,#fffdf7,#f8f3e8); overflow:hidden; }
+.protein-food-grid-clean .protein-food-card img { display:block; width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:9px; background:#f5f0e7; }
+.protein-food-grid-clean .protein-food-card h3 { margin:4px 0 3px; font-size:20px; line-height:1.2; color:#194c3b; }
+.protein-food-grid-clean .protein-food-subtitle { margin:0 0 9px; font-size:13px; color:#435c51; }
+.protein-food-grid-clean .protein-food-card > p:last-child { line-height:1.5; font-size:13px; }
+.nighttime-cortisol-context { margin:20px 0 26px; padding:18px 20px; border:1px solid #e2dfd1; border-radius:16px; background:#f8f5ec; }
+.nighttime-cortisol-context h3 { margin-top:0; color:#24553d; }
+.nighttime-cortisol-context p { line-height:1.65; }
+@media(max-width:1100px) { .home-dashboard-v50 { grid-template-columns:210px minmax(0,1fr) !important; gap:12px !important; } .home-dashboard-v50 .home-visual-tile-v40 .home-visual { height:112px !important; min-height:112px !important; flex-basis:112px; } .protein-food-grid-clean { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:760px) { .home-dashboard-v50 { display:block !important; } .home-dashboard-v50 .home-profile-rail { position:static; } .home-dashboard-v50 .home-profile-brand { display:none; } .home-dashboard-v50 .home-side-nav { display:none; } .home-dashboard-v50 .home-garmin-mini { display:none; } .home-dashboard-v50 .home-profile-landscape { display:none; } .home-dashboard-v50 .home-topbar-v39 { grid-template-columns:1fr auto !important; } .home-dashboard-v50 .home-hero-v50,.home-dashboard-v50 .home-hero-v50 > img { height:112px !important; min-height:112px !important; } .home-dashboard-v50 .home-hero-v50 h1 { font-size:24px !important; } .home-dashboard-v50 .home-tile-grid-v40 { grid-template-columns:repeat(2,minmax(0,1fr)) !important; } .home-dashboard-v50 .home-visual-tile-v40 .home-visual { height:105px !important; min-height:105px !important; flex-basis:105px; } .home-dashboard-v50 .home-visual-label.home-keyword-label { width:48px; min-height:65px; left:6px; top:6px; } .home-dashboard-v50 .home-visual-label.home-keyword-label b { font-size:19px; } .home-dashboard-v50 .home-visual-label.home-keyword-label span { font-size:9px; } .home-dashboard-v50 .home-visual-body h3 { font-size:14px !important; } .home-dashboard-v50 .home-visual-body p { font-size:11px !important; } .home-dashboard-v50 .home-mantra-grid-v50 { grid-template-columns:1fr; } .relationships-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; } .knowhow-food-grid,.protein-food-grid-clean { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:460px) { .home-dashboard-v50 .home-tile-grid-v40 { grid-template-columns:1fr !important; } .home-dashboard-v50 .home-visual-tile-v40 .home-visual { height:145px !important; min-height:145px !important; flex-basis:145px; } .knowhow-food-grid,.protein-food-grid-clean { grid-template-columns:1fr; } }
+
+/* v51: retain the original detailed choice infographic instead of the simplified replacement */
+.choice-infographic { width:100%; max-width:1100px; margin:20px auto 30px; border-radius:18px; overflow:hidden; background:#f6f2e8; }
+.choice-infographic img { display:block; width:100%; height:auto; max-height:none; object-fit:contain; }
+
+/* v52 – homepage rebuild from the user's approved layout: sidebar + 3x3 topics + wide feature cards */
+#app[data-screen="home"] { width:100%; max-width:none; }
+#app[data-screen="home"] > .app-content { width:100%; max-width:none; padding:0; margin:0; }
+.home-dashboard-v56 { display:grid !important; grid-template-columns:245px minmax(0,1fr) !important; gap:20px !important; align-items:start; max-width:1800px; margin:0 auto; padding:20px 22px 28px; box-sizing:border-box; color:#243b30; }
+.home-dashboard-v56 .home-profile-rail-v56 { display:flex; flex-direction:column; gap:0; min-width:0; min-height:calc(100vh - 40px); position:sticky; top:12px; }
+.home-logo-v56 { display:flex; align-items:center; justify-content:flex-start; height:76px; padding:0 7px 10px; margin-bottom:8px; }
+.home-logo-v56 img { display:block; width:100%; max-width:228px; max-height:72px; object-fit:contain; object-position:left center; }
+.home-side-nav-v56 { display:grid; gap:4px; }
+.home-side-link-v56 { display:flex; align-items:center; gap:13px; min-height:45px; width:100%; padding:9px 13px; border:0; border-radius:12px; background:transparent; color:#273b49; text-align:left; font-size:15px; cursor:pointer; }
+.home-side-link-v56 > span { display:inline-flex; align-items:center; justify-content:center; width:22px; flex:0 0 22px; font-size:19px; }
+.home-side-link-v56:hover,.home-side-link-v56.active { background:#e7efe1; color:#24563b; }
+.home-side-link-v56.active { font-weight:700; }
+.home-garmin-mini-v56 { display:flex; align-items:center; gap:11px; width:100%; margin-top:17px; padding:11px 12px; border:1px solid #dce7d7; border-radius:14px; background:#f5f8f0; color:#284d38; text-align:left; cursor:pointer; }
+.home-garmin-watch-v56 { display:grid; place-items:center; width:42px; height:48px; flex:0 0 42px; border:2px solid #cbd9cb; border-radius:13px; background:#fffdf8; font-size:22px; }
+.home-garmin-mini-v56 > span:last-child { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.home-garmin-mini-v56 strong { font-size:13px; }
+.home-garmin-mini-v56 small { font-size:11px; color:#718075; }
+.home-garmin-mini-v56 b { font-size:12px; color:#2f7147; }
+.home-mountain-panel-v56 { margin-top:auto; padding-top:14px; text-align:center; color:#25543d; }
+.home-mountain-panel-v56 img { display:block; width:calc(100% + 20px); max-width:none; height:160px; margin:0 -10px -3px; object-fit:cover; object-position:center 58%; }
+.home-mountain-panel-v56 p { margin:0; padding:0 4px 4px; font-family:"Segoe Print","Bradley Hand",cursive; font-size:clamp(17px,1.4vw,22px); font-weight:600; line-height:1.27; font-style:italic; }
+.home-mountain-panel-v56 p strong { font-weight:700; }
+.home-main-v56 { min-width:0; }
+.home-topbar-v56 { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:14px; align-items:center; margin:0 0 14px; }
+.home-search-wrap-v56 { position:relative; min-width:0; }
+.home-search-v56 { display:flex; align-items:center; gap:10px; min-height:52px; padding:0 18px; border:1px solid #e6dfd4; border-radius:17px; background:#fff; box-shadow:0 3px 12px rgba(50,60,45,.035); color:#6b7c72; }
+.home-search-v56 > span { font-size:25px; line-height:1; }
+.home-search-v56 input { min-width:0; width:100%; padding:8px 0; border:0; outline:0; background:transparent; color:#263d32; font-size:16px; }
+.home-search-v56 input::placeholder { color:#89928b; }
+.home-search-v56:focus-within { border-color:#91ad91; box-shadow:0 0 0 3px rgba(111,153,112,.12); }
+.home-date-v56 { display:flex; align-items:center; justify-content:center; gap:9px; min-height:52px; padding:0 17px; border:1px solid #dfe5d8; border-radius:16px; background:#fffdf8; color:#315541; white-space:nowrap; font-size:14px; }
+.home-search-results-v56 { position:absolute; z-index:30; top:calc(100% + 7px); left:0; right:0; max-height:360px; overflow:auto; padding:7px; border:1px solid #e4dfd4; border-radius:14px; background:#fffefa; box-shadow:0 14px 35px rgba(35,50,35,.16); }
+.home-search-results-v56[hidden] { display:none !important; }
+.home-search-result-v56 { display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; padding:12px 13px; border:0; border-radius:9px; background:transparent; text-align:left; color:#294d38; cursor:pointer; }
+.home-search-result-v56:hover { background:#edf3e8; }
+.home-search-result-v56 span { color:#7b897e; font-size:12px; white-space:nowrap; }
+.home-search-empty-v56 { margin:0; padding:13px; color:#6b776f; font-size:14px; }
+.home-tile-grid-v56 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:11px; }
+.home-tile-v56 { display:flex; flex-direction:column; min-width:0; padding:0; overflow:hidden; border:1px solid #e7e0d5; border-radius:15px; background:#fffdf9; text-align:left; box-shadow:0 3px 12px rgba(54,58,45,.045); cursor:pointer; transition:transform .16s ease,box-shadow .16s ease; }
+.home-tile-v56:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(54,58,45,.10); }
+.home-tile-image-v56 { display:block; position:relative; width:100%; height:clamp(110px,10vw,154px); overflow:hidden; background:#f1eee5; }
+.home-tile-image-v56 > img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.home-tile-label-v56 { position:absolute; top:9px; left:9px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; width:57px; min-height:76px; padding:7px 4px; border-radius:12px; background:rgba(255,253,248,.96); color:#22543a; box-shadow:0 3px 10px rgba(30,45,30,.12); text-align:center; }
+.home-tile-label-v56 b { font-size:24px; line-height:1; font-weight:500; }
+.home-tile-label-v56 small { font-size:10px; line-height:1.15; }
+.home-tile-copy-v56 { position:relative; display:flex; flex-direction:column; gap:3px; min-height:60px; padding:9px 38px 10px 12px; }
+.home-tile-copy-v56 strong { font-size:15px; line-height:1.22; color:#214c36; }
+.home-tile-copy-v56 small { font-size:12px; line-height:1.3; color:#65716a; }
+.home-tile-copy-v56 i { position:absolute; right:9px; top:50%; transform:translateY(-50%); display:grid; place-items:center; width:27px; height:27px; border-radius:50%; background:#eaf2e5; color:#2b6844; font-size:19px; font-style:normal; }
+.home-feature-cards-v56 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:15px; }
+.home-feature-card-v56 { position:relative; display:block; width:100%; aspect-ratio:16 / 9; min-width:0; padding:0; overflow:hidden; border:1px solid #e8e0d5; border-radius:16px; background:#f6f0e5; cursor:pointer; box-shadow:0 3px 12px rgba(54,58,45,.04); }
+.home-feature-card-v56 > img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.home-feature-arrow-v56 { position:absolute; right:12px; bottom:12px; display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:rgba(255,253,248,.94); color:#24563b; font-size:23px; box-shadow:0 2px 7px rgba(30,40,30,.12); }
+.home-feature-card-v56:hover .home-feature-arrow-v56 { background:#e4efdd; }
+/* Keep the original app's mobile bottom navigation; the desktop dashboard uses its own sidebar. */
+/* v58: keep the global bottom navigation visible on desktop and mobile. */
+@media(min-width:761px) { body:has(.home-dashboard-v56) .bottom-nav { display:flex !important; } }
+@media(max-width:1100px) {
+ .home-dashboard-v56 { grid-template-columns:205px minmax(0,1fr) !important; gap:14px !important; padding:14px; }
+ .home-logo-v56 { height:65px; }
+ .home-tile-image-v56 { height:112px; }
+ .home-tile-copy-v56 { padding-left:9px; }
+ .home-tile-copy-v56 strong { font-size:14px; }
+ .home-tile-copy-v56 small { font-size:11px; }
+ .home-mountain-panel-v56 img { height:135px; }
+ .home-mountain-panel-v56 p { font-size:17px; }
+}
+@media(max-width:760px) {
+ .home-dashboard-v56 { display:block !important; padding:10px 10px 82px; }
+ .home-dashboard-v56 .home-profile-rail-v56 { position:static; min-height:0; }
+ .home-logo-v56 { height:53px; justify-content:center; padding:0 0 8px; margin-bottom:5px; }
+ .home-logo-v56 img { max-width:205px; max-height:51px; object-position:center; }
+ .home-side-nav-v56 { grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
+ .home-side-link-v56 { justify-content:center; flex-direction:column; gap:3px; min-height:51px; padding:5px 3px; font-size:10px; }
+ .home-side-link-v56 > span { width:auto; flex:0 0 auto; font-size:17px; }
+ .home-garmin-mini-v56 { display:none; }
+ .home-mountain-panel-v56 { display:none; }
+ .home-topbar-v56 { grid-template-columns:minmax(0,1fr) auto; gap:7px; margin:9px 0 11px; }
+ .home-search-v56 { min-height:44px; padding:0 10px; border-radius:12px; }
+ .home-search-v56 input { font-size:13px; }
+ .home-date-v56 { min-height:44px; padding:0 9px; border-radius:12px; font-size:10px; }
+ .home-tile-grid-v56 { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+ .home-tile-image-v56 { height:clamp(95px,27vw,140px); }
+ .home-tile-label-v56 { top:6px; left:6px; width:43px; min-height:58px; gap:4px; padding:5px 3px; border-radius:9px; }
+ .home-tile-label-v56 b { font-size:18px; }
+ .home-tile-label-v56 small { font-size:8px; }
+ .home-tile-copy-v56 { min-height:57px; padding:7px 29px 8px 8px; }
+ .home-tile-copy-v56 strong { font-size:12px; }
+ .home-tile-copy-v56 small { font-size:10px; }
+ .home-tile-copy-v56 i { right:5px; width:22px; height:22px; font-size:16px; }
+ .home-feature-cards-v56 { grid-template-columns:1fr; gap:10px; margin-top:11px; }
+ .home-feature-card-v56 { aspect-ratio:16 / 9; }
+}
+@media(max-width:390px) {
+ .home-side-nav-v56 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .home-side-link-v56 { font-size:9px; }
+ .home-date-v56 { font-size:9px; }
+}
+
+.settings-home-placeholder { max-width:780px; margin:28px auto; padding:28px; }
+.settings-home-placeholder h1 { color:#24553d; }
+.settings-home-placeholder p { line-height:1.65; color:#66736a; }
+
+
+/* v55 – approved home layout: slim heart-tree hero, one flexible mantra */
+.home-dashboard-v56 .home-hero-v56 {
+  width:100%; height:clamp(125px, 13vw, 190px); min-height:0; margin:0 0 14px;
+  overflow:hidden; border:1px solid #e7e0d5; border-radius:15px;
+  background:#f4f0e5; box-shadow:0 3px 12px rgba(54,58,45,.045);
+}
+.home-dashboard-v56 .home-hero-v56 img {
+  display:block; width:100%; height:100%; object-fit:cover; object-position:center 52%;
+}
+.home-dashboard-v56 .home-mantra-v56 {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  width:100%; min-height:54px; margin-top:15px; padding:12px 18px; box-sizing:border-box;
+  border:1px solid #e8e0d5; border-radius:15px; background:#fffdf9;
+  color:#315b42; box-shadow:0 3px 12px rgba(54,58,45,.035);
+}
+.home-dashboard-v56 .home-mantra-v56 > span { flex:0 0 auto; color:#e58d8d; font-size:24px; line-height:1; }
+.home-dashboard-v56 .home-mantra-v56 p {
+  margin:0; max-width:100%; text-align:center; font-family:"Segoe Print","Bradley Hand",cursive;
+  font-size:clamp(14px,1.25vw,19px); font-weight:600; line-height:1.35; overflow-wrap:anywhere;
+}
+@media(max-width:760px) {
+  .home-dashboard-v56 .home-hero-v56 { height:clamp(100px,29vw,145px); margin-bottom:10px; border-radius:12px; }
+  .home-dashboard-v56 .home-mantra-v56 { margin-top:11px; padding:10px 12px; gap:8px; }
+  .home-dashboard-v56 .home-mantra-v56 p { font-size:13px; }
+}
+
+
+/* v56 FINAL HOMEPAGE OVERRIDES — unique selectors prevent old homepage styles from leaking in. */
+#app[data-screen="home"] > .app-content { width:100% !important; max-width:none !important; padding:0 !important; margin:0 !important; }
+.home-dashboard-v56 { display:grid !important; grid-template-columns:220px minmax(0,1fr) !important; gap:18px !important; width:100% !important; max-width:1800px !important; margin:0 auto !important; padding:16px 20px 24px !important; box-sizing:border-box !important; }
+.home-dashboard-v56 .home-profile-rail-v56 { position:relative !important; top:auto !important; min-height:0 !important; height:auto !important; }
+.home-dashboard-v56 .home-logo-v56 { height:68px !important; margin:0 0 8px !important; padding:0 4px 8px !important; }
+.home-dashboard-v56 .home-logo-v56 img { width:100% !important; max-width:215px !important; max-height:64px !important; object-fit:contain !important; }
+.home-dashboard-v56 .home-mountain-panel-v56 { margin-top:12px !important; padding-top:0 !important; }
+.home-dashboard-v56 .home-mountain-panel-v56 img { width:100% !important; height:auto !important; aspect-ratio:1.15 / 1 !important; margin:0 !important; object-fit:cover !important; object-position:center 58% !important; border-radius:12px 12px 0 0; }
+.home-dashboard-v56 .home-mountain-panel-v56 p { padding:9px 5px 10px !important; font-size:clamp(15px,1.15vw,19px) !important; line-height:1.22 !important; background:#faf6eb; border-radius:0 0 12px 12px; }
+.home-dashboard-v56 .home-hero-v56 { display:block !important; width:100% !important; height:auto !important; min-height:0 !important; aspect-ratio:16 / 5 !important; margin:0 0 14px !important; overflow:hidden !important; border:1px solid #e7e0d5 !important; border-radius:14px !important; background:#f4f0e5 !important; }
+.home-dashboard-v56 .home-hero-v56 img { display:block !important; width:100% !important; height:100% !important; min-height:0 !important; object-fit:cover !important; object-position:center !important; }
+.home-dashboard-v56 .home-tile-grid-v56 { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:11px !important; }
+.home-dashboard-v56 .home-feature-cards-v56 { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:12px !important; margin-top:13px !important; }
+.home-dashboard-v56 .home-feature-card-v56 { display:block !important; width:100% !important; aspect-ratio:16 / 9 !important; height:auto !important; min-height:0 !important; }
+.home-dashboard-v56 .home-mantra-v56 { display:flex !important; width:100% !important; min-height:54px !important; height:auto !important; margin-top:13px !important; padding:12px 18px !important; box-sizing:border-box !important; align-items:center !important; justify-content:center !important; gap:12px !important; overflow:visible !important; }
+.home-dashboard-v56 .home-mantra-v56 p { flex:0 1 auto !important; margin:0 !important; white-space:normal !important; overflow-wrap:anywhere !important; line-height:1.4 !important; }
+/* v58: keep the global bottom navigation visible on desktop and mobile. */
+@media(min-width:761px) { body:has(.home-dashboard-v56) .bottom-nav { display:flex !important; } }
+@media(max-width:1100px) { .home-dashboard-v56 { grid-template-columns:190px minmax(0,1fr) !important; gap:12px !important; padding:12px !important; } .home-dashboard-v56 .home-tile-image-v56 { height:clamp(100px,10vw,135px) !important; } }
+@media(max-width:760px) { .home-dashboard-v56 { display:block !important; padding:10px 10px 82px !important; } .home-dashboard-v56 .home-profile-rail-v56 { position:static !important; } .home-dashboard-v56 .home-mountain-panel-v56 { display:none !important; } .home-dashboard-v56 .home-hero-v56 { aspect-ratio:16 / 7 !important; } .home-dashboard-v56 .home-tile-grid-v56 { grid-template-columns:repeat(2,minmax(0,1fr)) !important; } .home-dashboard-v56 .home-feature-cards-v56 { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:8px !important; } .home-dashboard-v56 .home-feature-card-v56 { aspect-ratio:3 / 4 !important; } }
+@media(max-width:420px) { .home-dashboard-v56 .home-feature-cards-v56 { grid-template-columns:1fr !important; } .home-dashboard-v56 .home-feature-card-v56 { aspect-ratio:16 / 9 !important; } }
+
+
+/* v57 — feature cards show the complete artwork; taller cards avoid cropping the original posters. */
+.home-dashboard-v56 .home-feature-cards-v56 {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  align-items:stretch !important;
+  gap:14px !important;
+  margin-top:15px !important;
+}
+.home-dashboard-v56 .home-feature-card-v56 {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  aspect-ratio:3 / 4 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#f8f4e9 !important;
+}
+.home-dashboard-v56 .home-feature-card-v56 > img {
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+}
+.home-dashboard-v56 .home-feature-arrow-v56 {
+  right:12px !important; bottom:12px !important;
+}
+@media(max-width:760px) {
+  .home-dashboard-v56 .home-feature-cards-v56 {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:8px !important;
+  }
+  .home-dashboard-v56 .home-feature-card-v56 { aspect-ratio:3 / 4 !important; }
+  .home-dashboard-v56 .home-feature-arrow-v56 { right:7px !important; bottom:7px !important; width:27px !important; height:27px !important; }
+}
+@media(max-width:420px) {
+  .home-dashboard-v56 .home-feature-cards-v56 { grid-template-columns:1fr !important; }
+  .home-dashboard-v56 .home-feature-card-v56 { aspect-ratio:3 / 4 !important; }
+}
+
+
+/* v58 — final homepage fixes: visible bottom navigation, no duplicate tile artwork, balanced feature cards. */
+.home-dashboard-v56 .home-feature-cards-v56 { padding-bottom: 4px; }
+@media (min-width: 761px) { body:has(.home-dashboard-v56) .bottom-nav { display:flex !important; z-index:1000; } .home-dashboard-v56 { padding-bottom: 100px !important; } }
+
+
+/* v59: bottom navigation must span the full viewport; there are five items, not seven columns. */
+.bottom-nav {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  width: 100vw !important;
+  max-width: none !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+.bottom-nav-item { width: 100%; min-width: 0; }
+
+/* v59: the strength tile uses the existing photo of the user holding two dumbbells.
+   Keep the face and both dumbbells as visible as the wide tile allows. */
+.home-tile-image-strength-v59 > img {
+  object-fit: cover;
+  object-position: center 43%;
 }
