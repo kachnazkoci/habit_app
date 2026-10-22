@@ -2,6 +2,10 @@ name: Garmin data update
 
 on:
   workflow_dispatch:
+  schedule:
+    # 06:00, 12:00, 18:00 Czech local time during summer time (UTC+2).
+    # GitHub cron is UTC; adjust by one hour for winter time.
+    - cron: "0 4,10,16 * * *"
 
 permissions:
   contents: read
@@ -9,42 +13,66 @@ permissions:
 jobs:
   export-garmin:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install garminconnect
-
-      - name: Check required secrets
+        run: python -m pip install --upgrade pip garminconnect requests
+      - name: Restore Garmin tokens
         env:
-          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
-          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
           GARMIN_TOKENS_JSON: ${{ secrets.GARMIN_TOKENS_JSON }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          raw = os.environ.get("GARMIN_TOKENS_JSON", "")
+          if not raw:
+              raise SystemExit("Missing GitHub Secret GARMIN_TOKENS_JSON")
+          token = json.loads(raw)
+          if not isinstance(token, dict):
+              raise SystemExit("GARMIN_TOKENS_JSON must be a JSON object")
+          p = Path("garmin_data/tokens/garmin_tokens.json")
+          p.parent.mkdir(parents=True, exist_ok=True)
+          p.write_text(json.dumps(token), encoding="utf-8")
+          p.chmod(0o600)
+          print("Garmin token file restored to the temporary runner.")
+          PY
+      - name: Download Garmin data and export CSV
+        run: |
+          python garmin_test.py
+          python garmin_export.py
+      - name: Upload refreshed tokens and CSVs to private Supabase Storage
+        env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: |
           python - <<'PY'
           import os, sys
-          required = [
-              "GARMIN_EMAIL", "GARMIN_PASSWORD", "GARMIN_TOKENS_JSON",
-              "SUPABASE_URL", "SUPABASE_SECRET_KEY"
+          from pathlib import Path
+          import requests
+          base = os.environ.get("SUPABASE_URL", "").rstrip("/")
+          key = os.environ.get("SUPABASE_SECRET_KEY", "")
+          if not base or not key:
+              raise SystemExit("Missing Supabase URL or secret key")
+          files = [
+            (Path("garmin_data/tokens/garmin_tokens.json"), "garmin_tokens.json", "application/json"),
+            (Path("garmin_data/daily_summary.csv"), "daily_summary.csv", "text/csv"),
+            (Path("garmin_data/activities.csv"), "activities.csv", "text/csv"),
+            (Path("garmin_data/sleep_details.csv"), "sleep_details.csv", "text/csv"),
           ]
-          missing = [name for name in required if not os.getenv(name)]
-          if missing:
-              print("Chybí GitHub Secrets: " + ", ".join(missing))
-              sys.exit(1)
-          print("Všechny požadované secrets jsou nastavené.")
+          common = {"Authorization": f"Bearer {key}", "apikey": key}
+          for path, name, content_type in files:
+              if not path.is_file():
+                  raise SystemExit(f"Missing expected file: {path}")
+              url = f"{base}/storage/v1/object/garmin-private/{name}"
+              headers = {**common, "Content-Type": content_type, "x-upsert": "true"}
+              with path.open("rb") as f:
+                  response = requests.post(url, headers=headers, data=f, timeout=60)
+              if response.status_code not in (200, 201):
+                  print(f"Upload failed for {name} (HTTP {response.status_code})", file=sys.stderr)
+                  raise SystemExit(1)
+              print(f"Uploaded privately: {name}")
           PY
-
-      - name: Stop before data transfer implementation
-        run: |
-          echo "::error::Tento workflow je zatím bezpečná kostra. Ještě je potřeba ověřit formát Garmin tokenů a doplnit bezpečné načtení/uložení tokenů a CSV do soukromého Supabase Storage."
-          exit 1
