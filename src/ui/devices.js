@@ -1,6 +1,7 @@
-import { setScreen } from "../state.js";
+﻿import { setScreen } from "../state.js";
 
-const GARMIN_API = "/api/garmin";
+const GARMIN_DATA_ENDPOINT = "https://gwaafijzmsrbkxayudcv.supabase.co/functions/v1/garmin-data";
+const GARMIN_TOKEN_KEY = "habit-garmin-session-token";
 const GARMIN_IMPORT_KEY = "habit-garmin-import-v1";
 
 function escapeHtml(value) {
@@ -116,13 +117,18 @@ export function renderDevices(container, rerender) {
       </section>
 
       <section class="device-card garmin-card" style="margin-top:16px">
-        <div class="device-card-top"><h2>Oficiální propojení Garmin Connect</h2><span class="device-status" id="garmin-status">Nepřipojeno</span></div>
-        <p class="device-card-lead">Přímá autorizace Garmin Connect přes vývojářské API je samostatná možnost. Náš současný osobní export ji nepotřebuje a heslo Garminu se do Habit APP neposílá.</p>
+        <div class="device-card-top"><h2>Přímé načtení Garmin dat</h2><span class="device-status" id="garmin-status">Nepřipojeno</span></div>
+        <p class="device-card-lead">Načti CSV exporty, které už automaticky ukládáš do soukromého Supabase úložiště. Ruční import výše zůstává k dispozici jako záloha. Přihlašovací údaje Garmin Connect sem nezadávej.</p>
         <div class="device-metrics">
-          <span>👣 Kroky</span><span>😴 Spánek</span><span>❤️ Tep</span><span>🔋 Body Battery</span>
+          <span>👣 Kroky</span><span>😴 Spánek</span><span>❤️ Aktivity</span><span>🔒 Soukromé úložiště</span>
         </div>
-        <button id="garmin-connect" class="device-connect-button" type="button">Nastavení oficiálního propojení</button>
-        <p class="device-hint" id="garmin-hint">Oficiální API propojení zatím není aktivní. Pro osobní data použij import CSV výše.</p>
+        <label class="garmin-file-label" for="garmin-sync-token">Přístupový token</label>
+        <input id="garmin-sync-token" class="garmin-sync-token" type="password" autocomplete="off" spellcheck="false" placeholder="Vlož aktuální GARMIN_TEST_TOKEN" aria-describedby="garmin-hint">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button id="garmin-connect" class="device-connect-button" type="button">Načíst data ze Supabase</button>
+          <button id="garmin-token-clear" class="garmin-clear-button" type="button">Vymazat token</button>
+        </div>
+        <p class="device-hint" id="garmin-hint" role="status">Token se ukládá pouze do paměti této stránky a po obnovení stránky jej bude potřeba zadat znovu.</p>
       </section>
 
       <section class="device-info-grid">
@@ -220,42 +226,80 @@ export function renderDevices(container, rerender) {
   const status = container.querySelector("#garmin-status");
   const hint = container.querySelector("#garmin-hint");
   const connect = container.querySelector("#garmin-connect");
-  async function loadStatus() {
-    if (localStorage.getItem("garmin-connected") === "true") {
-      status.textContent = "Připojeno";
-      status.classList.add("connected");
-      connect.textContent = "Připojeno";
-      connect.disabled = true;
-      hint.textContent = "Oficiální propojení je označeno jako aktivní v tomto prohlížeči.";
-    }
-    try {
-      const response = await fetch(`${GARMIN_API}/status`, { credentials: "include" });
-      if (!response.ok) return;
-      const data = await response.json();
-      if (data.connected) {
-        localStorage.setItem("garmin-connected", "true");
-        status.textContent = "Připojeno";
-        status.classList.add("connected");
-        connect.textContent = "Připojeno";
-        connect.disabled = true;
-        hint.textContent = "Oficiální propojení je aktivní.";
-      }
-    } catch (_) { /* Statická GitHub Pages verze nemá Garmin backend. */ }
+  const tokenInput = container.querySelector("#garmin-sync-token");
+  const tokenClear = container.querySelector("#garmin-token-clear");
+
+  function showSyncMessage(message, warning = false) {
+    hint.textContent = message;
+    hint.classList.toggle("device-hint-warning", warning);
   }
 
-  connect.onclick = async () => {
+  tokenClear.addEventListener("click", () => {
+    tokenInput.value = "";
+    tokenInput.focus();
+    status.textContent = "Nepřipojeno";
+    status.classList.remove("connected");
+    showSyncMessage("Token byl vymazán z formuláře.");
+  });
+
+  connect.addEventListener("click", async () => {
+    const token = tokenInput.value.trim();
+    if (!token) {
+      showSyncMessage("Nejdříve vlož aktuální GARMIN_TEST_TOKEN ze Supabase Secrets.", true);
+      tokenInput.focus();
+      return;
+    }
+
+    connect.disabled = true;
+    connect.textContent = "Načítám data…";
+    showSyncMessage("Načítám tři CSV soubory ze soukromého Supabase úložiště…");
     try {
-      const response = await fetch(`${GARMIN_API}/authorize`, { credentials: "include" });
-      if (response.ok) {
-        const data = await response.json();
-        if (data.url) { window.location.href = data.url; return; }
+      const response = await fetch(`${GARMIN_DATA_ENDPOINT}?includeData=1`, {
+        method: "GET",
+        headers: { "x-test-token": token, "Accept": "application/json" },
+        mode: "cors",
+        cache: "no-store"
+      });
+      let result;
+      try { result = await response.json(); }
+      catch (_) { throw new Error(`Server vrátil neplatnou odpověď (HTTP ${response.status}).`); }
+      if (!response.ok || !result.success) {
+        if (response.status === 401) throw new Error("Token není platný. Zkontroluj GARMIN_TEST_TOKEN v Supabase Secrets.");
+        const detail = (result.files || []).filter(file => !file.ok).map(file => `${file.file}: ${file.error || `HTTP ${file.status || "chyba"}`}`).join("; ");
+        throw new Error(result.error || detail || result.message || `Požadavek selhal (HTTP ${response.status}).`);
       }
-    } catch (_) { /* Backend není dostupný. */ }
-    hint.textContent = "Přímé propojení přes oficiální Garmin API zatím není aktivní. Pro osobní synchronizaci použij automatický export CSV a import výše.";
-    hint.classList.add("device-hint-warning");
-  };
+
+      const byName = Object.fromEntries((result.files || []).map(file => [file.file, file]));
+      const dailyFile = byName["daily_summary.csv"];
+      const activitiesFile = byName["activities.csv"];
+      const sleepFile = byName["sleep_details.csv"];
+      if (!dailyFile?.csv || !activitiesFile?.csv || !sleepFile?.csv) {
+        throw new Error("Server potvrdil soubory, ale nevrátil jejich CSV obsah. Ověř nasazenou funkci garmin-data s parametrem includeData=1.");
+      }
+
+      const daily = parseCsv(dailyFile.csv);
+      const activities = parseCsv(activitiesFile.csv);
+      const sleepDetails = parseCsv(sleepFile.csv);
+      if (!daily.length || classifyCsv(daily) !== "daily") throw new Error("daily_summary.csv neobsahuje očekávané sloupce.");
+      if (activities.length && classifyCsv(activities) !== "activities") throw new Error("activities.csv neobsahuje očekávané sloupce.");
+      if (sleepDetails.length && classifyCsv(sleepDetails) !== "sleepDetails") throw new Error("sleep_details.csv neobsahuje očekávané sloupce.");
+
+      const imported = { daily, activities, sleepDetails, importedAt: new Date().toISOString(), source: "supabase-garmin" };
+      localStorage.setItem(GARMIN_IMPORT_KEY, JSON.stringify(imported));
+      renderImportedDashboard();
+      status.textContent = "Synchronizováno";
+      status.classList.add("connected");
+      showSyncMessage(`Synchronizace dokončena: ${daily.length} denních záznamů, ${activities.length} aktivit a ${sleepDetails.length} záznamů spánku. ${new Date().toLocaleString("cs-CZ")}.`);
+    } catch (error) {
+      showSyncMessage(`Synchronizace se nezdařila: ${error.message || error}`, true);
+    } finally {
+      connect.disabled = false;
+      connect.textContent = "Načíst data ze Supabase";
+    }
+  });
 
   container.querySelector("#devices-back").onclick = () => { setScreen("home"); rerender(); };
   renderImportedDashboard();
-  loadStatus();
+
 }
+
